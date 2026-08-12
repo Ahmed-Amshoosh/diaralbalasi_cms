@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'site_name' => 'Site Name',
+    'home' => 'Home',
+    'about' => 'About',
+    'products' => 'Products',
+    'contact' => 'Contact',
+    'send' => 'Send',
+    'save' => 'Save',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'create' => 'Create',
+    'back' => 'Back',
+    'actions' => 'Actions',
+    'status' => 'Status',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'order' => 'Order',
+    'image' => 'Image',
+    'title' => 'Title',
+    'description' => 'Description',
+    'search' => 'Search',
+    'no_data' => 'No Data',
+    'success_create' => 'Created Successfully',
+    'success_update' => 'Updated Successfully',
+    'success_delete' => 'Deleted Successfully',
+];

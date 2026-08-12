@@ -2,24 +2,51 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // إنشاء الصلاحيات
+        $permissions = [
+            'view_dashboard',
+            'manage_settings',
+            'manage_hero',
+            'manage_about',
+            'manage_statistics',
+            'manage_why_us',
+            'manage_products',
+            'manage_categories',
+            'manage_brands',
+            'manage_testimonials',
+            'manage_contact',
+            'manage_messages',
+            'manage_seo',
+            'manage_users',
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
+
+        // إنشاء الأدوار
+        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole->givePermissionTo(Permission::all());
+
+        // إنشاء مستخدم Admin
+        $admin = User::create([
+            'name' => 'المدير',
+            'email' => 'admin@website.com',
+            'password' => bcrypt('password123'),
+            'phone' => '0500000000',
+            'locale' => 'ar',
+            'is_active' => true,
         ]);
+
+        $admin->assignRole($adminRole);
     }
 }

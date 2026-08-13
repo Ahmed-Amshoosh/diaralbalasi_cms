@@ -30,6 +30,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::resource('marquee', \App\Http\Controllers\Admin\MarqueeController::class);
 
+    Route::get('/about', [\App\Http\Controllers\Admin\AboutController::class, 'index'])->name('about.index');
+    Route::put('/about', [\App\Http\Controllers\Admin\AboutController::class, 'update'])->name('about.update');
+
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 

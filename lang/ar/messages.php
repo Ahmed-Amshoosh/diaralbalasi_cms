@@ -88,4 +88,31 @@ return [
     'add_marquee_item' => 'إضافة عنصر جديد',
 
 
+    'about_management' => 'إدارة قسم من نحن',
+    'about_updated' => 'تم تحديث قسم من نحن بنجاح',
+    'section_label' => 'تسمية القسم',
+    'section_heading' => 'العنوان الرئيسي',
+    'section_description' => 'الوصف',
+    'experience_number' => 'رقم الخبرة (مثال: 20+)',
+    'experience_text' => 'نص الخبرة',
+    'main_image' => 'الصورة الرئيسية',
+    'secondary_image' => 'الصورة الثانوية',
+    'features_management' => 'إدارة المميزات',
+    'feature_icon' => 'أيقونة الميزة (مثال: fa-certificate)',
+    'feature_title' => 'عنوان الميزة',
+    'feature_desc' => 'وصف الميزة',
+
+
+    'main_heading' => 'العنوان الرئيسي',
+    'images' => 'الصور',
+    'add_new_feature' => 'إضافة ميزة جديدة',
+    'no_features_added' => 'لا توجد مميزات مضافة حالياً. اضغط على الزر أعلاه للإضافة.',
+    'new_feature' => 'ميزة جديدة',
+    'delete_feature' => 'حذف الميزة',
+    'icon_class' => 'الأيقونة (Class)',
+    'title_arabic' => 'العنوان (عربي)',
+    'title_english' => 'Title (English)',
+    'description_arabic' => 'الوصف (عربي)',
+    'description_english' => 'Description (English)',
+    'feature_number' => 'رقم الميزة :number',
 ];

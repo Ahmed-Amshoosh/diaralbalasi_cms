@@ -35,14 +35,15 @@
                 <span>{{ __('messages.hero') }}</span>
             </a>
             <a href="{{ route('admin.marquee.index') }}"
-               class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.hero.*') ? 'bg-gray-800 text-white' : '' }}">
-                <i class="fas fa-image w-6"></i>
+               class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.marquee.*') ? 'bg-gray-800 text-white' : '' }}">
+                <i class="fas fa-bullhorn w-6"></i>
                 <span>{{ __('messages.marquee_management') }}</span>
             </a>
-            <a href=""
+
+            <a href="{{ route('admin.about.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.about.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-info-circle w-6"></i>
-                <span>من نحن</span>
+                <span>{{ __('messages.about_management') }}</span>
             </a>
             <a href=""
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.statistics.*') ? 'bg-gray-800 text-white' : '' }}">

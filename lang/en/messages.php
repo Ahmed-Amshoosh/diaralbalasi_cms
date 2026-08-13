@@ -41,7 +41,7 @@ return [
     'hero_bg_image' => 'Background Image',
     'hero_bg_image_hint' => 'JPG, PNG, WebP • Max 5MB',
     'hero_order' => 'Order',
-    'hero_is_active' => 'Show section on website',
+    'hero_is_active' => 'Show on website',
 
     // Validation Messages
     'validation_field_required' => 'This field is required',
@@ -111,4 +111,13 @@ return [
     'description_arabic' => 'Description (Arabic)',
     'description_english' => 'Description (English)',
     'feature_number' => 'Feature Number :number',
+
+    'hero_stats_management' => 'Hero Stats Management',
+    'stat_created' => 'Statistic created successfully',
+    'stat_updated' => 'Statistic updated successfully',
+    'stat_deleted' => 'Statistic deleted successfully',
+    'stat_number' => 'Number or Value',
+    'stat_label' => 'Statistic Label',
+    'stat_number_placeholder' => 'e.g., 20 or 5K or 20+',
+    'add_stat' => 'Add New Statistic',
 ];

@@ -47,7 +47,7 @@ return [
     'hero_bg_image' => 'صورة الخلفية',
     'hero_bg_image_hint' => 'JPG, PNG, WebP • الحد الأقصى 5MB',
     'hero_order' => 'الترتيب',
-    'hero_is_active' => 'إظهار القسم في الموقع',
+    'hero_is_active' => 'إظهار في الموقع',
 
     // Validation Messages
     'validation_field_required' => 'هذا الحقل مطلوب',
@@ -115,4 +115,13 @@ return [
     'description_arabic' => 'الوصف (عربي)',
     'description_english' => 'Description (English)',
     'feature_number' => 'رقم الميزة :number',
+
+    'hero_stats_management' => 'إدارة إحصائيات الهيرو',
+    'stat_created' => 'تم إضافة الإحصائية بنجاح',
+    'stat_updated' => 'تم تحديث الإحصائية بنجاح',
+    'stat_deleted' => 'تم حذف الإحصائية بنجاح',
+    'stat_number' => 'الرقم أو القيمة',
+    'stat_label' => 'نص الإحصائية',
+    'stat_number_placeholder' => 'مثال: 20 أو 5K أو 20+',
+    'add_stat' => 'إضافة إحصائية جديدة',
 ];

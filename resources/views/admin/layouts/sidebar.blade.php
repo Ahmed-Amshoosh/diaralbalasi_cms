@@ -45,10 +45,10 @@
                 <i class="fas fa-info-circle w-6"></i>
                 <span>{{ __('messages.about_management') }}</span>
             </a>
-            <a href=""
+            <a href="{{ route('admin.hero-stats.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.statistics.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-chart-bar w-6"></i>
-                <span>الإحصائيات</span>
+                <span>{{__('messages.hero_stats_management')}}</span>
             </a>
             <a href=""
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.why-us.*') ? 'bg-gray-800 text-white' : '' }}">

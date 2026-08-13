@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::get('/hero', [\App\Http\Controllers\Admin\HeroController::class, 'index'])->name('hero.index');
     Route::put('/hero', [\App\Http\Controllers\Admin\HeroController::class, 'update'])->name('hero.update');
 
+    Route::resource('marquee', \App\Http\Controllers\Admin\MarqueeController::class);
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');

@@ -76,4 +76,16 @@ return [
     'save_updates' => 'حفظ التحديثات',
     'fill_required_fields_both_langs' => 'يرجى تعبئة الحقول المطلوبة في كلا اللغتين',
     'validation_error' => 'خطأ في التحقق',
+    'delete_warning' => 'لا يمكن التراجع عن هذا الإجراء!',
+    'confirm_delete' => 'هل أنت متأكد من حذف هذا العنصر؟',
+    'marquee_management' => 'إدارة الشريط المتحرك (Marquee)',
+    'marquee_created' => 'تم إضافة العنصر بنجاح',
+    'marquee_updated' => 'تم تحديث العنصر بنجاح',
+    'marquee_deleted' => 'تم حذف العنصر بنجاح',
+    'marquee_text' => 'نص الشريط',
+    'marquee_text_placeholder_ar' => 'مثال: منتجات أصلية 100%',
+    'marquee_text_placeholder_en' => 'e.g. 100% Original Products',
+    'add_marquee_item' => 'إضافة عنصر جديد',
+
+
 ];

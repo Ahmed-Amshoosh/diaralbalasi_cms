@@ -62,8 +62,48 @@
     </div>
 </div>
 
-{{-- JavaScript --}}
 <script>
+    function confirmDelete(url, itemName = '') {
+
+        const isRTL = document.documentElement.dir === 'rtl';
+
+        Swal.fire({
+            title: '{{ __('messages.confirm_delete') }}',
+            text: itemName
+                ? itemName
+                : '{{ __('messages.delete_warning') }}',
+            icon: 'warning',
+
+            showCancelButton: true,
+
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+
+            confirmButtonText: '{{ __('messages.yes_delete') }}',
+            cancelButtonText: '{{ __('messages.cancel') }}',
+
+            reverseButtons: isRTL
+
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                const form = document.createElement('form');
+
+                form.method = 'POST';
+                form.action = url;
+
+                form.innerHTML = `
+                    @csrf
+                @method('DELETE')
+                `;
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');

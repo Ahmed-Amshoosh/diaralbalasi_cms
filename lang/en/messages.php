@@ -70,4 +70,17 @@ return [
     'save_updates' => 'Save Updates',
     'fill_required_fields_both_langs' => 'Please fill required fields in both languages',
     'validation_error' => 'Validation Error',
+
+    'delete_warning' => 'You will not be able to recover this!',
+    'yes_delete' => 'Yes, delete it',
+    'cancel' => 'No',
+    'confirm_delete' => 'Are you sure you want to delete this item?',
+    'marquee_management' => 'Marquee Strip Management',
+    'marquee_created' => 'Item created successfully',
+    'marquee_updated' => 'Item updated successfully',
+    'marquee_deleted' => 'Item deleted successfully',
+    'marquee_text' => 'Strip Text',
+    'marquee_text_placeholder_ar' => 'مثال: منتجات أصلية 100%',
+    'marquee_text_placeholder_en' => 'e.g. 100% Original Products',
+    'add_marquee_item' => 'Add New Item',
 ];

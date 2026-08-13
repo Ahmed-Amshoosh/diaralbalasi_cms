@@ -57,20 +57,6 @@
 
         {{-- Page Content --}}
         <main class="flex-1 overflow-y-auto p-4 md:p-6">
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
-                    <i class="fas fa-check-circle ml-2"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 flex items-center">
-                    <i class="fas fa-exclamation-circle ml-2"></i>
-                    {{ session('error') }}
-                </div>
-            @endif
-
             @yield('content')
         </main>
     </div>
@@ -99,7 +85,6 @@
             document.body.classList.remove('overflow-hidden');
         }
     }
-
     // Initialize sidebar state on page load
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
@@ -116,65 +101,57 @@
 </script>
 
 @stack('scripts')
-{{-- مكتبة Toastr للإشعارات --}}
+
+{{-- jQuery --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+{{-- Toastr --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-{{-- مكتبة SweetAlert2 لنوافذ التأكيد --}}
+{{-- SweetAlert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // إعدادات Toastr
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}",
-        "timeOut": "3000",
-        "rtl": {{ app()->getLocale() === 'ar' ? 'true' : 'false' }}
-    };
+    document.addEventListener('DOMContentLoaded', function () {
 
-    // عرض إشعار النجاح أو الخطأ من Session
-    @if(session('success'))
-    toastr.success("{{ session('success') }}");
-    @endif
+        const isRTL = document.documentElement.dir === 'rtl';
 
-    @if(session('error'))
-    toastr.error("{{ session('error') }}");
-    @endif
+        // إعداد Toastr
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            newestOnTop: true,
+            preventDuplicates: true,
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            showDuration: 300,
+            hideDuration: 300,
+            showMethod: 'slideDown',
+            hideMethod: 'fadeOut',
+            positionClass: isRTL
+                ? 'toast-top-left'
+                : 'toast-top-right'
+        };
+        // رسالة نجاح
+        @if(session('success'))
+        toastr.success(@json(session('success')));
+        @endif
+        // رسالة خطأ
+        @if(session('error'))
+        toastr.error(@json(session('error')));
+        @endif
+        // رسالة تحذير
+        @if(session('warning'))
+        toastr.warning(@json(session('warning')));
+        @endif
 
-    @if($errors->any())
-    @foreach($errors->all() as $error)
-    toastr.error("{{ $error }}");
-    @endforeach
-    @endif
+        // رسالة معلومات
+        @if(session('info'))
+        toastr.info(@json(session('info')));
+        @endif
 
-    // دالة تأكيد الحذف العالمية
-    function confirmDelete(url, itemName = '') {
-        Swal.fire({
-            title: '{{ __('messages.are_you_sure') }}',
-            text: itemName ? `{{ __('messages.cannot_undo_item') }} ${itemName}` : '{{ __('messages.cannot_be_undone') }}',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: '{{ __('messages.yes_delete') }}',
-            cancelButtonText: '{{ __('messages.cancel') }}',
-            reverseButtons: {{ app()->getLocale() === 'ar' ? 'true' : 'false' }}
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // إنشاء فورم وإرساله لحذف العنصر بأمان (CSRF Protected)
-                let form = document.createElement('form');
-                form.method = 'POST';
-                form.action = url;
-                form.innerHTML = `
-                        @csrf
-                @method('DELETE')
-                `;
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-    }
+    });
 </script>
 </body>
 </html>

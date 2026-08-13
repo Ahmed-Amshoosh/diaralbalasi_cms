@@ -53,21 +53,28 @@
                 </button>
 
                 {{-- Dropdown --}}
-                <div id="userDropdown" class="hidden absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                <div id="userDropdown"
+                     class="hidden absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+
                     <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
                         <i class="fas fa-user w-5"></i>
-                        <span>الملف الشخصي</span>
+                        <span>{{ __('messages.profile') }}</span>
                     </a>
-                    <a href="{{ route('admin.settings.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+
+                    <a href="{{ route('admin.settings.index') }}"
+                       class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
                         <i class="fas fa-cog w-5"></i>
-                        <span>الإعدادات</span>
+                        <span>{{ __('messages.settings') }}</span>
                     </a>
+
                     <hr class="my-1">
+
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50">
+                        <button type="submit"
+                                class="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50">
                             <i class="fas fa-sign-out-alt w-5"></i>
-                            <span>تسجيل الخروج</span>
+                            <span>{{ __('messages.logout') }}</span>
                         </button>
                     </form>
                 </div>

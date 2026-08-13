@@ -29,10 +29,10 @@
             <p class="px-4 text-xs text-gray-500 uppercase tracking-wider mb-2">
                 إدارة الصفحة
             </p>
-            <a href=""
+            <a href="{{ route('admin.hero.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.hero.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-image w-6"></i>
-                <span>Hero</span>
+                <span>{{ __('messages.hero') }}</span>
             </a>
             <a href=""
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.about.*') ? 'bg-gray-800 text-white' : '' }}">

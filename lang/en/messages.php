@@ -120,4 +120,21 @@ return [
     'stat_label' => 'Statistic Label',
     'stat_number_placeholder' => 'e.g., 20 or 5K or 20+',
     'add_stat' => 'Add New Statistic',
+
+
+    'why_us_section_management' => 'Why Us Section',
+    'why_us_section_updated' => 'Why Us section updated successfully',
+    'why_us_items_management' => 'Why Us Cards Management',
+    'why_us_item_created' => 'Card created successfully',
+    'why_us_item_updated' => 'Card updated successfully',
+    'why_us_item_deleted' => 'Card deleted successfully',
+    'why_us_label' => 'Section Label',
+    'why_us_heading' => 'Main Heading',    'why_us_management' => 'Why Us Management',
+    'why_us_section_settings' => 'Section Content Settings',
+    'save_section_settings' => 'Save Section Settings',
+    'why_us_description' => 'Description',
+    'why_us_icon' => 'Icon (Class)',
+    'why_us_title' => 'Card Title',
+    'why_us_item_description' => 'Card Description',
+    'add_why_us_item' => 'Add New Card',
 ];

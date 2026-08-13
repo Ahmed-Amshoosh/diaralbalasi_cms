@@ -50,10 +50,10 @@
                 <i class="fas fa-chart-bar w-6"></i>
                 <span>{{__('messages.hero_stats_management')}}</span>
             </a>
-            <a href=""
+            <a href="{{ route('admin.why-us.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.why-us.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-check-circle w-6"></i>
-                <span>لماذا نحن</span>
+                <span>{{__('messages.why_us_section_management')}}</span>
             </a>
         </div>
 

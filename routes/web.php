@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\WhyUsController;
 
 // الصفحة الرئيسية للزوار (لاحقاً)
 Route::get('/', function () {
@@ -35,7 +36,24 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::resource('hero-stats', \App\Http\Controllers\Admin\HeroStatController::class);
 
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    // Why Us Section
+// Why Us (صفحة مدمجة)
+
+    Route::get('/why-us', [WhyUsController::class, 'index'])
+        ->name('why-us.index');
+
+    Route::put('/why-us-section', [WhyUsController::class, 'updateSection'])
+        ->name('why-us.section.update');
+
+// Why Us Items
+    Route::post('/why-us-items', [WhyUsController::class, 'storeItem'])
+        ->name('why-us-items.store');
+
+    Route::put('/why-us-items/{whyUsItem}', [WhyUsController::class, 'updateItem'])
+        ->name('why-us-items.update');
+
+    Route::delete('/why-us-items/{whyUsItem}', [WhyUsController::class, 'destroyItem'])
+        ->name('why-us-items.destroy');    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 
 

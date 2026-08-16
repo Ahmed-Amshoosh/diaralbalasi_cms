@@ -63,6 +63,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::put('/partners/{partner}', [\App\Http\Controllers\Admin\PartnersController::class, 'updatePartner'])->name('partners.update');
     Route::delete('/partners/{partner}', [\App\Http\Controllers\Admin\PartnersController::class, 'destroyPartner'])->name('partners.destroy');
 
+
+    Route::get('/testimonials', [\App\Http\Controllers\Admin\TestimonialController::class, 'index'])->name('testimonials.index');
+    Route::post('/testimonials', [\App\Http\Controllers\Admin\TestimonialController::class, 'store'])->name('testimonials.store');
+    Route::put('/testimonials/{testimonial}', [\App\Http\Controllers\Admin\TestimonialController::class, 'update'])->name('testimonials.update');
+    Route::delete('/testimonials/{testimonial}', [\App\Http\Controllers\Admin\TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+    Route::put('/testimonials-section', [\App\Http\Controllers\Admin\TestimonialController::class, 'updateSection'])->name('testimonials.section.update');
+
 });
 
 require __DIR__.'/auth.php';

@@ -149,4 +149,16 @@ return [
     'partner_name' => 'Partner Name',
     'partner_logo' => 'Partner Logo',
     'add_partner' => 'Add Partner',
+    'testimonials_section_settings' => 'Section Header Settings',
+    'testimonials_section_updated' => 'Section settings updated successfully',
+    'testimonials_management' => 'Testimonials',
+    'testimonial_created' => 'Testimonial added successfully',
+    'testimonial_updated' => 'Testimonial updated successfully',
+    'testimonial_deleted' => 'Testimonial deleted successfully',
+    'client_name' => 'Client Name',
+    'client_role' => 'Position / Company',
+    'testimonial_content' => 'Testimonial Content',
+    'rating' => 'Rating',
+    'add_testimonial' => 'Add New Testimonial',
+
 ];

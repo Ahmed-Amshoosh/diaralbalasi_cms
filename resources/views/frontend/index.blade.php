@@ -314,6 +314,145 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label" style="color: var(--gold);">آراء العملاء</div>
+                    <h2 class="section-heading">
+                        ماذا يقول <span class="accent">عملاؤنا وشركاؤنا؟</span>
+                    </h2>
+                </div>
+                <p class="section-desc">
+                    نفخر بثقة عملائنا وشراكاتنا الناجحة في مختلف المشاريع الإنشائية والتجارية
+                </p>
+            </div>
+
+            <!-- Swiper -->
+            <div class="swiper testimonials-swiper" data-aos="fade-up" data-aos-delay="200">
+                <div class="swiper-wrapper">
+                    @php
+                        $testimonials = \App\Models\Testimonial::where('is_active', true)->orderBy('order')->get();
+                    @endphp
+
+                    @forelse($testimonials as $testimonial)
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-quote-icon">
+                                    <i class="fas fa-quote-right"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    {{ $testimonial->getTranslation('content', app()->getLocale()) }}
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-info">
+                                        <h4 class="author-name">{{ $testimonial->getTranslation('name', app()->getLocale()) }}</h4>
+                                        <span class="author-role">{{ $testimonial->getTranslation('role', app()->getLocale()) }}</span>
+                                    </div>
+                                    <div class="author-rating">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="fas fa-star {{ $i <= $testimonial->rating ? 'active' : '' }}"></i>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="swiper-slide">
+                            <div class="text-center py-10 text-gray-500">
+                                <p>لا توجد آراء مضافة حالياً.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    @push('styles')
+        <style>
+            .testimonials-section { padding: 80px 0; background-color: #f8f9fa; }
+            .testimonial-card {
+                background: #ffffff;
+                border-radius: 16px;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgba(0,0,0,0.03);
+            }
+            .testimonial-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            }
+            .testimonial-quote-icon {
+                font-size: 2rem;
+                color: var(--gold, #d4af37);
+                margin-bottom: 15px;
+                opacity: 0.8;
+            }
+            .testimonial-text {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                color: var(--gray-600, #4b5563);
+                flex-grow: 1;
+                margin-bottom: 25px;
+                font-style: italic;
+            }
+            .testimonial-author {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px solid #eee;
+                padding-top: 20px;
+            }
+            .author-info { display: flex; flex-direction: column; }
+            .author-name {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #1f2937;
+                margin: 0 0 4px 0;
+            }
+            .author-role {
+                font-size: 0.85rem;
+                color: var(--gold, #d4af37);
+                font-weight: 600;
+            }
+            .author-rating { display: flex; gap: 3px; }
+            .author-rating .fa-star { color: #e5e7eb; font-size: 0.9rem; }
+            .author-rating .fa-star.active { color: #fbbf24; }
+
+            .testimonials-swiper { padding-bottom: 50px !important; }
+            .swiper-pagination-bullet-active { background-color: var(--gold, #d4af37) !important; }
+        </style>
+    @endpush
+
+    @push('scripts')
+        <script>
+            // تهيئة سلايدر آراء العملاء
+            document.addEventListener('DOMContentLoaded', function() {
+                if (document.querySelector('.testimonials-swiper')) {
+                    new Swiper('.testimonials-swiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                        loop: true,
+                        autoplay: { delay: 4000, disableOnInteraction: false },
+                        pagination: { el: '.swiper-pagination', clickable: true },
+                        breakpoints: {
+                            768: { slidesPerView: 2 },
+                            1024: { slidesPerView: 3 }
+                        }
+                    });
+                }
+            });
+        </script>
+    @endpush
+
     <section class="partners-section" data-aos="fade-up">
         <div class="section-container">
             <div class="section-header-new" data-aos="fade-up">

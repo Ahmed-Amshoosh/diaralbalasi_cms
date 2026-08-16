@@ -4,17 +4,12 @@
 
 @section('content')
     <div class="space-y-8">
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- الجزء الأول: إعدادات محتوى القسم --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                     <i class="fas fa-cog text-blue-500"></i> {{ __('messages.partners_section_settings') }}
                 </h3>
             </div>
-
             <form id="sectionForm" action="{{ route('admin.partners.section.update') }}" method="POST" novalidate>
                 @csrf @method('PUT')
 
@@ -74,10 +69,6 @@
                 </div>
             </form>
         </div>
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- الجزء الثاني: إدارة العلامات التجارية --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -142,10 +133,6 @@
             </div>
         </div>
     </div>
-
-    {{-- ═══════════════════════════════════════════ --}}
-    {{-- Modal إضافة/تعديل علامة تجارية --}}
-    {{-- ═══════════════════════════════════════════ --}}
     <div id="partnerModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="window.closePartnerModal()"></div>
@@ -216,7 +203,6 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                // ─── 1. منطق تبويبات قسم الإعدادات والتحقق منها ───
                 const sectionForm = document.getElementById('sectionForm');
                 if (sectionForm) {
                     window.switchTab = (lang) => {

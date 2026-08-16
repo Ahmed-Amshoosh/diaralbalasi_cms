@@ -70,6 +70,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::delete('/testimonials/{testimonial}', [\App\Http\Controllers\Admin\TestimonialController::class, 'destroy'])->name('testimonials.destroy');
     Route::put('/testimonials-section', [\App\Http\Controllers\Admin\TestimonialController::class, 'updateSection'])->name('testimonials.section.update');
 
+
+    Route::get('/cta-section', [\App\Http\Controllers\Admin\CtaSectionController::class, 'index'])->name('cta.index');
+    Route::put('/cta-section', [\App\Http\Controllers\Admin\CtaSectionController::class, 'update'])->name('cta.update');
+
+
+
+
+
+
 });
 
 require __DIR__.'/auth.php';

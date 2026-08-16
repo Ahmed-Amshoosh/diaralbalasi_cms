@@ -2605,3 +2605,123 @@ a{text-decoration: none}
         visibility: visible;
     }
 }
+
+.language-switcher {
+    position: relative;
+    margin-inline-end: 12px;
+}
+
+.language-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.language-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.language-btn > i:first-child {
+    font-size: 16px;
+}
+
+.language-arrow {
+    font-size: 10px;
+    margin-inline-start: 3px;
+    transition: transform 0.25s ease;
+}
+
+.language-switcher.open .language-arrow {
+    transform: rotate(180deg);
+}
+
+/* القائمة */
+.language-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    inset-inline-end: 0;
+    min-width: 160px;
+    padding: 7px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+
+    transition: all 0.25s ease;
+    z-index: 9999;
+}
+
+.language-switcher.open .language-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* الخيارات */
+.language-option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    padding: 10px 12px;
+    color: #6a2423 !important;
+    text-decoration: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.language-option:hover {
+    background: #f5f7fa;
+}
+
+.language-option.active {
+    background: #6a24231a;
+}
+
+.flag {
+    font-size: 19px;
+    line-height: 1;
+}
+.language-menu form {
+    margin: 0;
+}
+
+.language-option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 0;
+    background: transparent;
+    border-radius: 8px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: start;
+    transition: background 0.2s ease;
+}
+
+.language-option:hover {
+    background: #f5f7fa;
+}

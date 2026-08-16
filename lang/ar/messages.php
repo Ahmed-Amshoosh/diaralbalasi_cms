@@ -57,6 +57,13 @@ return [
     'validation_image_size_title' => 'حجم الصورة كبير',
     'validation_image_format' => 'صيغة الصورة غير مدعومة. استخدم JPG أو PNG أو WebP',
     'validation_image_format_title' => 'صيغة غير صحيحة',
+    'heading_ar_required' => 'حقل العنوان الرئيسي بالعربية مطلوب.',
+    'description_ar_required' => 'حقل الوصف بالعربية مطلوب.',
+    'button_text_ar_required' => 'حقل نص الزر بالعربية مطلوب.',
+
+    'heading_en_required' => 'حقل العنوان الرئيسي بالإنجليزية مطلوب.',
+    'description_en_required' => 'حقل الوصف بالإنجليزية مطلوب.',
+    'button_text_en_required' => 'حقل نص الزر بالإنجليزية مطلوب.',
 
     'hero_settings' => 'إعدادات قسم الهيرو',
     'hero_settings_page' => 'إعدادات قسم الهيرو (Hero Section)',
@@ -163,4 +170,19 @@ return [
     'testimonial_content' => 'نص الرأي',
     'rating' => 'التقييم',
     'add_testimonial' => 'إضافة رأي جديد',
+
+    'arabic_tab' => 'العربية (AR)',
+    'english_tab' => 'English (EN)',
+    'cta_heading_placeholder_ar' => 'مثال: هل تحتاج إلى<br><span class="accent">استشارة؟</span>',
+    'cta_heading_placeholder_en' => 'Example: Do you need<br><span class="accent">a consultation?</span>',
+    'html_support_note' => 'يدعم أكواد HTML مثل &lt;br&gt; للتنسيق',
+    'custom_link_placeholder' => 'https://example.com/contact',
+    'whatsapp_auto_hint' => 'اتركه فارغاً ليتم استخدام رقم الواتساب من الإعدادات تلقائياً.',
+    'cta_management' => 'إدارة (CTA)',
+    'cta_updated' => 'تم تحديث قسم CTA بنجاح',
+    'cta_heading' => 'العنوان الرئيسي (يدعم HTML)',
+    'cta_desc' => 'الوصف',
+    'cta_button_text' => 'نص الزر',
+    'cta_custom_link' => 'رابط مخصص للزر (اتركه فارغاً ليتم توجيهه للواتساب تلقائياً)',
+    'cta_image' => 'صورة القسم',
 ];

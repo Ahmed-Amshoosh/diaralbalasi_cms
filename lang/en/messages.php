@@ -161,4 +161,19 @@ return [
     'rating' => 'Rating',
     'add_testimonial' => 'Add New Testimonial',
 
+    'arabic_tab' => 'Arabic (AR)',
+    'english_tab' => 'English (EN)',
+    'cta_heading_placeholder_ar' => 'مثال: هل تحتاج إلى<br><span class="accent">استشارة؟</span>', // Keep Arabic example for AR tab
+    'cta_heading_placeholder_en' => 'Example: Do you need<br><span class="accent">a consultation?</span>',
+    'html_support_note' => 'Supports HTML tags like &lt;br&gt; for formatting',
+    'custom_link_placeholder' => 'https://example.com/contact',
+    'whatsapp_auto_hint' => 'Leave empty to automatically use the WhatsApp number from settings.',
+    'cta_management' => '(CTA) Management',
+    'cta_updated' => 'CTA section updated successfully',
+    'cta_heading' => 'Main Heading (HTML supported)',
+    'cta_desc' => 'Description',
+    'cta_button_text' => 'Button Text',
+    'cta_custom_link' => 'Custom Button Link (Leave empty to auto-redirect to WhatsApp)',
+    'cta_image' => 'Section Image',
+
 ];

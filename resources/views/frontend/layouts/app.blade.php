@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         ديار البلعسي | مواد البناء والسباكة والأنابيب البلاستيكية في عدن، اليمن
     </title>
-
-
     <meta name="description"
           content="ديار البلعسي مورد مواد البناء والسباكة في عدن، اليمن. نوفر أنابيب PVC وUPVC وCPVC وPPR، الأدوات الصحية، المحابس، مضخات المياه وإكسسوارات المطابخ والحمامات بجودة عالية.">
 
@@ -113,10 +111,57 @@
         </ul>
 
         <div class="nav-cta">
-            <a href="https://wa.me/967777181353" class="btn-hero-outline" target="_blank">
+
+            <!-- Language -->
+            <div class="language-switcher">
+
+                <button class="language-btn" id="languageBtn" type="button">
+                    <i class="fas fa-globe"></i>
+
+                    <span>
+            {{ app()->getLocale() === 'ar' ? 'العربية' : 'English' }}
+        </span>
+
+                    <i class="fas fa-chevron-down language-arrow"></i>
+                </button>
+
+                <div class="language-menu" id="languageMenu">
+
+                    <form action="{{ route('locale.switch') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="locale" value="ar">
+
+                        <button type="submit"
+                                class="language-option {{ app()->getLocale() === 'ar' ? 'active' : '' }}">
+                            <span class="flag">🇸🇦</span>
+                            <span>العربية</span>
+                        </button>
+                    </form>
+
+                    <form action="{{ route('locale.switch') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="locale" value="en">
+
+                        <button type="submit"
+                                class="language-option {{ app()->getLocale() === 'en' ? 'active' : '' }}">
+                            <span class="flag">🇺🇸</span>
+                            <span>English</span>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+            <!-- WhatsApp -->
+            <a href="https://wa.me/967777181353"
+               class="btn-hero-outline"
+               target="_blank">
                 <i class="fab fa-whatsapp"></i>
                 تواصل مع المبيعات
             </a>
+
+            <!-- Mobile -->
             <button onclick="toggleMenu()"
                     class="mobile-toggle"
                     aria-label="القائمة">
@@ -126,7 +171,6 @@
         </div>
     </div>
 </nav>
-
 
 @yield('content')
 
@@ -208,6 +252,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const languageSwitcher = document.querySelector('.language-switcher');
+        const languageBtn = document.getElementById('languageBtn');
+
+        if (!languageSwitcher || !languageBtn) {
+            return;
+        }
+
+        languageBtn.addEventListener('click', function (event) {
+            event.stopPropagation();
+            languageSwitcher.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function () {
+            languageSwitcher.classList.remove('open');
+        });
+    });
+</script>
 <script src="{{asset('frontend/script.js')}}"></script>
 </body>
 </html>

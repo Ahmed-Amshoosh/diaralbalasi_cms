@@ -141,4 +141,15 @@ return [
     'why_us_title' => 'عنوان البطاقة',
     'why_us_item_description' => 'وصف البطاقة',
     'add_why_us_item' => 'إضافة بطاقة جديدة',
+
+    'partners' => 'العلامات التجارية',
+    'partners_section_settings' => 'إعدادات عنوان القسم',
+    'partners_section_updated' => 'تم تحديث إعدادات القسم بنجاح',
+    'partners_items_management' => 'قائمة العلامات التجارية',
+    'partner_created' => 'تم إضافة العلامة التجارية بنجاح',
+    'partner_updated' => 'تم تحديث العلامة التجارية بنجاح',
+    'partner_deleted' => 'تم حذف العلامة التجارية بنجاح',
+    'partner_name' => 'اسم العلامة التجارية',
+    'partner_logo' => 'شعار العلامة التجارية',
+    'add_partner' => 'إضافة علامة تجارية',
 ];

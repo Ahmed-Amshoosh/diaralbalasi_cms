@@ -137,4 +137,16 @@ return [
     'why_us_title' => 'Card Title',
     'why_us_item_description' => 'Card Description',
     'add_why_us_item' => 'Add New Card',
+
+
+    'partners' => 'Partners',
+    'partners_section_settings' => 'Section Header Settings',
+    'partners_section_updated' => 'Section settings updated successfully',
+    'partners_items_management' => 'Brands List',
+    'partner_created' => 'Partner created successfully',
+    'partner_updated' => 'Partner updated successfully',
+    'partner_deleted' => 'Partner deleted successfully',
+    'partner_name' => 'Partner Name',
+    'partner_logo' => 'Partner Logo',
+    'add_partner' => 'Add Partner',
 ];

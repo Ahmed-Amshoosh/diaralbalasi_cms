@@ -57,6 +57,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 
 
+    Route::get('/partners', [\App\Http\Controllers\Admin\PartnersController::class, 'index'])->name('partners.index');
+    Route::put('/partners-section', [\App\Http\Controllers\Admin\PartnersController::class, 'updateSection'])->name('partners.section.update');
+    Route::post('/partners', [\App\Http\Controllers\Admin\PartnersController::class, 'storePartner'])->name('partners.store');
+    Route::put('/partners/{partner}', [\App\Http\Controllers\Admin\PartnersController::class, 'updatePartner'])->name('partners.update');
+    Route::delete('/partners/{partner}', [\App\Http\Controllers\Admin\PartnersController::class, 'destroyPartner'])->name('partners.destroy');
+
 });
 
 require __DIR__.'/auth.php';

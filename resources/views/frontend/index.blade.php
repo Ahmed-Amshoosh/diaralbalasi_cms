@@ -553,4 +553,136 @@
 
     </section>
 
+    @php
+        $contact = \App\Models\ContactSection::first();
+    @endphp
+
+    @if($contact)
+        <section id="contact" class="py-20 bg-gray-50 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+            <div class="absolute bottom-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+
+            <div class="container mx-auto px-4 relative z-10">
+
+                {{-- العنوان الديناميكي --}}
+                <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wider mb-4">
+                {{ $contact->getTranslation('label', app()->getLocale()) }}
+            </span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                        {!! $contact->getTranslation('heading', app()->getLocale()) !!}
+                    </h2>
+                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed">
+                        {{ $contact->getTranslation('description', app()->getLocale()) }}
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+
+                    {{-- معلومات التواصل --}}
+                    <div class="lg:col-span-2 space-y-6" data-aos="fade-left">
+
+                        @if($contact->address && (is_array($contact->address) ? ($contact->getTranslation('address', app()->getLocale()) ?? '') : $contact->address))
+                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-map-marker-alt text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg">موقعنا</h4>
+                                    <p class="text-gray-600 mt-1 text-sm leading-relaxed">{{ $contact->getTranslation('address', app()->getLocale()) }}</p>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(!empty($contact->phones))
+                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
+                                    <i class="fas fa-phone-alt text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg">اتصل بنا</h4>
+                                    @foreach($contact->phones as $phone)
+                                        <p class="text-gray-600 mt-1 text-sm" dir="ltr" style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">{{ $phone }}</p>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(!empty($contact->emails))
+                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+                                    <i class="fas fa-envelope text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg">البريد الإلكتروني</h4>
+                                    @foreach($contact->emails as $email)
+                                        <p class="text-gray-600 mt-1 text-sm" dir="ltr" style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">{{ $email }}</p>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                    {{-- نموذج المراسلة --}}
+                    <div class="lg:col-span-3" data-aos="fade-right">
+                        @if(session('success'))
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 flex items-center gap-3">
+                                <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                                <p class="text-green-700">{{ session('success') }}</p>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('frontend.contact.submit') }}" method="POST" class="bg-white p-8 md:p-10 rounded-3xl shadow-lg border border-gray-100">
+                            @csrf
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6">أرسل لنا رسالة</h3>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
+                                    <input type="text" name="name" value="{{ old('name') }}" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none" placeholder="أدخل اسمك">
+                                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">رقم الجوال <span class="text-red-500">*</span></label>
+                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-right" placeholder="05xxxxxxxx">
+                                    @error('phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني</label>
+                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-right" placeholder="example@domain.com">
+                                    @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">الموضوع <span class="text-red-500">*</span></label>
+                                    <select name="subject" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none">
+                                        <option value="" disabled selected>اختر موضوع الرسالة</option>
+                                        <option value="طلب عرض أسعار" {{ old('subject') === 'طلب عرض أسعار' ? 'selected' : '' }}>طلب عرض أسعار</option>
+                                        <option value="دعم فني" {{ old('subject') === 'دعم فني' ? 'selected' : '' }}>دعم فني</option>
+                                        <option value="شراكة تجارية" {{ old('subject') === 'شراكة تجارية' ? 'selected' : '' }}>شراكة تجارية</option>
+                                        <option value="استفسار عام" {{ old('subject') === 'استفسار عام' ? 'selected' : '' }}>استفسار عام</option>
+                                    </select>
+                                    @error('subject') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">تفاصيل الرسالة <span class="text-red-500">*</span></label>
+                                <textarea name="message" rows="5" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none resize-none" placeholder="اكتب تفاصيل استفسارك...">{{ old('message') }}</textarea>
+                                @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            </div>
+
+                            <button type="submit" class="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all duration-300 flex items-center justify-center gap-2 group">
+                                <span>إرسال الرسالة</span>
+                                <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
 @endsection

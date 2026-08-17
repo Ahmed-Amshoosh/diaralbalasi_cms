@@ -70,15 +70,24 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::delete('/testimonials/{testimonial}', [\App\Http\Controllers\Admin\TestimonialController::class, 'destroy'])->name('testimonials.destroy');
     Route::put('/testimonials-section', [\App\Http\Controllers\Admin\TestimonialController::class, 'updateSection'])->name('testimonials.section.update');
 
-
+    Route::put('/settings/general', [\App\Http\Controllers\Admin\SettingController::class, 'updateGeneral'])->name('settings.updateGeneral');
+    Route::put('/settings/company', [\App\Http\Controllers\Admin\SettingController::class, 'updateCompany'])->name('settings.updateCompany');
+    Route::put('/settings/social', [\App\Http\Controllers\Admin\SettingController::class, 'updateSocial'])->name('settings.updateSocial');
     Route::get('/cta-section', [\App\Http\Controllers\Admin\CtaSectionController::class, 'index'])->name('cta.index');
     Route::put('/cta-section', [\App\Http\Controllers\Admin\CtaSectionController::class, 'update'])->name('cta.update');
 
+
+    Route::put('/contact-section', [\App\Http\Controllers\Admin\ContactSectionController::class, 'update'])->name('contact-section.update');
+
+    Route::get('/contact-messages', [\App\Http\Controllers\Admin\ContactMessageController::class, 'index'])->name('contact-messages.index');
+    Route::get('/contact-messages/{message}', [\App\Http\Controllers\Admin\ContactMessageController::class, 'show'])->name('contact-messages.show');
+    Route::post('/contact-messages/{message}/mark-read', [\App\Http\Controllers\Admin\ContactMessageController::class, 'markAsRead'])->name('contact-messages.mark-read');
+    Route::delete('/contact-messages/{message}', [\App\Http\Controllers\Admin\ContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
 
 
 
 
 
 });
-
+Route::post('/contact', [\App\Http\Controllers\Frontend\ContactController::class, 'submit'])->name('frontend.contact.submit');
 require __DIR__.'/auth.php';

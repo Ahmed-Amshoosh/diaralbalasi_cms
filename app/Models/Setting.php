@@ -10,8 +10,11 @@ class Setting extends Model
     use HasTranslations;
 
     protected $fillable = ['key', 'value', 'type', 'group'];
+
+    // هذا السطر هو المحرك الرئيسي: يخبر Laravel بحفظ واسترجاع هذا الحقل كـ JSON متعدد اللغات
     protected $translatable = ['value'];
-    protected $casts = ['value' => 'array'];
+
+    // ⚠️ مهم جداً: لا تضع 'value' => 'array' هنا أبداً لتجنب التعارض مع Spatie
 
     public static function get(string $key, $default = null)
     {
@@ -23,7 +26,10 @@ class Setting extends Model
     {
         self::updateOrCreate(
             ['key' => $key],
-            ['value' => $value, 'group' => $group]
+            [
+                'value' => $value, // Spatie ستقوم بتشفير المصفوفة كـ JSON تلقائياً
+                'group' => $group
+            ]
         );
     }
 

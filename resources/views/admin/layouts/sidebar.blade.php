@@ -108,15 +108,10 @@
             <p class="px-4 text-xs text-gray-500 uppercase tracking-wider mb-2">
                 التواصل
             </p>
-            <a href=""
-               class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.contact.*') ? 'bg-gray-800 text-white' : '' }}">
-                <i class="fas fa-address-book w-6"></i>
-                <span>بيانات التواصل</span>
-            </a>
-            <a href=""
+            <a href="{{ route('admin.contact-messages.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.messages.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-envelope w-6"></i>
-                <span>الرسائل</span>
+                <span>{{__('messages.contact-messages')}}</span>
                 <span class="mr-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
             </a>
         </div>

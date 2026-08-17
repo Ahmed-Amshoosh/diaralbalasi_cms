@@ -111,17 +111,17 @@
             <a href="{{ route('admin.contact-messages.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.messages.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-envelope w-6"></i>
-                <span>{{__('messages.contact-messages')}}</span>
+                <span>{{__('messages.contact_section_management')}}</span>
                 <span class="mr-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
             </a>
         </div>
 
         {{-- SEO --}}
         <div class="pt-4">
-            <a href=""
+            <a href="{{ route('admin.seo.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.seo.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-search w-6"></i>
-                <span>SEO</span>
+                <span>{{__('messages.seo_management')}}</span>
             </a>
         </div>
 

@@ -213,7 +213,7 @@ return [
 
 
 
-    'contact_section_management' => 'إدارة قسم التواصل',
+    'contact_section_management' => ' قسم التواصل',
     'contact_section_updated' => 'تم تحديث بيانات قسم التواصل بنجاح',
     'contact_messages' => 'الرسائل الواردة',
     'contact_label' => 'تسمية القسم',
@@ -248,4 +248,29 @@ return [
     'view' => 'عرض',
     'no_messages' => 'لا توجد رسائل في هذا القسم',
     'confirm_delete_message' => 'هل أنت متأكد من حذف هذه الرسالة؟',
+
+
+    'seo_management' => 'إعدادات SEO',
+    'seo_meta_tags' => 'الوسوم الوصفية (Meta Tags)',
+    'seo_title' => 'عنوان الصفحة (Title Tag)',
+    'seo_description' => 'وصف الصفحة (Meta Description)',
+    'seo_keywords' => 'الكلمات المفتاحية (Keywords)',
+    'seo_author' => 'اسم المؤلف',
+    'seo_robots' => 'تعليمات لمحركات البحث (Robots)',
+    'seo_social' => 'مشاركة السوشيال ميديا (Open Graph)',
+    'seo_og_image' => 'صورة المشاركة الافتراضية',
+    'seo_twitter_card' => 'نوع بطاقة تويتر',
+    'seo_twitter_site' => 'حساب تويتر (@username)',
+    'seo_advanced' => 'إعدادات متقدمة',
+    'seo_canonical_url' => 'الرابط الأساسي (Canonical URL)',
+    'seo_google_analytics' => 'معرف Google Analytics',
+    'seo_google_tag_manager' => 'معرف Google Tag Manager',
+    'seo_schema_type' => 'نوع البيانات المنظمة (Schema)',
+    'seo_title_hint' => 'الحد الأقصى 70 حرف. يظهر في نتائج البحث.',
+    'seo_description_hint' => 'الحد الأقصى 160 حرف. يظهر تحت العنوان في نتائج البحث.',
+    'seo_keywords_hint' => 'افصل بين الكلمات بفاصلة (,)',
+    'seo_robots_hint' => 'مثال: index, follow أو noindex, nofollow',
+    'seo_og_image_hint' => 'الأبعاد المفضلة: 1200x630 بكسل',
+    'seo_preview' => 'معاينة في نتائج البحث',
+    'seo_chars_count' => 'حرف',
 ];

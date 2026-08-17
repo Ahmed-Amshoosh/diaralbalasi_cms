@@ -200,7 +200,7 @@ return [
     'save_settings' => 'Save Settings',
 
 
-    'contact_section_management' => 'Contact Section Management',
+    'contact_section_management' => 'Contact Section ',
     'contact_section_updated' => 'Contact section data updated successfully',
     'contact_messages' => 'Incoming Messages',
     'contact_label' => 'Section Label',
@@ -235,4 +235,29 @@ return [
     'view' => 'View',
     'no_messages' => 'No messages in this section',
     'confirm_delete_message' => 'Are you sure you want to delete this message?',
+
+
+    'seo_management' => 'SEO Settings',
+    'seo_meta_tags' => 'Meta Tags',
+    'seo_title' => 'Page Title (Title Tag)',
+    'seo_description' => 'Page Description (Meta Description)',
+    'seo_keywords' => 'Keywords',
+    'seo_author' => 'Author Name',
+    'seo_robots' => 'Robots Instructions',
+    'seo_social' => 'Social Media Sharing (Open Graph)',
+    'seo_og_image' => 'Default Share Image',
+    'seo_twitter_card' => 'Twitter Card Type',
+    'seo_twitter_site' => 'Twitter Account (@username)',
+    'seo_advanced' => 'Advanced Settings',
+    'seo_canonical_url' => 'Canonical URL',
+    'seo_google_analytics' => 'Google Analytics ID',
+    'seo_google_tag_manager' => 'Google Tag Manager ID',
+    'seo_schema_type' => 'Schema Type',
+    'seo_title_hint' => 'Max 70 characters. Appears in search results.',
+    'seo_description_hint' => 'Max 160 characters. Appears under the title in search results.',
+    'seo_keywords_hint' => 'Separate keywords with commas (,)',
+    'seo_robots_hint' => 'Example: index, follow or noindex, nofollow',
+    'seo_og_image_hint' => 'Recommended dimensions: 1200x630 pixels',
+    'seo_preview' => 'Search Results Preview',
+    'seo_chars_count' => 'characters',
 ];

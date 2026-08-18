@@ -77,7 +77,7 @@
             <p class="px-4 text-xs text-gray-500 uppercase tracking-wider mb-2">
                 الكتالوج
             </p>
-            <a href=""
+            <a href="{{ route('admin.categories.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.categories.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-folder w-6"></i>
                 <span>التصنيفات</span>
@@ -87,7 +87,7 @@
                 <i class="fas fa-tags w-6"></i>
                 <span>العلامات التجارية</span>
             </a>
-            <a href=""
+            <a href="{{ route('admin.products.index') }}"
                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors {{ request()->routeIs('admin.products.*') ? 'bg-gray-800 text-white' : '' }}">
                 <i class="fas fa-box w-6"></i>
                 <span>المنتجات</span>

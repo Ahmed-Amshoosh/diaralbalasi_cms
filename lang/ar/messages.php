@@ -273,4 +273,47 @@ return [
     'seo_og_image_hint' => 'الأبعاد المفضلة: 1200x630 بكسل',
     'seo_preview' => 'معاينة في نتائج البحث',
     'seo_chars_count' => 'حرف',
+
+
+    'categories_management' => 'إدارة التصنيفات',
+    'category_name' => 'اسم التصنيف',
+    'category_description' => 'الوصف',
+    'category_icon' => 'الأيقونة (Class)',
+    'category_image' => 'صورة التصنيف',
+    'add_category' => 'إضافة تصنيف',
+    'brands_management' => 'إدارة الماركات',
+    'brand_name' => 'اسم الماركة',
+    'brand_logo' => 'شعار الماركة',
+    'add_brand' => 'إضافة ماركة',
+    'products_management' => 'إدارة المنتجات',
+    'product_name' => 'اسم المنتج',
+    'product_description' => 'الوصف','can_upload_multiple_images' => 'يمكنك رفع عدة صور دفعة واحدة',
+    'product_price' => 'السعر',
+    'product_category' => 'التصنيف',    'icon_placeholder' => ' fas fa-laptop',
+    'product_brand' => 'الماركة',
+    'product_images' => 'الصور',
+    'add_product' => 'إضافة منتج',
+    'select_category' => 'اختر التصنيف',
+    'select_brand' => 'اختر الماركة',
+    'upload_images' => 'رفع الصور',
+    'current_images' => 'الصور الحالية',
+    'no_images' => 'لا توجد صور',
+
+    'choose_images' => 'اختيار الصور',
+    'no_images_selected' => 'لم يتم اختيار أي صورة',
+    'selected_images_count' => 'تم اختيار :count صور',
+
+    'category_name_ar_required' => 'اسم التصنيف بالعربية مطلوب.',
+    'category_name_en_required' => 'اسم التصنيف بالإنجليزية مطلوب.',
+
+    'image_must_be_image' => 'الملف يجب أن يكون صورة.',
+    'image_invalid_format' => 'الصورة يجب أن تكون بصيغة JPG أو JPEG أو PNG أو WebP.',
+    'image_max_size' => 'حجم الصورة يجب ألا يتجاوز 2 ميجابايت.',
+
+    'order_must_be_integer' => 'الترتيب يجب أن يكون رقمًا صحيحًا.',
+    'order_min' => 'الترتيب يجب أن يكون 0 أو أكبر.',
+
+    'category_added_successfully' => 'تم إضافة التصنيف بنجاح.',
+    'category_updated_successfully' => 'تم تحديث التصنيف بنجاح.',
+    'category_deleted_successfully' => 'تم حذف التصنيف بنجاح.',
 ];

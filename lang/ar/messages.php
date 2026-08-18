@@ -85,7 +85,7 @@ return [
     'validation_error' => 'خطأ في التحقق',
     'delete_warning' => 'لا يمكن التراجع عن هذا الإجراء!',
     'confirm_delete' => 'هل أنت متأكد من حذف هذا العنصر؟',
-    'marquee_management' => 'إدارة الشريط المتحرك (Marquee)',
+    'marquee_management' => 'الشريط المتحرك',
     'marquee_created' => 'تم إضافة العنصر بنجاح',
     'marquee_updated' => 'تم تحديث العنصر بنجاح',
     'marquee_deleted' => 'تم حذف العنصر بنجاح',
@@ -95,7 +95,7 @@ return [
     'add_marquee_item' => 'إضافة عنصر جديد',
 
 
-    'about_management' => 'إدارة قسم من نحن',
+    'about_management' => 'قسم من نحن',
     'about_updated' => 'تم تحديث قسم من نحن بنجاح',
     'section_label' => 'تسمية القسم',
     'section_heading' => 'العنوان الرئيسي',
@@ -123,7 +123,7 @@ return [
     'description_english' => 'Description (English)',
     'feature_number' => 'رقم الميزة :number',
 
-    'hero_stats_management' => 'إدارة إحصائيات الهيرو',
+    'hero_stats_management' => 'إحصائيات الهيرو',
     'stat_created' => 'تم إضافة الإحصائية بنجاح',
     'stat_updated' => 'تم تحديث الإحصائية بنجاح',
     'stat_deleted' => 'تم حذف الإحصائية بنجاح',
@@ -316,4 +316,27 @@ return [
     'category_added_successfully' => 'تم إضافة التصنيف بنجاح.',
     'category_updated_successfully' => 'تم تحديث التصنيف بنجاح.',
     'category_deleted_successfully' => 'تم حذف التصنيف بنجاح.',
+    'users_management' => 'إدارة المستخدمين',
+    'users_list' => 'قائمة المستخدمين',
+    'add_user' => 'إضافة مستخدم',
+    'edit_user' => 'تعديل بيانات المستخدم',
+    'user_name' => 'الاسم',
+    'user_email' => 'البريد الإلكتروني',
+    'password' => 'كلمة المرور',
+    'confirm_password' => 'تأكيد كلمة المرور',
+    'user_roles' => 'الأدوار والصلاحيات',
+    'confirm_delete_user' => 'هل أنت متأكد من حذف هذا المستخدم؟',
+    'no_users_found' => 'لا يوجد مستخدمين حالياً',
+    'select_at_least_one_role' => 'يجب اختيار دور واحد على الأقل',
+    'fill_required_fields' => 'يرجى تعبئة جميع الحقول المطلوبة',
+
+    'administration' => 'الإدارة',
+    'users' => 'المستخدمون',
+
+    'page_management' => 'إدارة الصفحة',
+    'catalog' => 'الكتالوج',
+    'communication' => 'التواصل',
+
+    'categories' => 'التصنيفات',
+    'brands' => 'العلامات التجارية',
 ];

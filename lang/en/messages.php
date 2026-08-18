@@ -75,7 +75,7 @@ return [
     'yes_delete' => 'Yes, delete it',
     'cancel' => 'No',
     'confirm_delete' => 'Are you sure you want to delete this item?',
-    'marquee_management' => 'Marquee Strip Management',
+    'marquee_management' => 'Marquee Strip',
     'marquee_created' => 'Item created successfully',
     'marquee_updated' => 'Item updated successfully',
     'marquee_deleted' => 'Item deleted successfully',
@@ -85,7 +85,7 @@ return [
     'add_marquee_item' => 'Add New Item',
 
 
-    'about_management' => 'About Us Management',
+    'about_management' => 'About Us',
     'about_updated' => 'About Us section updated successfully',
     'section_label' => 'Section Label',
     'section_heading' => 'Main Heading',
@@ -112,7 +112,7 @@ return [
     'description_english' => 'Description (English)',
     'feature_number' => 'Feature Number :number',
 
-    'hero_stats_management' => 'Hero Stats Management',
+    'hero_stats_management' => 'Hero Stats',
     'stat_created' => 'Statistic created successfully',
     'stat_updated' => 'Statistic updated successfully',
     'stat_deleted' => 'Statistic deleted successfully',
@@ -303,4 +303,27 @@ return [
     'category_added_successfully' => 'Category added successfully.',
     'category_updated_successfully' => 'Category updated successfully.',
     'category_deleted_successfully' => 'Category deleted successfully.',
+
+    'users_management' => 'Users Management',
+    'users_list' => 'Users List',
+    'add_user' => 'Add User',
+    'edit_user' => 'Edit User',
+    'user_name' => 'Name',
+    'user_email' => 'Email',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'user_roles' => 'Roles & Permissions',
+    'confirm_delete_user' => 'Are you sure you want to delete this user?',
+    'no_users_found' => 'No users found',
+    'select_at_least_one_role' => 'You must select at least one role',
+    'fill_required_fields' => 'Please fill in all required fields',
+    'users' => 'Users',
+
+    'page_management' => 'Page Management',
+    'catalog' => 'Catalog',
+    'communication' => 'Communication',
+    'administration' => 'Administration',
+
+    'categories' => 'Categories',
+    'brands' => 'Brands',
 ];

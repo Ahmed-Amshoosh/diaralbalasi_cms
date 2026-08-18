@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ __('messages.site_name') }}</title>
-
-    {{-- Tailwind CSS --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
     {{-- Font Awesome --}}
@@ -57,19 +55,16 @@
 <body class="bg-gray-100">
 <div class="flex h-screen overflow-hidden">
 
-    {{-- Sidebar Overlay (للشاشات الصغيرة) --}}
     <div id="sidebarOverlay"
          class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
          onclick="toggleSidebar()"></div>
 
     {{-- Sidebar --}}
     @include('admin.layouts.sidebar')
-
     {{-- Main Content Area --}}
     <div class="flex-1 flex flex-col overflow-hidden">
         {{-- Top Navbar --}}
         @include('admin.layouts.navbar')
-
         {{-- Page Content --}}
         <main class="flex-1 overflow-y-auto p-4 md:p-6">
             @yield('content')
@@ -118,7 +113,6 @@
             }
         });
     }
-
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
@@ -140,7 +134,6 @@
             document.body.classList.remove('overflow-hidden');
         }
     }
-    // Initialize sidebar state on page load
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
         const isRTL = document.documentElement.dir === 'rtl';
@@ -157,22 +150,15 @@
 
 @stack('scripts')
 
-{{-- jQuery --}}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-{{-- Toastr --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-{{-- SweetAlert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-
         const isRTL = document.documentElement.dir === 'rtl';
 
-        // إعداد Toastr
         toastr.options = {
             closeButton: true,
             progressBar: true,
@@ -188,22 +174,11 @@
                 ? 'toast-top-left'
                 : 'toast-top-right'
         };
-        // رسالة نجاح
         @if(session('success'))
         toastr.success(@json(session('success')));
         @endif
-        // رسالة خطأ
         @if(session('error'))
         toastr.error(@json(session('error')));
-        @endif
-        // رسالة تحذير
-        @if(session('warning'))
-        toastr.warning(@json(session('warning')));
-        @endif
-
-        // رسالة معلومات
-        @if(session('info'))
-        toastr.info(@json(session('info')));
         @endif
 
     });

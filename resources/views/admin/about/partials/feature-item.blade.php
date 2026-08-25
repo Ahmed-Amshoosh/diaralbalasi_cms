@@ -1,5 +1,4 @@
 <div class="feature-item p-5 border border-gray-200 rounded-lg bg-gray-50/50 relative group transition-all hover:shadow-md">
-
     <div class="flex justify-between">
 
         <h4 class="text-sm font-bold text-gray-700 mb-4 border-b pb-2 flex items-center gap-2">

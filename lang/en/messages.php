@@ -399,5 +399,20 @@ return [
     'system_status' => 'System Status',
     'running_normally' => 'Running Normally',
     'no_messages_now' => 'No messages at the moment',
+    'whatsapp' => 'Contact us on WhatsApp',
+    'quick_links' => 'Quick Links',
+    'contact_us' => 'Contact Us',
+    'copyright' => '© 2026 All Rights Reserved - Diyar Al-Balasi | Building Materials, Plumbing & Sanitary Ware',
+
+    'nav_home' => 'Home',
+    'nav_categories' => 'Categories',
+    'nav_about' => 'About Us',
+    'nav_products' => 'Products',
+    'nav_why_us' => 'Why Us',
+    'nav_contact' => 'Contact Us',
+    'nav_contact_sales' => 'Contact Sales',
+    'menu_aria_label' => 'Menu',
+    'language_arabic' => 'Arabic',
+    'language_english' => 'English',
 
 ];

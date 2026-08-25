@@ -3,30 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Partner;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Testimonial;
+use App\Models\ContactMessage;
 use App\Models\User;
-// سنضيف باقي الموديلات لاحقاً
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // سنضيف الإحصائيات الفعلية لاحقاً عند إنشاء الموديلات
         $stats = [
-            'products' => 0,
-            'categories' => 0,
-            'brands' => 0,
-            'testimonials' => 0,
-            'messages' => 0,
+            'products' => Product::count(),
+            'categories' => Category::count(),
+            'brands' => Partner::count(),
+            'testimonials' => Testimonial::count(),
+            'messages' => ContactMessage::where('is_read', false)->count(),
             'users' => User::count(),
         ];
 
-        // آخر الرسائل (سنضيفها لاحقاً)
-        $recentMessages = collect([]);
+        $recentMessages = ContactMessage::latest()->take(5)->get();
 
-        // آخر المنتجات (سنضيفها لاحقاً)
-        $recentProducts = collect([]);
-
-        return view('admin.dashboard', compact('stats', 'recentMessages', 'recentProducts'));
+        return view('admin.dashboard', compact('stats', 'recentMessages'));
     }
 }

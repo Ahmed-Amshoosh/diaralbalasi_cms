@@ -376,4 +376,28 @@ return [
 
     'categories' => 'Categories',
     'brands' => 'Brands',
+
+
+    'dashboard_welcome' => 'Welcome',
+    'manage_site_easily' => 'Here you can manage all sections of your site easily and professionally',
+    'view_site' => 'View Site',
+    'testimonials' => 'Testimonials',
+    'new_messages' => 'New Messages',
+    'view_all' => 'View All',
+    'quick_actions' => 'Quick Actions',
+    'new_product' => 'New Product',
+    'new_category' => 'New Category',
+    'new_brand' => 'New Brand',
+    'new_testimonial' => 'New Testimonial',
+    'messages' => 'Messages',
+    'recent_messages' => 'Recent Messages',
+    'system_info' => 'System Info',
+    'laravel_version' => 'Laravel Version',
+    'php_version' => 'PHP Version',
+    'current_language' => 'Current Language',
+    'timezone' => 'Timezone',
+    'system_status' => 'System Status',
+    'running_normally' => 'Running Normally',
+    'no_messages_now' => 'No messages at the moment',
+
 ];

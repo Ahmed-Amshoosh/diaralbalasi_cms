@@ -380,4 +380,27 @@ return [
 
     'categories' => 'التصنيفات',
     'brands' => 'العلامات التجارية',
+
+    'dashboard_welcome' => 'مرحباً',
+    'manage_site_easily' => 'هنا يمكنك إدارة جميع أقسام موقعك بسهولة واحترافية',
+    'view_site' => 'عرض الموقع',
+    'testimonials' => 'آراء العملاء',
+    'new_messages' => 'الرسائل الجديدة',
+    'view_all' => 'عرض الكل',
+    'quick_actions' => 'إجراءات سريعة',
+    'new_product' => 'منتج جديد',
+    'new_category' => 'تصنيف جديد',
+    'new_brand' => 'علامة تجارية',
+    'new_testimonial' => 'رأي عميل',
+    'messages' => 'الرسائل',
+    'recent_messages' => 'آخر الرسائل',
+    'system_info' => 'معلومات النظام',
+    'laravel_version' => 'إصدار Laravel',
+    'php_version' => 'إصدار PHP',
+    'current_language' => 'اللغة الحالية',
+    'timezone' => 'المنطقة الزمنية',
+    'system_status' => 'حالة النظام',
+    'running_normally' => 'يعمل بشكل طبيعي',
+    'no_messages_now' => 'لا توجد رسائل حالياً',
+
 ];

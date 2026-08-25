@@ -6,13 +6,18 @@ use App\Models\HeroStat;
 use Illuminate\Http\Request;
 
 class HeroStatController extends Controller {
-
     public function index() {
+        if (!auth()->user()->can('view hero-stats')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $stats = HeroStat::orderBy('order')->get();
         return view('admin.hero-stats.index', compact('stats'));
     }
 
     public function store(Request $request) {
+        if (!auth()->user()->can('create hero-stats')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'number' => 'required|string|max:50',
             'label_ar' => 'required|string|max:255',
@@ -31,6 +36,9 @@ class HeroStatController extends Controller {
     }
 
     public function update(Request $request, HeroStat $heroStat) {
+        if (!auth()->user()->can('edit hero-stats')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'number' => 'required|string|max:50',
             'label_ar' => 'required|string|max:255',
@@ -49,6 +57,9 @@ class HeroStatController extends Controller {
     }
 
     public function destroy(HeroStat $heroStat) {
+        if (!auth()->user()->can('delete hero-stats')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $heroStat->delete();
         return redirect()->route('admin.hero-stats.index')->with('success', __('messages.stat_deleted'));
     }

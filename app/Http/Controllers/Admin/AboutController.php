@@ -9,14 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
+
     public function index()
     {
+        if (!auth()->user()->can('view about')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $about = AboutSection::first();
         return view('admin.about.index', compact('about'));
     }
 
     public function update(Request $request)
     {
+        if (!auth()->user()->can('edit about')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'label_ar' => 'required|string|max:100',
             'label_en' => 'required|string|max:100',

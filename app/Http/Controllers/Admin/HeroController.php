@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Storage;
 class HeroController extends Controller {
 
     public function index() {
+        if (!auth()->user()->can('view hero')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $hero = Hero::first();
         return view('admin.hero.index', compact('hero'));
     }
 
     public function update(Request $request) {
+        if (!auth()->user()->can('edit hero')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
@@ -32,7 +38,6 @@ class HeroController extends Controller {
 
         $hero = Hero::first();
 
-        // التعامل مع صورة الخلفية فقط
         if ($request->hasFile('bg_image')) {
             if ($hero && $hero->bg_image) {
                 Storage::disk('public')->delete($hero->bg_image);
@@ -46,6 +51,8 @@ class HeroController extends Controller {
             Hero::create($data);
         }
 
-        return redirect()->route('admin.hero.index')->with('success', 'تم تحديث قسم الهيرو بنجاح');
+        return redirect()
+            ->route('admin.hero.index')
+            ->with('success', __('messages.hero_updated_successfully'));
     }
 }

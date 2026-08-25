@@ -101,17 +101,39 @@
                             >
                         @endif
 
-                        <input
-                            type="file"
-                            name="main_image"
-                            accept="image/*"
-                            class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
-                        >
+                        <div>
+                            <label
+                                for="main_image"
+                                class="flex items-center justify-center gap-3 w-full px-4 py-3
+                       border-2 border-dashed border-gray-300
+                       rounded-lg cursor-pointer
+                       bg-gray-50 hover:bg-purple-50
+                       hover:border-purple-400 transition-all"
+                            >
+                                <i class="fas fa-cloud-upload-alt text-purple-500 text-xl"></i>
+
+                                <span id="main_image_name" class="text-sm text-gray-600">
+                    {{ __('messages.choose_file') }}
+                </span>
+                            </label>
+
+                            <input
+                                type="file"
+                                name="main_image"
+                                id="main_image"
+                                accept="image/*"
+                                class="hidden"
+                            >
+                        </div>
 
                         @error('main_image')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ $message }}
+                        </p>
                         @enderror
                     </div>
+
 
                     {{-- Secondary Image --}}
                     <div>
@@ -126,15 +148,37 @@
                                 class="object-cover rounded-lg border mb-3"
                             >
                         @endif
-                        <input
-                            type="file"
-                            name="secondary_image"
-                            accept="image/*"
-                            class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
-                        >
+
+                        <div>
+                            <label
+                                for="secondary_image"
+                                class="flex items-center justify-center gap-3 w-full px-4 py-3
+                       border-2 border-dashed border-gray-300
+                       rounded-lg cursor-pointer
+                       bg-gray-50 hover:bg-purple-50
+                       hover:border-purple-400 transition-all"
+                            >
+                                <i class="fas fa-cloud-upload-alt text-purple-500 text-xl"></i>
+
+                                <span id="secondary_image_name" class="text-sm text-gray-600">
+                    {{ __('messages.choose_file') }}
+                </span>
+                            </label>
+
+                            <input
+                                type="file"
+                                name="secondary_image"
+                                id="secondary_image"
+                                accept="image/*"
+                                class="hidden"
+                            >
+                        </div>
 
                         @error('secondary_image')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ $message }}
+                        </p>
                         @enderror
                     </div>
 
@@ -378,6 +422,48 @@
                     }
                 });
                 updateNoFeaturesMessage();
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const mainImage = document.getElementById('main_image');
+                const mainImageName = document.getElementById('main_image_name');
+
+                const secondaryImage = document.getElementById('secondary_image');
+                const secondaryImageName = document.getElementById('secondary_image_name');
+
+
+                // Main Image
+                if (mainImage) {
+                    mainImage.addEventListener('change', function () {
+
+                        if (this.files && this.files.length > 0) {
+                            mainImageName.textContent = this.files[0].name;
+                        } else {
+                            mainImageName.textContent =
+                                "{{ __('messages.no_file_chosen') }}";
+                        }
+
+                    });
+                }
+
+
+                // Secondary Image
+                if (secondaryImage) {
+                    secondaryImage.addEventListener('change', function () {
+
+                        if (this.files && this.files.length > 0) {
+                            secondaryImageName.textContent = this.files[0].name;
+                        } else {
+                            secondaryImageName.textContent =
+                                "{{ __('messages.no_file_chosen') }}";
+                        }
+
+                    });
+                }
+
             });
         </script>
     @endpush

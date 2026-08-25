@@ -4,17 +4,12 @@
 
 @section('content')
     <div class="space-y-8">
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- الجزء الأول: إعدادات عنوان القسم --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                     <i class="fas fa-cog text-blue-500"></i> {{ __('messages.testimonials_section_settings') }}
                 </h3>
             </div>
-
             <form id="sectionForm" action="{{ route('admin.testimonials.section.update') }}" method="POST" novalidate>
                 @csrf @method('PUT')
 
@@ -30,41 +25,152 @@
                 </div>
 
                 <div class="p-6">
+
+                    {{-- Arabic --}}
                     <div id="tab-content-ar" class="tab-content space-y-5">
+
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">تسمية القسم <span class="text-red-500">*</span></label>
-                            <input type="text" name="label_ar" id="label_ar" value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="rtl" required>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_ar"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.section_label') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="label_ar"
+                                id="label_ar"
+                                value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                dir="rtl"
+                                required
+                            >
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_ar">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
+
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">العنوان الرئيسي <span class="text-red-500">*</span></label>
-                            <input type="text" name="heading_ar" id="heading_ar" value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="rtl" required>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_ar"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.main_heading') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="heading_ar"
+                                id="heading_ar"
+                                value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                dir="rtl"
+                                required
+                            >
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_ar">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
+
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">الوصف <span class="text-red-500">*</span></label>
-                            <textarea name="description_ar" id="description_ar" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" dir="rtl" required>{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_ar"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.description') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <textarea
+                                name="description_ar"
+                                id="description_ar"
+                                rows="3"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
+                                dir="rtl"
+                                required
+                            >{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_ar">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
                     </div>
 
+
+                    {{-- English --}}
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
+
                         <div class="relative">
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Section Label <span class="text-red-500">*</span></label>
-                            <input type="text" name="label_en" id="label_en" value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="ltr" required>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_en"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.section_label') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="label_en"
+                                id="label_en"
+                                value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                dir="ltr"
+                                required
+                            >
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_en">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
+
                         <div class="relative">
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Main Heading <span class="text-red-500">*</span></label>
-                            <input type="text" name="heading_en" id="heading_en" value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="ltr" required>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_en"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.main_heading') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="heading_en"
+                                id="heading_en"
+                                value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                dir="ltr"
+                                required
+                            >
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_en">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
+
                         <div class="relative">
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Description <span class="text-red-500">*</span></label>
-                            <textarea name="description_en" id="description_en" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" dir="ltr" required>{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
-                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_en"><i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}</p>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                {{ __('messages.description') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <textarea
+                                name="description_en"
+                                id="description_en"
+                                rows="3"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
+                                dir="ltr"
+                                required
+                            >{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
+
+                            <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_en">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ __('messages.this_field_is_required') }}
+                            </p>
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
@@ -74,18 +180,16 @@
                 </div>
             </form>
         </div>
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- الجزء الثاني: إدارة آراء العملاء (الجدول) --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                     <i class="fas fa-comments text-purple-500"></i> {{ __('messages.testimonials_management') }}
                 </h3>
-                <button onclick="window.openAddModal()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
-                    <i class="fas fa-plus"></i> {{ __('messages.add_testimonial') }}
-                </button>
+                @can('create testimonials')
+                    <button onclick="window.openAddModal()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
+                        <i class="fas fa-plus"></i> {{ __('messages.add_testimonial') }}
+                    </button>
+                @endcan
             </div>
 
             <div class="overflow-x-auto">
@@ -121,8 +225,12 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button onclick="window.openEditModal({{ $item->id }}, '{{ addslashes($item->getTranslation('name', 'ar')) }}', '{{ addslashes($item->getTranslation('name', 'en')) }}', '{{ addslashes($item->getTranslation('role', 'ar')) }}', '{{ addslashes($item->getTranslation('role', 'en')) }}', '{{ addslashes($item->getTranslation('content', 'ar')) }}', '{{ addslashes($item->getTranslation('content', 'en')) }}', {{ $item->rating }}, {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})" class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors" title="{{ __('messages.edit') }}"><i class="fas fa-edit"></i></button>
-                                    <button onclick="confirmDelete('{{ route('admin.testimonials.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('name', app()->getLocale())) }}')" class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" title="{{ __('messages.delete') }}"><i class="fas fa-trash"></i></button>
+                                    @can('edit testimonials')
+                                        <button onclick="window.openEditModal({{ $item->id }}, '{{ addslashes($item->getTranslation('name', 'ar')) }}', '{{ addslashes($item->getTranslation('name', 'en')) }}', '{{ addslashes($item->getTranslation('role', 'ar')) }}', '{{ addslashes($item->getTranslation('role', 'en')) }}', '{{ addslashes($item->getTranslation('content', 'ar')) }}', '{{ addslashes($item->getTranslation('content', 'en')) }}', {{ $item->rating }}, {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})" class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors" title="{{ __('messages.edit') }}"><i class="fas fa-edit"></i></button>
+                                    @endcan
+                                    @can('delete testimonials')
+                                        <button onclick="confirmDelete('{{ route('admin.testimonials.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('name', app()->getLocale())) }}')" class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" title="{{ __('messages.delete') }}"><i class="fas fa-trash"></i></button>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

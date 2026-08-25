@@ -83,9 +83,12 @@
                 <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                     <i class="fas fa-layer-group text-purple-500"></i> {{ __('messages.why_us_items_management') }}
                 </h3>
-                <button onclick="openAddModal()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
+                @can('create why-us')
+                    <button onclick="openAddModal()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
                     <i class="fas fa-plus"></i> {{ __('messages.add_why_us_item') }}
                 </button>
+                @endcan
+
             </div>
 
             <div class="overflow-x-auto">
@@ -122,14 +125,20 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button onclick="openEditModal({{ $item->id }}, '{{ $item->icon }}', '{{ addslashes($item->getTranslation('title', 'ar')) }}', '{{ addslashes($item->getTranslation('title', 'en')) }}', '{{ addslashes($item->getTranslation('description', 'ar')) }}', '{{ addslashes($item->getTranslation('description', 'en')) }}', {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})"
-                                            class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors" title="{{ __('messages.edit') }}">
+
+                                    @can('edit why-us')
+                                        <button onclick="openEditModal({{ $item->id }}, '{{ $item->icon }}', '{{ addslashes($item->getTranslation('title', 'ar')) }}', '{{ addslashes($item->getTranslation('title', 'en')) }}', '{{ addslashes($item->getTranslation('description', 'ar')) }}', '{{ addslashes($item->getTranslation('description', 'en')) }}', {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})"
+                                                                class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors" title="{{ __('messages.edit') }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button onclick="confirmDelete('{{ route('admin.why-us-items.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('title', app()->getLocale())) }}')"
-                                            class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" title="{{ __('messages.delete') }}">
+                                    @endcan
+                                    @can('delete why-us')
+                                        <button onclick="confirmDelete('{{ route('admin.why-us-items.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('title', app()->getLocale())) }}')"
+                                                                 class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" title="{{ __('messages.delete') }}">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                    @endcan
+
                                 </div>
                             </td>
                         </tr>

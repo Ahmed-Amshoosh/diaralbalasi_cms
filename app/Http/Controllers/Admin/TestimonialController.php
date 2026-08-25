@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller {
     public function index() {
+        if (!auth()->user()->can('view testimonials')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $section = TestimonialsSection::first();
         $testimonials = Testimonial::orderBy('order')->get();
         return view('admin.testimonials.index', compact('section', 'testimonials'));
     }
     public function updateSection(Request $request) {
+        if (!auth()->user()->can('edit testimonials')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'label_ar' => 'required|string|max:100', 'label_en' => 'required|string|max:100',
             'heading_ar' => 'required|string|max:255', 'heading_en' => 'required|string|max:255',
@@ -31,6 +37,9 @@ class TestimonialController extends Controller {
     }
 
     public function store(Request $request) {
+        if (!auth()->user()->can('create testimonials')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255', 'name_en' => 'required|string|max:255',
             'role_ar' => 'nullable|string|max:255', 'role_en' => 'nullable|string|max:255',
@@ -50,6 +59,9 @@ class TestimonialController extends Controller {
     }
 
     public function update(Request $request, Testimonial $testimonial) {
+        if (!auth()->user()->can('edit testimonials')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255', 'name_en' => 'required|string|max:255',
             'role_ar' => 'nullable|string|max:255', 'role_en' => 'nullable|string|max:255',
@@ -69,6 +81,9 @@ class TestimonialController extends Controller {
     }
 
     public function destroy(Testimonial $testimonial) {
+        if (!auth()->user()->can('delete testimonials')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $testimonial->delete();
         return redirect()->route('admin.testimonials.index')->with('success', __('messages.testimonial_deleted'));
     }

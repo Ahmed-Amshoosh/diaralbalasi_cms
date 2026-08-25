@@ -14,10 +14,12 @@
                 </div>
                 <div class="px-6 pt-4">
                     <div class="flex border-b border-gray-200">
-                        <button type="button" data-tab="ar" class="tab-btn flex items-center gap-2 px-6 py-3 text-sm font-bold text-blue-600 border-b-4 border-blue-600 bg-white rounded-t-lg shadow-sm transition-all duration-300">
+                        <button type="button" data-tab="ar"
+                                class="tab-btn flex items-center gap-2 px-6 py-3 text-sm font-bold text-blue-600 border-b-4 border-blue-600 bg-white rounded-t-lg shadow-sm transition-all duration-300">
                             <span>{{ __('messages.arabic_tab') }}</span>
                         </button>
-                        <button type="button" data-tab="en" class="tab-btn flex items-center gap-2 px-6 py-3 text-sm font-medium text-gray-500 border-b-4 border-transparent hover:text-gray-700 hover:bg-gray-50 rounded-t-lg transition-all duration-300">
+                        <button type="button" data-tab="en"
+                                class="tab-btn flex items-center gap-2 px-6 py-3 text-sm font-medium text-gray-500 border-b-4 border-transparent hover:text-gray-700 hover:bg-gray-50 rounded-t-lg transition-all duration-300">
                             <span>{{ __('messages.english_tab') }}</span>
                         </button>
                     </div>
@@ -26,18 +28,32 @@
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_label') }} <span class="text-red-500">*</span></label>
-                            <input type="text" name="label_ar" value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all" dir="rtl" >
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_label') }}
+                                <span class="text-red-500">*</span></label>
+                            <input type="text" name="label_ar"
+                                   value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}"
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('label_ar') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
+                                   dir="rtl">
                             @error('label_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_heading') }} <span class="text-red-500">*</span></label>
-                            <input type="text" name="heading_ar" value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all" dir="rtl" >
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_heading') }}
+                                <span class="text-red-500">*</span></label>
+                            <input type="text" name="heading_ar"
+                                   value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}"
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('heading_ar') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
+                                   dir="rtl">
                             @error('heading_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_description') }} <span class="text-red-500">*</span></label>
-                            <textarea name="description_ar" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all resize-none" dir="rtl" >{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_description') }}
+                                <span class="text-red-500">*</span></label>
+                            <textarea name="description_ar" rows="3"
+                                      class="w-full px-4 py-2.5 border {{ $errors->has('description_ar') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                                      dir="rtl">{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
                             @error('description_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -45,18 +61,32 @@
 
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_label') }} <span class="text-red-500">*</span></label>
-                            <input type="text" name="label_en" value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all" dir="ltr" >
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_label') }}
+                                <span class="text-red-500">*</span></label>
+                            <input type="text" name="label_en"
+                                   value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}"
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('label_en') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
+                                   dir="ltr">
                             @error('label_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_heading') }} <span class="text-red-500">*</span></label>
-                            <input type="text" name="heading_en" value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all" dir="ltr" >
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_heading') }}
+                                <span class="text-red-500">*</span></label>
+                            <input type="text" name="heading_en"
+                                   value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}"
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('heading_en') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
+                                   dir="ltr">
                             @error('heading_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_description') }} <span class="text-red-500">*</span></label>
-                            <textarea name="description_en" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all resize-none" dir="ltr" >{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.contact_description') }}
+                                <span class="text-red-500">*</span></label>
+                            <textarea name="description_en" rows="3"
+                                      class="w-full px-4 py-2.5 border {{ $errors->has('description_en') ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                                      dir="ltr">{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
                             @error('description_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -65,16 +95,21 @@
             </div>
 
             <div class="flex items-center justify-end gap-3 pb-8">
-                <button type="submit" class="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                    <i class="fas fa-save"></i> {{ __('messages.save_updates') }}
-                </button>
+                @can('edit content')
+                    <button type="submit"
+                            class="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        <i class="fas fa-save"></i> {{ __('messages.save_updates') }}
+                    </button>
+                @endcan
+
             </div>
         </form>
     </div>
     <div class="space-y-6">
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a href="{{ route('admin.contact-messages.index', ['filter' => 'all']) }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'all' ? 'ring-2 ring-blue-500' : '' }}">
+            <a href="{{ route('admin.contact-messages.index', ['filter' => 'all']) }}"
+               class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'all' ? 'ring-2 ring-blue-500' : '' }}">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">{{ __('messages.total_messages') }}</p>
@@ -86,7 +121,8 @@
                 </div>
             </a>
 
-            <a href="{{ route('admin.contact-messages.index', ['filter' => 'unread']) }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'unread' ? 'ring-2 ring-orange-500' : '' }}">
+            <a href="{{ route('admin.contact-messages.index', ['filter' => 'unread']) }}"
+               class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'unread' ? 'ring-2 ring-orange-500' : '' }}">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">{{ __('messages.unread_messages') }}</p>
@@ -98,7 +134,8 @@
                 </div>
             </a>
 
-            <a href="{{ route('admin.contact-messages.index', ['filter' => 'read']) }}" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'read' ? 'ring-2 ring-green-500' : '' }}">
+            <a href="{{ route('admin.contact-messages.index', ['filter' => 'read']) }}"
+               class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'read' ? 'ring-2 ring-green-500' : '' }}">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">{{ __('messages.read_messages') }}</p>
@@ -142,11 +179,13 @@
 
                             <td class="px-6 py-4">
                                 @if($msg->is_read)
-                                    <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold border border-green-100">
+                                    <span
+                                        class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold border border-green-100">
                                         <i class="fas fa-check-circle"></i> {{ __('messages.status_read') }}
                                     </span>
                                 @else
-                                    <span class="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-semibold border border-orange-100">
+                                    <span
+                                        class="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-semibold border border-orange-100">
                                         <i class="fas fa-clock"></i> {{ __('messages.status_unread') }}
                                     </span>
                                 @endif
@@ -169,34 +208,48 @@
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
 
-                                    <a href="{{ route('admin.contact-messages.show', $msg->id) }}"
-                                       class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                                       title="{{ __('messages.view') }}">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                    {{-- عرض الرسالة --}}
+                                    @can('view messages')
+                                        <a href="{{ route('admin.contact-messages.show', $msg->id) }}"
+                                           class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                                           title="{{ __('messages.view') }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    @endcan
 
-                                    @if(!$msg->is_read)
-                                        <form action="{{ route('admin.contact-messages.mark-read', $msg->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            <button type="submit"
-                                                    class="text-green-600 hover:text-green-800 p-2 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
-                                                    title="{{ __('messages.mark_as_read') }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                    @endif
 
-                                    <button
-                                        type="button"
-                                        onclick="confirmDelete(
-        '{{ route('admin.contact-messages.destroy', $msg->id) }}',
-        '{{ addslashes($msg->subject) }}'
-    )"
-                                        class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                                        title="{{ __('messages.delete') }}"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    {{-- تحديد الرسالة كمقروءة --}}
+                                    @can('view messages')
+                                        @if(!$msg->is_read)
+                                            <form action="{{ route('admin.contact-messages.mark-read', $msg->id) }}"
+                                                  method="POST"
+                                                  class="inline">
+                                                @csrf
+
+                                                <button type="submit"
+                                                        class="text-green-600 hover:text-green-800 p-2 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                                                        title="{{ __('messages.mark_as_read') }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endcan
+
+
+                                    {{-- حذف الرسالة --}}
+                                    @can('delete messages')
+                                        <button
+                                            type="button"
+                                            onclick="confirmDelete(
+                    '{{ route('admin.contact-messages.destroy', $msg->id) }}',
+                    '{{ addslashes($msg->subject) }}'
+                )"
+                                            class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                                            title="{{ __('messages.delete') }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    @endcan
 
                                 </div>
                             </td>
@@ -226,26 +279,120 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 window.switchTab = (lang) => {
-                    document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('tab-animate'); });
-                    document.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('text-blue-600', 'border-blue-600', 'bg-white', 'font-bold', 'shadow-sm');
-                        btn.classList.add('text-gray-500', 'border-transparent', 'hover:text-gray-700', 'hover:bg-gray-50', 'font-medium');
+                    document.querySelectorAll('.tab-content').forEach(el => {
+                        el.classList.add('hidden');
+                        el.classList.remove('tab-animate');
                     });
-                    const target = document.getElementById(`tab-content-${lang}`);
-                    target.classList.remove('hidden');
-                    requestAnimationFrame(() => target.classList.add('tab-animate'));
-                    const activeBtn = document.querySelector(`.tab-btn[data-tab="${lang}"]`);
-                    activeBtn.classList.remove('text-gray-500', 'border-transparent', 'hover:text-gray-700', 'hover:bg-gray-50', 'font-medium');
-                    activeBtn.classList.add('text-blue-600', 'border-blue-600', 'bg-white', 'font-bold', 'shadow-sm');
-                };
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => window.switchTab(btn.dataset.tab)));
-                window.switchTab('ar');
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove(
+                            'text-blue-600',
+                            'border-blue-600',
+                            'bg-white',
+                            'font-bold',
+                            'shadow-sm'
+                        );
 
-                @if($errors->any())
-                @foreach($errors->all() as $error)
-                toastr.error("{{ $error }}", "خطأ", { positionClass: "{{ app()->getLocale() === 'ar' ? 'toast-top-left' : 'toast-top-right' }}", timeOut: 4000 });
-                @endforeach
-                @endif
+                        btn.classList.add(
+                            'text-gray-500',
+                            'border-transparent',
+                            'hover:text-gray-700',
+                            'hover:bg-gray-50',
+                            'font-medium'
+                        );
+                    });
+
+                    const targetContent =
+                        document.getElementById(`tab-content-${lang}`);
+
+                    if (!targetContent) return;
+
+                    targetContent.classList.remove('hidden');
+
+                    const activeBtn =
+                        document.querySelector(`.tab-btn[data-tab="${lang}"]`);
+
+                    if (activeBtn) {
+
+                        activeBtn.classList.remove(
+                            'text-gray-500',
+                            'border-transparent',
+                            'hover:text-gray-700',
+                            'hover:bg-gray-50',
+                            'font-medium'
+                        );
+
+                        activeBtn.classList.add(
+                            'text-blue-600',
+                            'border-blue-600',
+                            'bg-white',
+                            'font-bold',
+                            'shadow-sm'
+                        );
+                    }
+                };
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+
+                    btn.addEventListener('click', () => {
+                        window.switchTab(btn.dataset.tab);
+                    });
+
+                });
+
+                const arabicFields = [
+                    'label_ar',
+                    'heading_ar',
+                    'description_ar'
+                ];
+
+                const englishFields = [
+                    'label_en',
+                    'heading_en',
+                    'description_en'
+                ];
+
+                const hasError = (field) => {
+
+                    const input =
+                        document.querySelector(`[name="${field}"]`);
+
+                    return input &&
+                        input.classList.contains('border-red-500');
+                };
+
+                const hasArabicError =
+                    arabicFields.some(hasError);
+
+                const hasEnglishError =
+                    englishFields.some(hasError);
+
+                if (hasArabicError) {
+
+                    window.switchTab('ar');
+
+                } else if (hasEnglishError) {
+
+                    window.switchTab('en');
+
+                } else {
+
+                    window.switchTab('ar');
+                }
+
+                const firstError =
+                    document.querySelector('.border-red-500');
+
+                if (firstError) {
+
+                    setTimeout(() => {
+
+                        firstError.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+
+                    }, 300);
+                }
+
             });
         </script>
     @endpush

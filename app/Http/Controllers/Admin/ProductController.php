@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Partner; // تم استبدال Brand بـ Partner
+use App\Models\Partner;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller {
     public function index() {
+        if (!auth()->user()->can('view products')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         // جلب المنتجات مع علاقة partner بدلاً من brand
         $products = Product::with(['category', 'partner', 'images'])->orderBy('order')->get();
         $categories = Category::all();
@@ -21,6 +24,9 @@ class ProductController extends Controller {
     }
 
     public function store(Request $request) {
+        if (!auth()->user()->can('create products')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
@@ -58,11 +64,13 @@ class ProductController extends Controller {
             }
         }
 
-        return back()->with('success', 'تم إضافة المنتج بنجاح');
+        return back()->with('success', __('messages.product_created_successfully'));
     }
 
     public function update(Request $request, Product $product) {
-
+        if (!auth()->user()->can('edit products')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
@@ -100,10 +108,13 @@ class ProductController extends Controller {
             }
         }
 
-        return back()->with('success', 'تم تحديث المنتج بنجاح');
+        return back()->with('success', __('messages.product_updated_successfully'));
     }
 
     public function destroy(Product $product) {
+        if (!auth()->user()->can('delete products')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         foreach ($product->images as $image) {
             if (Storage::disk('public')->exists($image->image)) {
                 Storage::disk('public')->delete($image->image);
@@ -111,14 +122,17 @@ class ProductController extends Controller {
             $image->delete();
         }
         $product->delete();
-        return back()->with('success', 'تم حذف المنتج بنجاح');
+        return back()->with('success', __('messages.product_deleted_successfully'));
     }
 
     public function deleteImage(ProductImage $image) {
+        if (!auth()->user()->can('delete products')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         if (Storage::disk('public')->exists($image->image)) {
             Storage::disk('public')->delete($image->image);
         }
         $image->delete();
-        return back()->with('success', 'تم حذف الصورة بنجاح');
+        return back()->with('success', __('messages.product_image_deleted_successfully'));
     }
 }

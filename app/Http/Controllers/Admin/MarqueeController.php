@@ -7,14 +7,18 @@ use Illuminate\Http\Request;
 
 class MarqueeController extends Controller {
 
-    // عرض الصفحة الرئيسية التي تحتوي على الجدول والنافذة المنبثقة
     public function index() {
+        if (!auth()->user()->can('view marquee')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $items = MarqueeItem::orderBy('order')->get();
         return view('admin.marquee.index', compact('items'));
     }
 
-    // إضافة عنصر جديد
     public function store(Request $request) {
+        if (!auth()->user()->can('create marquee')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'text_ar' => 'required|string|max:255',
             'text_en' => 'required|string|max:255',
@@ -30,8 +34,10 @@ class MarqueeController extends Controller {
         return redirect()->route('admin.marquee.index')->with('success', __('messages.marquee_created'));
     }
 
-    // تحديث عنصر موجود
     public function update(Request $request, MarqueeItem $marquee) {
+        if (!auth()->user()->can('edit marquee')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'text_ar' => 'required|string|max:255',
             'text_en' => 'required|string|max:255',
@@ -47,8 +53,10 @@ class MarqueeController extends Controller {
         return redirect()->route('admin.marquee.index')->with('success', __('messages.marquee_updated'));
     }
 
-    // حذف عنصر
     public function destroy(MarqueeItem $marquee) {
+        if (!auth()->user()->can('delete marquee')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $marquee->delete();
         return redirect()->route('admin.marquee.index')->with('success', __('messages.marquee_deleted'));
     }

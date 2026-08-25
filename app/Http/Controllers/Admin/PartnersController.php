@@ -8,12 +8,18 @@ use Illuminate\Support\Facades\Storage;
 
 class PartnersController extends Controller {
     public function index() {
+        if (!auth()->user()->can('view partners')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $section = PartnersSection::first();
         $partners = Partner::orderBy('order')->get();
         return view('admin.partners.index', compact('section', 'partners'));
     }
 
     public function updateSection(Request $request) {
+        if (!auth()->user()->can('edit partners')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'label_ar' => 'required|string|max:100', 'label_en' => 'required|string|max:100',
             'heading_ar' => 'required|string|max:255', 'heading_en' => 'required|string|max:255',
@@ -30,6 +36,9 @@ class PartnersController extends Controller {
     }
 
     public function storePartner(Request $request) {
+        if (!auth()->user()->can('create partners')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255', 'name_en' => 'required|string|max:255',
             'logo' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
@@ -46,6 +55,9 @@ class PartnersController extends Controller {
     }
 
     public function updatePartner(Request $request, Partner $partner) {
+        if (!auth()->user()->can('edit partners')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255', 'name_en' => 'required|string|max:255',
             'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
@@ -65,6 +77,9 @@ class PartnersController extends Controller {
     }
 
     public function destroyPartner(Partner $partner) {
+        if (!auth()->user()->can('delete partners')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         if ($partner->logo) Storage::disk('public')->delete($partner->logo);
         $partner->delete();
         return redirect()->route('admin.partners.index')->with('success', __('messages.partner_deleted'));

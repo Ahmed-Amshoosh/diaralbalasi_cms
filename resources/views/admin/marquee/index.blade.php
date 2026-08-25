@@ -6,10 +6,13 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
             <h2 class="text-xl font-bold text-gray-800">{{ __('messages.marquee_management') }}</h2>
-            <button onclick="openAddModal()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
-                <i class="fas fa-plus"></i> {{ __('messages.add_marquee_item') }}
-            </button>
+            @can('create marquee')
+                <button onclick="openAddModal()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm hover:shadow-md">
+                    <i class="fas fa-plus"></i> {{ __('messages.add_marquee_item') }}
+                </button>
+            @endcan
+
         </div>
 
         <div class="overflow-x-auto">
@@ -42,18 +45,23 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <button
-                                    onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->getTranslation('text', 'ar')) }}', '{{ addslashes($item->getTranslation('text', 'en')) }}', {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})"
-                                    class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                                    title="{{ __('messages.edit') }}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button
-                                    onclick="confirmDelete('{{ route('admin.marquee.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('text', app()->getLocale())) }}')"
-                                    class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                                    title="{{ __('messages.delete') }}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                @can('edit marquee')
+                                    <button
+                                        onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->getTranslation('text', 'ar')) }}', '{{ addslashes($item->getTranslation('text', 'en')) }}', {{ $item->order }}, {{ $item->is_active ? 1 : 0 }})"
+                                        class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                                        title="{{ __('messages.edit') }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                @endcan
+
+                                @can('delete marquee')
+                                    <button
+                                        onclick="confirmDelete('{{ route('admin.marquee.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('text', app()->getLocale())) }}')"
+                                        class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                                        title="{{ __('messages.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                @endcan
                             </div>
                         </td>
                     </tr>

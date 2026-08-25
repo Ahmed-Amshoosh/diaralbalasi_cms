@@ -50,7 +50,6 @@ class DatabaseSeeder extends Seeder
             'delete partners',
 
             'view messages',
-            'reply messages',
             'delete messages',
 
             'view content',
@@ -102,6 +101,36 @@ class DatabaseSeeder extends Seeder
             'create products',
             'edit products',
             'delete products',
+
+            'view testimonials',
+            'create testimonials',
+            'edit testimonials',
+            'delete testimonials',
+
+            'view hero',
+            'edit hero',
+
+            'view cta-section',
+            'edit cta-section',
+
+            'view about',
+            'edit about',
+
+            'view marquee',
+            'create marquee',
+            'edit marquee',
+            'delete marquee',
+
+            'view hero-stats',
+            'create hero-stats',
+            'edit hero-stats',
+            'delete hero-stats',
+
+            'view why-us',
+            'create why-us',
+            'edit why-us',
+            'delete why-us',
+
 
             'view categories',
             'create categories',

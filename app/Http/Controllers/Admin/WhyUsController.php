@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 
 class WhyUsController extends Controller
 {
-    /**
-     * عرض إعدادات Why Us والعناصر
-     */
+
     public function index()
     {
+        if (!auth()->user()->can('view why-us')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $section = WhyUsSection::first();
 
         $items = WhyUsItem::orderBy('order')->get();
@@ -26,6 +27,9 @@ class WhyUsController extends Controller
      */
     public function updateSection(Request $request)
     {
+        if (!auth()->user()->can('edit why-us')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'label_ar' => 'required|string|max:100',
             'label_en' => 'required|string|max:100',
@@ -72,6 +76,9 @@ class WhyUsController extends Controller
      */
     public function storeItem(Request $request)
     {
+        if (!auth()->user()->can('create why-us')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'icon' => 'nullable|string|max:100',
 
@@ -112,6 +119,9 @@ class WhyUsController extends Controller
      */
     public function updateItem(Request $request, WhyUsItem $whyUsItem)
     {
+        if (!auth()->user()->can('edit why-us')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'icon' => 'nullable|string|max:100',
 
@@ -152,6 +162,9 @@ class WhyUsController extends Controller
      */
     public function destroyItem(WhyUsItem $whyUsItem)
     {
+        if (!auth()->user()->can('delete why-us')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $whyUsItem->delete();
 
         return redirect()

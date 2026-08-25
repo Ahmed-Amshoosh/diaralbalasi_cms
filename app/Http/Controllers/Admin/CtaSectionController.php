@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\Storage;
 class CtaSectionController extends Controller {
 
     public function index() {
+        if (!auth()->user()->can('view cta-section')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $cta = CtaSection::first();
         return view('admin.cta.index', compact('cta'));
     }
 
     public function update(Request $request)
     {
+        if (!auth()->user()->can('edit cta-section')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'heading_ar' => 'required|string',
             'heading_en' => 'required|string',

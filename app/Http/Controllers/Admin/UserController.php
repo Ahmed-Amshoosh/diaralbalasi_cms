@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -7,8 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller {
-    public function index() {
+class UserController extends Controller
+{
+    public function index()
+    {
         if (!auth()->user()->can('view users')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -19,6 +22,9 @@ class UserController extends Controller {
 
     public function store(Request $request)
     {
+        if (!auth()->user()->can('create users')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -57,6 +63,7 @@ class UserController extends Controller {
 
         return back()->with('success', __('messages.user_updated_successfully'));
     }
+
     public function update(Request $request, User $user)
     {
 
@@ -84,7 +91,6 @@ class UserController extends Controller {
             'roles.array' => __('messages.roles_array'),
             'roles.*.exists' => __('messages.role_invalid'),
         ]);
-dd($request);
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -110,6 +116,7 @@ dd($request);
             __('messages.user_updated_successfully')
         );
     }
+
     public function destroy(User $user)
     {
         if (!auth()->user()->can('delete users')) {

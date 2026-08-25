@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -6,9 +7,11 @@ use App\Models\Hero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class HeroController extends Controller {
+class HeroController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         if (!auth()->user()->can('view hero')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -16,7 +19,8 @@ class HeroController extends Controller {
         return view('admin.hero.index', compact('hero'));
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         if (!auth()->user()->can('edit hero')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

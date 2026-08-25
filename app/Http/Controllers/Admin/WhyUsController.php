@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class WhyUsController extends Controller
 {
-
     public function index()
     {
         if (!auth()->user()->can('view why-us')) {
@@ -22,9 +21,6 @@ class WhyUsController extends Controller
         return view('admin.why-us.index', compact('section', 'items'));
     }
 
-    /**
-     * تحديث قسم Why Us
-     */
     public function updateSection(Request $request)
     {
         if (!auth()->user()->can('edit why-us')) {
@@ -71,9 +67,6 @@ class WhyUsController extends Controller
             ->with('success', __('messages.why_us_section_updated'));
     }
 
-    /**
-     * إضافة عنصر جديد
-     */
     public function storeItem(Request $request)
     {
         if (!auth()->user()->can('create why-us')) {
@@ -114,9 +107,6 @@ class WhyUsController extends Controller
             ->with('success', __('messages.why_us_item_created'));
     }
 
-    /**
-     * تحديث عنصر
-     */
     public function updateItem(Request $request, WhyUsItem $whyUsItem)
     {
         if (!auth()->user()->can('edit why-us')) {
@@ -157,9 +147,6 @@ class WhyUsController extends Controller
             ->with('success', __('messages.why_us_item_updated'));
     }
 
-    /**
-     * حذف عنصر
-     */
     public function destroyItem(WhyUsItem $whyUsItem)
     {
         if (!auth()->user()->can('delete why-us')) {

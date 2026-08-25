@@ -29,8 +29,7 @@ class SettingController extends Controller
                 } else {
                     $settings[$record->key] = $record->value;
                 }
-            }
-            else {
+            } else {
                 $settings[$record->key] = is_array($translations) ? $translations : [];
             }
         }

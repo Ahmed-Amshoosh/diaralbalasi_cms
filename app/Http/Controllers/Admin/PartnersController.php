@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\PartnersSection;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class PartnersController extends Controller {
-    public function index() {
+class PartnersController extends Controller
+{
+    public function index()
+    {
         if (!auth()->user()->can('view partners')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -16,7 +20,8 @@ class PartnersController extends Controller {
         return view('admin.partners.index', compact('section', 'partners'));
     }
 
-    public function updateSection(Request $request) {
+    public function updateSection(Request $request)
+    {
         if (!auth()->user()->can('edit partners')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -35,7 +40,8 @@ class PartnersController extends Controller {
         return redirect()->route('admin.partners.index')->with('success', __('messages.partners_section_updated'));
     }
 
-    public function storePartner(Request $request) {
+    public function storePartner(Request $request)
+    {
         if (!auth()->user()->can('create partners')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -54,7 +60,8 @@ class PartnersController extends Controller {
         return redirect()->route('admin.partners.index')->with('success', __('messages.partner_created'));
     }
 
-    public function updatePartner(Request $request, Partner $partner) {
+    public function updatePartner(Request $request, Partner $partner)
+    {
         if (!auth()->user()->can('edit partners')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -76,7 +83,8 @@ class PartnersController extends Controller {
         return redirect()->route('admin.partners.index')->with('success', __('messages.partner_updated'));
     }
 
-    public function destroyPartner(Partner $partner) {
+    public function destroyPartner(Partner $partner)
+    {
         if (!auth()->user()->can('delete partners')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MarqueeItem;
 use Illuminate\Http\Request;
 
-class MarqueeController extends Controller {
+class MarqueeController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         if (!auth()->user()->can('view marquee')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -15,7 +18,8 @@ class MarqueeController extends Controller {
         return view('admin.marquee.index', compact('items'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         if (!auth()->user()->can('create marquee')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -34,7 +38,8 @@ class MarqueeController extends Controller {
         return redirect()->route('admin.marquee.index')->with('success', __('messages.marquee_created'));
     }
 
-    public function update(Request $request, MarqueeItem $marquee) {
+    public function update(Request $request, MarqueeItem $marquee)
+    {
         if (!auth()->user()->can('edit marquee')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -53,7 +58,8 @@ class MarqueeController extends Controller {
         return redirect()->route('admin.marquee.index')->with('success', __('messages.marquee_updated'));
     }
 
-    public function destroy(MarqueeItem $marquee) {
+    public function destroy(MarqueeItem $marquee)
+    {
         if (!auth()->user()->can('delete marquee')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

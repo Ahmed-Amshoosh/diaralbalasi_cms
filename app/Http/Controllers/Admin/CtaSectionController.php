@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -6,9 +7,11 @@ use App\Models\CtaSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CtaSectionController extends Controller {
+class CtaSectionController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         if (!auth()->user()->can('view cta-section')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

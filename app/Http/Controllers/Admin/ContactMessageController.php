@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\ContactSection;
 use Illuminate\Http\Request;
 
-class ContactMessageController extends Controller {
-    public function index(Request $request) {
+class ContactMessageController extends Controller
+{
+    public function index(Request $request)
+    {
         if (!auth()->user()->can('view content')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -20,10 +24,11 @@ class ContactMessageController extends Controller {
         $messages = $query->paginate(15);
         $unreadCount = ContactMessage::unreadCount();
 
-        return view('admin.contact-messages.index', compact('messages','section', 'filter', 'unreadCount'));
+        return view('admin.contact-messages.index', compact('messages', 'section', 'filter', 'unreadCount'));
     }
 
-    public function show(ContactMessage $message) {
+    public function show(ContactMessage $message)
+    {
         if (!auth()->user()->can('view messages')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -34,7 +39,8 @@ class ContactMessageController extends Controller {
     }
 
 
-    public function destroy(ContactMessage $message) {
+    public function destroy(ContactMessage $message)
+    {
         if (!auth()->user()->can('delete messages')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -42,7 +48,8 @@ class ContactMessageController extends Controller {
         return back()->with('success', __('messages.message_deleted'));
     }
 
-    public function markAsRead(ContactMessage $message) {
+    public function markAsRead(ContactMessage $message)
+    {
         $message->update(['is_read' => true]);
         return back()->with('success', __('messages.message_marked_as_read'));
     }

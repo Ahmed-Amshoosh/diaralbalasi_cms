@@ -52,7 +52,7 @@ class SeoController extends Controller
             'canonical_url' => 'nullable|url|max:255',
             'google_analytics' => 'nullable|string|max:50|regex:/^G-[A-Z0-9]+$/',
             'google_tag_manager' => 'nullable|string|max:50|regex:/^GTM-[A-Z0-9]+$/',
-            ], [
+        ], [
             'title_ar.required' => 'عنوان SEO بالعربية مطلوب.',
             'title_en.required' => 'عنوان SEO بالإنجليزية مطلوب.',
             'title_ar.max' => 'عنوان SEO بالعربية يجب ألا يتجاوز 70 حرف.',

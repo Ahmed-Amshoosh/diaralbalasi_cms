@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeroStat;
 use Illuminate\Http\Request;
 
-class HeroStatController extends Controller {
-    public function index() {
+class HeroStatController extends Controller
+{
+    public function index()
+    {
         if (!auth()->user()->can('view hero-stats')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -14,7 +17,8 @@ class HeroStatController extends Controller {
         return view('admin.hero-stats.index', compact('stats'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         if (!auth()->user()->can('create hero-stats')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -35,7 +39,8 @@ class HeroStatController extends Controller {
         return redirect()->route('admin.hero-stats.index')->with('success', __('messages.stat_created'));
     }
 
-    public function update(Request $request, HeroStat $heroStat) {
+    public function update(Request $request, HeroStat $heroStat)
+    {
         if (!auth()->user()->can('edit hero-stats')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -56,7 +61,8 @@ class HeroStatController extends Controller {
         return redirect()->route('admin.hero-stats.index')->with('success', __('messages.stat_updated'));
     }
 
-    public function destroy(HeroStat $heroStat) {
+    public function destroy(HeroStat $heroStat)
+    {
         if (!auth()->user()->can('delete hero-stats')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

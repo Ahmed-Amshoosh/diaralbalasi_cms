@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -9,21 +10,22 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ProductController extends Controller {
-    public function index() {
+class ProductController extends Controller
+{
+    public function index()
+    {
         if (!auth()->user()->can('view products')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
-        // جلب المنتجات مع علاقة partner بدلاً من brand
         $products = Product::with(['category', 'partner', 'images'])->orderBy('order')->get();
         $categories = Category::all();
-        // جلب الشركاء النشطين
         $partners = Partner::where('is_active', true)->orderBy('order')->get();
 
         return view('admin.products.index', compact('products', 'categories', 'partners'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         if (!auth()->user()->can('create products')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -43,7 +45,6 @@ class ProductController extends Controller {
             'images.*.image' => 'الملف يجب أن يكون صورة.',
             'images.*.max' => 'حجم الصورة يجب ألا يتجاوز 2MB.',
         ]);
-
 
         $product = Product::create([
             'name' => ['ar' => $validated['name_ar'], 'en' => $validated['name_en']],
@@ -67,7 +68,8 @@ class ProductController extends Controller {
         return back()->with('success', __('messages.product_created_successfully'));
     }
 
-    public function update(Request $request, Product $product) {
+    public function update(Request $request, Product $product)
+    {
         if (!auth()->user()->can('edit products')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -91,12 +93,11 @@ class ProductController extends Controller {
             'description' => ['ar' => $validated['description_ar'] ?? '', 'en' => $validated['description_en'] ?? ''],
             'price' => $validated['price'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
-            'partner_id' => $validated['partner_id'] ?? null, // ✅ تصحيح
+            'partner_id' => $validated['partner_id'] ?? null,
             'order' => $validated['order'] ?? 0,
             'is_active' => $request->has('is_active'),
         ]);
 
-        // إضافة صور جديدة
         if ($request->hasFile('images')) {
             $lastOrder = $product->images()->max('order') ?? -1;
             foreach ($request->file('images') as $index => $image) {
@@ -111,7 +112,8 @@ class ProductController extends Controller {
         return back()->with('success', __('messages.product_updated_successfully'));
     }
 
-    public function destroy(Product $product) {
+    public function destroy(Product $product)
+    {
         if (!auth()->user()->can('delete products')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
@@ -125,7 +127,8 @@ class ProductController extends Controller {
         return back()->with('success', __('messages.product_deleted_successfully'));
     }
 
-    public function deleteImage(ProductImage $image) {
+    public function deleteImage(ProductImage $image)
+    {
         if (!auth()->user()->can('delete products')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }

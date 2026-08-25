@@ -11,13 +11,18 @@ class CategoryController extends Controller
 {
     public function index()
     {
+        if (!auth()->user()->can('view categories')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $categories = Category::orderBy('order')->get();
-
         return view('admin.categories.index', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        if (!auth()->user()->can('create categories')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
@@ -58,6 +63,9 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        if (!auth()->user()->can('edit categories')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $validated = $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
@@ -102,6 +110,9 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if (!auth()->user()->can('delete categories')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         if ($category->image && Storage::disk('public')->exists($category->image)) {
             Storage::disk('public')->delete($category->image);
         }

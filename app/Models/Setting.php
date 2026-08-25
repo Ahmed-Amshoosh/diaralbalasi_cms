@@ -11,10 +11,7 @@ class Setting extends Model
 
     protected $fillable = ['key', 'value', 'type', 'group'];
 
-    // هذا السطر هو المحرك الرئيسي: يخبر Laravel بحفظ واسترجاع هذا الحقل كـ JSON متعدد اللغات
     protected $translatable = ['value'];
-
-    // ⚠️ مهم جداً: لا تضع 'value' => 'array' هنا أبداً لتجنب التعارض مع Spatie
 
     public static function get(string $key, $default = null)
     {
@@ -24,13 +21,17 @@ class Setting extends Model
 
     public static function set(string $key, $value, string $group = 'general'): void
     {
-        self::updateOrCreate(
-            ['key' => $key],
-            [
-                'value' => $value, // Spatie ستقوم بتشفير المصفوفة كـ JSON تلقائياً
-                'group' => $group
-            ]
-        );
+        $setting = self::firstOrNew(['key' => $key, 'group' => $group]);
+
+        if (is_array($value)) {
+            foreach ($value as $locale => $translation) {
+                $setting->setTranslation('value', $locale, $translation);
+            }
+        } else {
+            $setting->value = $value;
+        }
+
+        $setting->save();
     }
 
     public static function getGroup(string $group): array

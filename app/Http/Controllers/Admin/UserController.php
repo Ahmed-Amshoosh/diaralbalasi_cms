@@ -9,18 +9,35 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller {
     public function index() {
+        if (!auth()->user()->can('view users')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $users = User::with('roles')->latest()->get();
         $roles = Role::all();
         return view('admin.users.index', compact('users', 'roles'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'roles' => 'required|array',
             'roles.*' => 'exists:roles,name',
+        ], [
+            'name.required' => __('messages.name_required'),
+
+            'email.required' => __('messages.email_required'),
+            'email.email' => __('messages.email_invalid'),
+            'email.unique' => __('messages.email_unique'),
+
+            'password.required' => __('messages.password_required'),
+            'password.min' => __('messages.password_min'),
+            'password.confirmed' => __('messages.password_confirmed'),
+
+            'roles.required' => __('messages.roles_required'),
+            'roles.*.exists' => __('messages.role_invalid'),
         ]);
 
         $user = User::create([
@@ -31,39 +48,85 @@ class UserController extends Controller {
 
         $user->syncRoles($validated['roles']);
 
-        return back()->with('success', 'تم إضافة المستخدم بنجاح');
-    }
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.user_updated_successfully'),
+            ]);
+        }
 
-    public function update(Request $request, User $user) {
+        return back()->with('success', __('messages.user_updated_successfully'));
+    }
+    public function update(Request $request, User $user)
+    {
+
+        if (!auth()->user()->can('edit users')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'roles' => 'required|array',
             'roles.*' => 'exists:roles,name',
-        ]);
+        ], [
+            'name.required' => __('messages.name_required'),
 
+            'email.required' => __('messages.email_required'),
+            'email.email' => __('messages.email_invalid'),
+            'email.unique' => __('messages.email_unique'),
+
+            'password.min' => __('messages.password_min'),
+            'password.confirmed' => __('messages.password_confirmed'),
+
+            'roles.required' => __('messages.roles_required'),
+            'roles.array' => __('messages.roles_array'),
+            'roles.*.exists' => __('messages.role_invalid'),
+        ]);
+dd($request);
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
         ]);
 
         if (!empty($validated['password'])) {
-            $user->update(['password' => Hash::make($validated['password'])]);
+            $user->update([
+                'password' => Hash::make($validated['password'])
+            ]);
         }
 
         $user->syncRoles($validated['roles']);
 
-        return back()->with('success', 'تم تحديث بيانات المستخدم بنجاح');
-    }
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.user_updated_successfully'),
+            ]);
+        }
 
-    public function destroy(User $user) {
-        // منع حذف المدير العام لنفسه أو للمستخدم الرئيسي
+        return back()->with(
+            'success',
+            __('messages.user_updated_successfully')
+        );
+    }
+    public function destroy(User $user)
+    {
+        if (!auth()->user()->can('delete users')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         if ($user->hasRole('Super Admin') && $user->id === auth()->id()) {
-            return back()->with('error', 'لا يمكنك حذف حسابك الحالي');
+            return back()->with(
+                'error',
+                __('messages.cannot_delete_current_account')
+            );
         }
 
         $user->delete();
-        return back()->with('success', 'تم حذف المستخدم بنجاح');
+
+        return back()->with(
+            'success',
+            __('messages.user_deleted_successfully')
+        );
     }
 }

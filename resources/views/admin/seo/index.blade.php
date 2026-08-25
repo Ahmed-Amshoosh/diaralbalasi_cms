@@ -26,14 +26,18 @@
                 </div>
 
                 <div class="p-6">
-                    {{-- تبويب العربية --}}
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                {{ __('messages.seo_title') }} <span class="text-red-500">*</span>
-                                <span class="float-left text-xs text-gray-500">
-                                <span id="title_ar_count">0</span>/70 {{ __('messages.seo_chars_count') }}
-                            </span>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1.5">
+            <span>
+                {{ __('messages.seo_title') }}
+                <span class="text-red-500">*</span>
+            </span>
+
+                                <span class="ms-auto text-xs text-gray-500 whitespace-nowrap">
+                <span id="title_en_count">0</span>/70
+                {{ __('messages.seo_chars_count') }}
+            </span>
                             </label>
                             <input type="text" name="title_ar" id="title_ar" maxlength="70"
                                    value="{{ old('title_ar', $seo['title'] ?? '') }}"
@@ -47,7 +51,6 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.seo_description') }} <span class="text-red-500">*</span>
                                 <span class="float-left text-xs text-gray-500">
-                                <span id="desc_ar_count">0</span>/160 {{ __('messages.seo_chars_count') }}
                             </span>
                             </label>
                             <textarea name="description_ar" id="description_ar" maxlength="160" rows="3"
@@ -66,15 +69,18 @@
                             <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_keywords_hint') }}</p>
                         </div>
                     </div>
-
-                    {{-- تبويب الإنجليزية --}}
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                {{ __('messages.seo_title') }} <span class="text-red-500">*</span>
-                                <span class="float-right text-xs text-gray-500">
-                                <span id="title_en_count">0</span>/70 {{ __('messages.seo_chars_count') }}
-                            </span>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1.5">
+            <span>
+                {{ __('messages.seo_title') }}
+                <span class="text-red-500">*</span>
+            </span>
+
+                                <span class="ms-auto text-xs text-gray-500 whitespace-nowrap">
+                <span id="title_en_count">0</span>/70
+                {{ __('messages.seo_chars_count') }}
+            </span>
                             </label>
                             <input type="text" name="title_en" id="title_en" maxlength="70"
                                    value="{{ old('title_en', $seo['title'] ?? '') }}"
@@ -88,7 +94,6 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.seo_description') }} <span class="text-red-500">*</span>
                                 <span class="float-right text-xs text-gray-500">
-                                <span id="desc_en_count">0</span>/160 {{ __('messages.seo_chars_count') }}
                             </span>
                             </label>
                             <textarea name="description_en" id="description_en" maxlength="160" rows="3"

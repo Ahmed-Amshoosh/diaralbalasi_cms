@@ -38,10 +38,10 @@
 
             <div class="relative" x-data="{ open: false }">
                 @php
-                    $userName = auth()->user()->getTranslation('name', app()->getLocale());
+                    $userName = auth()->user()->name;
 
                     if (empty($userName)) {
-                        $userName = auth()->user()->getTranslation('name', 'ar');
+                        $userName = auth()->user()->name;
                     }
                 @endphp
 

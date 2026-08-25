@@ -10,7 +10,9 @@ class SeoController extends Controller
 {
     public function index()
     {
-        // جلب جميع إعدادات SEO
+        if (!auth()->user()->can('view seo')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $seo = [
             'title' => Setting::get('seo_title'),
             'description' => Setting::get('seo_description'),
@@ -31,6 +33,10 @@ class SeoController extends Controller
 
     public function update(Request $request)
     {
+        if (!auth()->user()->can('edit seo')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
+
         $validated = $request->validate([
             'title_ar' => 'required|string|max:70',
             'title_en' => 'required|string|max:70',
@@ -57,7 +63,6 @@ class SeoController extends Controller
             'description_en.max' => 'وصف SEO بالإنجليزية يجب ألا يتجاوز 160 حرف.',
         ]);
 
-        // حفظ الحقول المترجمة
         Setting::set('seo_title', [
             'ar' => $validated['title_ar'],
             'en' => $validated['title_en'],
@@ -73,7 +78,6 @@ class SeoController extends Controller
             'en' => $validated['keywords_en'] ?? '',
         ], 'seo');
 
-        // حفظ الحقول العادية
         Setting::set('seo_author', $validated['author'] ?? '', 'seo');
         Setting::set('seo_robots', $validated['robots'] ?? 'index, follow', 'seo');
         Setting::set('seo_twitter_card', $validated['twitter_card'] ?? 'summary_large_image', 'seo');
@@ -82,7 +86,6 @@ class SeoController extends Controller
         Setting::set('seo_google_analytics', $validated['google_analytics'] ?? '', 'seo');
         Setting::set('seo_google_tag_manager', $validated['google_tag_manager'] ?? '', 'seo');
 
-        // رفع صورة OG
         if ($request->hasFile('og_image')) {
             $oldImage = Setting::get('seo_og_image');
             if ($oldImage && \Illuminate\Support\Facades\Storage::disk('public')->exists($oldImage)) {
@@ -91,6 +94,6 @@ class SeoController extends Controller
             Setting::set('seo_og_image', $request->file('og_image')->store('seo', 'public'), 'seo');
         }
 
-        return back()->with('success', 'تم حفظ إعدادات SEO بنجاح');
+        return back()->with('success', __('messages.seo_saved_successfully'));
     }
 }

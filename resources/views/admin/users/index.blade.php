@@ -3,6 +3,7 @@
 @section('page_title', __('messages.users_management'))
 
 @section('content')
+
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
             <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -54,16 +55,10 @@
                                 >
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                      class="inline"
-                                      onsubmit="return confirm('{{ __('messages.confirm_delete_user') }}')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit"
-                                            class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                                            title="{{ __('messages.delete') }}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button onclick="confirmDelete('{{ route('admin.users.destroy', $user->id) }}', '{{ $user->gname }}')"
+                                        class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" title="{{ __('messages.delete') }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -247,45 +242,223 @@
                     });
                 };
 
-                form.addEventListener('submit', (e) => {
-                    let hasError = false, firstErrorField = null;
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    let hasError = false;
+                    let firstErrorField = null;
+
                     window.clearErrors();
 
+                    // الحقول المطلوبة
                     const requiredFields = ['item_name', 'item_email'];
-                    const isAdding = document.getElementById('formMethod').value === 'POST';
-                    if (isAdding) requiredFields.push('item_password');
+
+                    const isAdding =
+                        document.getElementById('formMethod').value === 'POST';
+
+                    if (isAdding) {
+                        requiredFields.push('item_password');
+                    }
 
                     requiredFields.forEach(id => {
                         const input = document.getElementById(id);
+
                         if (input && !input.value.trim()) {
                             hasError = true;
-                            if (!firstErrorField) firstErrorField = input;
-                            document.getElementById(`error-${id}`).classList.remove('hidden');
+
+                            if (!firstErrorField) {
+                                firstErrorField = input;
+                            }
+
+                            document.getElementById(`error-${id}`)
+                                ?.classList.remove('hidden');
+
                             input.classList.remove('border-gray-300');
-                            input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+
+                            input.classList.add(
+                                'border-red-500',
+                                'ring-2',
+                                'ring-red-200'
+                            );
                         }
                     });
 
-                    // التحقق من اختيار الأدوار
-                    const checkedRoles = document.querySelectorAll('.role-checkbox:checked');
+                    // التحقق من الأدوار
+                    const checkedRoles =
+                        document.querySelectorAll('.role-checkbox:checked');
+
                     if (checkedRoles.length === 0) {
                         hasError = true;
-                        document.getElementById('error-item_roles').classList.remove('hidden');
+
+                        document.getElementById('error-item_roles')
+                            ?.classList.remove('hidden');
                     }
 
+                    // أخطاء JavaScript المحلية
                     if (hasError) {
-                        e.preventDefault();
-                        setTimeout(() => {
-                            firstErrorField.focus();
-                            firstErrorField.scrollIntoView({behavior: 'smooth', block: 'center'});
-                        }, 150);
-                        if (typeof toastr !== 'undefined') toastr.error("{{ __('messages.fill_required_fields') }}", "{{ __('messages.validation_error') }}", {
-                            positionClass: "toast-top-left",
-                            timeOut: 4000
+                        if (firstErrorField) {
+                            setTimeout(() => {
+                                firstErrorField.focus();
+                                firstErrorField.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                            }, 150);
+                        }
+
+                        toastr.error(
+                            "{{ __('messages.fill_required_fields') }}",
+                            "{{ __('messages.validation_error') }}",
+                            {
+                                positionClass: "{{ app()->getLocale() === 'ar' ? 'toast-top-left' : 'toast-top-right' }}",
+                                timeOut: 4000
+                            }
+                        );
+
+                        return;
+                    }
+
+                    // إظهار حالة التحميل
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    const originalButtonHtml = submitButton.innerHTML;
+
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = `
+        <i class="fas fa-spinner fa-spin"></i>
+        {{ __('messages.saving') }}
+                    `;
+
+                    try {
+                        const formData = new FormData(form);
+
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
                         });
+
+                        const data = await response.json();
+
+                        // أخطاء Laravel Validation
+                        if (response.status === 422) {
+
+                            const errors = data.errors || {};
+
+                            Object.keys(errors).forEach(field => {
+
+                                const messages = errors[field];
+
+                                // اسم الحقل في Laravel
+                                let inputId = '';
+
+                                if (field === 'name') {
+                                    inputId = 'item_name';
+                                }
+
+                                if (field === 'email') {
+                                    inputId = 'item_email';
+                                }
+
+                                if (field === 'password') {
+                                    inputId = 'item_password';
+                                }
+
+                                if (field === 'roles' || field.startsWith('roles.')) {
+                                    inputId = 'item_roles';
+                                }
+
+                                if (inputId) {
+                                    const input =
+                                        document.getElementById(inputId);
+
+                                    const errorElement =
+                                        document.getElementById(`error-${inputId}`);
+
+                                    if (input) {
+                                        input.classList.remove(
+                                            'border-gray-300'
+                                        );
+
+                                        input.classList.add(
+                                            'border-red-500',
+                                            'ring-2',
+                                            'ring-red-200'
+                                        );
+                                    }
+
+                                    if (errorElement) {
+                                        errorElement.innerHTML = `
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${messages[0]}
+                        `;
+
+                                        errorElement.classList.remove('hidden');
+                                    }
+                                }
+
+                                // Toastr
+                                messages.forEach(message => {
+                                    toastr.error(
+                                        message,
+                                        "{{ __('messages.validation_error') }}",
+                                        {
+                                            positionClass:
+                                                "{{ app()->getLocale() === 'ar' ? 'toast-top-left' : 'toast-top-right' }}",
+                                            timeOut: 5000
+                                        }
+                                    );
+                                });
+                            });
+
+                            return;
+                        }
+
+                        // نجاح
+                        if (response.ok && data.success) {
+
+                            toastr.success(
+                                data.message,
+                                "{{ __('messages.success') }}",
+                                {
+                                    positionClass:
+                                        "{{ app()->getLocale() === 'ar' ? 'toast-top-left' : 'toast-top-right' }}",
+                                    timeOut: 3000
+                                }
+                            );
+
+                            window.closeModal();
+
+                            // تحديث الجدول فقط
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+
+                            return;
+                        }
+
+                        toastr.error(
+                            "{{ __('messages.something_went_wrong') }}",
+                            "{{ __('messages.error') }}"
+                        );
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        toastr.error(
+                            "{{ __('messages.something_went_wrong') }}",
+                            "{{ __('messages.error') }}"
+                        );
+
+                    } finally {
+
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonHtml;
                     }
                 });
-
                 form.addEventListener('input', (e) => {
                     if (['item_name', 'item_email', 'item_password'].includes(e.target.id)) {
                         e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');

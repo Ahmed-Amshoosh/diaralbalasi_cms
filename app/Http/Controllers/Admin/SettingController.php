@@ -11,19 +11,38 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settingsCollection = Setting::all();
-
-        $settings = [];
-
-        foreach ($settingsCollection as $setting) {
-            $settings[$setting->key] = $setting->value;
+        if (!auth()->user()->can('view settings')) {
+            return back()->with('error', __('messages.unauthorized_action'));
         }
+        $settings = [];
+        $records = Setting::all();
+
+        $simpleFields = ['logo', 'favicon', 'phone', 'mobile', 'email', 'whatsapp', 'instagram', 'facebook', 'twitter', 'linkedin', 'youtube'];
+
+        foreach ($records as $record) {
+            $translations = $record->getTranslations('value');
+
+            if (in_array($record->key, $simpleFields)) {
+                if (is_array($translations) && !empty($translations)) {
+                    $values = array_values($translations);
+                    $settings[$record->key] = $values[0] ?? null;
+                } else {
+                    $settings[$record->key] = $record->value;
+                }
+            }
+            else {
+                $settings[$record->key] = is_array($translations) ? $translations : [];
+            }
+        }
+
         return view('admin.settings.index', compact('settings'));
     }
 
     public function updateGeneral(Request $request)
     {
-
+        if (!auth()->user()->can('edit settings')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $request->validate([
             'site_name_ar' => 'required|string|max:255',
             'site_name_en' => 'required|string|max:255',
@@ -32,11 +51,9 @@ class SettingController extends Controller
             'logo' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
             'favicon' => 'nullable|image|mimes:jpg,jpeg,png,ico|max:2048',
         ], [
-            'site_name_ar.required' => 'حقل اسم الموقع بالعربية مطلوب.',
-            'site_name_en.required' => 'حقل اسم الموقع بالإنجليزية مطلوب.',
+            'site_name_ar.required' => __('messages.site_name_ar_required'),
+            'site_name_en.required' => __('messages.site_name_en_required'),
         ]);
-
-        // الحفظ كمصفوفة (Spatie سيتعامل معها ويحولها لـ JSON في قاعدة البيانات)
         Setting::set('site_name', [
             'ar' => $request->site_name_ar,
             'en' => $request->site_name_en
@@ -62,11 +79,14 @@ class SettingController extends Controller
             }
             Setting::set('favicon', $request->file('favicon')->store('settings', 'public'), 'general');
         }
-        return back()->with('success', 'تم حفظ معلومات الموقع بنجاح');
+        return back()->with('success', __('messages.site_info_saved_successfully'));
     }
-    // 2. تحديث بيانات الشركة
+
     public function updateCompany(Request $request)
     {
+        if (!auth()->user()->can('edit settings')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $request->validate([
             'company_name_ar' => 'required|string|max:255',
             'company_name_en' => 'required|string|max:255',
@@ -76,8 +96,8 @@ class SettingController extends Controller
             'address_ar' => 'nullable|string',
             'address_en' => 'nullable|string',
         ], [
-            'company_name_ar.required' => 'حقل اسم الشركة بالعربية مطلوب.',
-            'company_name_en.required' => 'حقل اسم الشركة بالإنجليزية مطلوب.',
+            'company_name_ar.required' => __('messages.company_name_ar_required'),
+            'company_name_en.required' => __('messages.company_name_en_required'),
         ]);
 
         Setting::set('company_name', ['ar' => $request->company_name_ar, 'en' => $request->company_name_en], 'company');
@@ -86,12 +106,14 @@ class SettingController extends Controller
         Setting::set('mobile', $request->mobile, 'company');
         Setting::set('email', $request->email, 'company');
 
-        return back()->with('success', 'تم حفظ بيانات الشركة بنجاح');
+        return back()->with('success', __('messages.company_data_saved_successfully'));
     }
 
-    // 3. تحديث وسائل التواصل
     public function updateSocial(Request $request)
     {
+        if (!auth()->user()->can('edit settings')) {
+            return back()->with('error', __('messages.unauthorized_action'));
+        }
         $request->validate([
             'whatsapp' => 'nullable|string|max:20',
             'instagram' => 'nullable|string|max:255',
@@ -108,6 +130,6 @@ class SettingController extends Controller
         Setting::set('linkedin', $request->linkedin, 'social');
         Setting::set('youtube', $request->youtube, 'social');
 
-        return back()->with('success', 'تم حفظ روابط التواصل بنجاح');
+        return back()->with('success', __('messages.social_links_saved_successfully'));
     }
 }

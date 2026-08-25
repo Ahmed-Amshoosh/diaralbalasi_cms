@@ -4,8 +4,6 @@
 
 @section('content')
     <div class="mx-auto">
-
-        {{-- Tabs Navigation --}}
         <div class="bg-white rounded-lg shadow-sm mb-6">
             <div class="flex border-b overflow-x-auto">
                 <button onclick="showTab('general')" id="tab-general"
@@ -22,35 +20,44 @@
                 </button>
             </div>
         </div>
+
+        {{-- ═══════════════════════════════════════════ --}}
+        {{-- تبويب معلومات الموقع --}}
+        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-general" class="tab-content bg-white rounded-lg shadow-sm p-6">
             <form action="{{ route('admin.settings.updateGeneral') }}" method="POST" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 <h3 class="text-lg font-bold text-gray-800 mb-6 pb-3 border-b">
                     <i class="fas fa-info-circle text-blue-500 ml-2"></i> {{ __('messages.tab_general') }}
                 </h3>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_name_ar') }} <span class="text-red-500">*</span></label>
-                        <input type="text" name="site_name_ar" value="{{ old('site_name_ar', $settings['site_name'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" >
+                        <input type="text" name="site_name_ar"
+                               value="{{ old('site_name_ar', is_array($settings['site_name'] ?? null) ? ($settings['site_name']['ar'] ?? '') : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('site_name_ar') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_name_en') }} <span class="text-red-500">*</span></label>
-                        <input type="text" name="site_name_en" value="{{ old('site_name_en', $settings['site_name'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" >
+                        <input type="text" name="site_name_en"
+                               value="{{ old('site_name_en', is_array($settings['site_name'] ?? null) ? ($settings['site_name']['en'] ?? '') : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('site_name_en') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_desc_ar') }}</label>
-                        <textarea name="site_description_ar" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('site_description_ar', $settings['site_description'] ?? '') }}</textarea>
+                        <textarea name="site_description_ar" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('site_description_ar', is_array($settings['site_description'] ?? null) ? ($settings['site_description']['ar'] ?? '') : '') }}</textarea>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_desc_en') }}</label>
-                        <textarea name="site_description_en" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('site_description_en', $settings['site_description'] ?? '') }}</textarea>
+                        <textarea name="site_description_en" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('site_description_en', is_array($settings['site_description'] ?? null) ? ($settings['site_description']['en'] ?? '') : '') }}</textarea>
                     </div>
+
+                    {{-- الشعار --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_logo') }}</label>
-                        @if(isset($settings['logo']) && $settings['logo'])
+                        @if(!empty($settings['logo']) && is_string($settings['logo']))
                             <div class="mb-3"><img src="{{ asset('storage/' . $settings['logo']) }}" class="h-30 w-auto object-contain rounded-lg border border-gray-200 p-1"></div>
                         @endif
                         <label for="logo" class="flex items-center gap-3 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-blue-50 hover:border-blue-400 transition-all">
@@ -60,9 +67,11 @@
                         <input type="file" id="logo" name="logo" accept="image/*" class="hidden">
                         @error('logo') <p class="text-red-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                     </div>
+
+                    {{-- الأيقونة --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_favicon') }}</label>
-                        @if(isset($settings['favicon']) && $settings['favicon'])
+                        @if(!empty($settings['favicon']) && is_string($settings['favicon']))
                             <div class="mb-3"><img src="{{ asset('storage/' . $settings['favicon']) }}" class="h-32 w-25 object-contain rounded-lg border border-gray-200 p-1"></div>
                         @endif
                         <label for="favicon" class="flex items-center gap-3 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-purple-50 hover:border-purple-400 transition-all">
@@ -80,6 +89,10 @@
                 </div>
             </form>
         </div>
+
+        {{-- ═══════════════════════════════════════════ --}}
+        {{-- تبويب بيانات الشركة --}}
+        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-company" class="tab-content bg-white rounded-lg shadow-sm p-6 hidden">
             <form action="{{ route('admin.settings.updateCompany') }}" method="POST">
                 @csrf @method('PUT')
@@ -90,33 +103,43 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.company_name_ar') }} <span class="text-red-500">*</span></label>
-                        <input type="text" name="company_name_ar" value="{{ old('company_name_ar', $settings['company_name'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" >
+                        <input type="text" name="company_name_ar"
+                               value="{{ old('company_name_ar', is_array($settings['company_name'] ?? null) ? ($settings['company_name']['ar'] ?? '') : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('company_name_ar') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.company_name_en') }} <span class="text-red-500">*</span></label>
-                        <input type="text" name="company_name_en" value="{{ old('company_name_en', $settings['company_name'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" >
+                        <input type="text" name="company_name_en"
+                               value="{{ old('company_name_en', is_array($settings['company_name'] ?? null) ? ($settings['company_name']['en'] ?? '') : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('company_name_en') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.phone') }}</label>
-                        <input type="text" name="phone" value="{{ old('phone', $settings['phone'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <input type="text" name="phone"
+                               value="{{ old('phone', is_string($settings['phone'] ?? null) ? $settings['phone'] : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.mobile') }}</label>
-                        <input type="text" name="mobile" value="{{ old('mobile', $settings['mobile'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <input type="text" name="mobile"
+                               value="{{ old('mobile', is_string($settings['mobile'] ?? null) ? $settings['mobile'] : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.email') }}</label>
-                        <input type="email" name="email" value="{{ old('email', $settings['email'] ?? '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <input type="email" name="email"
+                               value="{{ old('email', is_string($settings['email'] ?? null) ? $settings['email'] : '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.address_ar') }}</label>
-                        <textarea name="address_ar" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_ar', $settings['address'] ?? '') }}</textarea>
+                        <textarea name="address_ar" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_ar', is_array($settings['address'] ?? null) ? ($settings['address']['ar'] ?? '') : '') }}</textarea>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.address_en') }}</label>
-                        <textarea name="address_en" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_en', $settings['address'] ?? '') }}</textarea>
+                        <textarea name="address_en" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_en', is_array($settings['address'] ?? null) ? ($settings['address']['en'] ?? '') : '') }}</textarea>
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end">
@@ -127,6 +150,9 @@
             </form>
         </div>
 
+        {{-- ═══════════════════════════════════════════ --}}
+        {{-- تبويب وسائل التواصل --}}
+        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-social" class="tab-content bg-white rounded-lg shadow-sm p-6 hidden">
             <form action="{{ route('admin.settings.updateSocial') }}" method="POST">
                 @csrf @method('PUT')
@@ -135,30 +161,30 @@
                 </h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-whatsapp text-green-500 ml-2"></i> WhatsApp</label>
-                        <input type="text" name="whatsapp" value="{{ old('whatsapp', $settings['whatsapp'] ?? '') }}" placeholder="966500000000+" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-instagram text-pink-500 ml-2"></i> Instagram</label>
-                        <input type="text" name="instagram" value="{{ old('instagram', $settings['instagram'] ?? '') }}" placeholder="https://instagram.com/username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-facebook text-blue-600 ml-2"></i> Facebook</label>
-                        <input type="text" name="facebook" value="{{ old('facebook', $settings['facebook'] ?? '') }}" placeholder="https://facebook.com/page" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-x-twitter text-gray-800 ml-2"></i> X (Twitter)</label>
-                        <input type="text" name="twitter" value="{{ old('twitter', $settings['twitter'] ?? '') }}" placeholder="https://twitter.com/username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-linkedin text-blue-700 ml-2"></i> LinkedIn</label>
-                        <input type="text" name="linkedin" value="{{ old('linkedin', $settings['linkedin'] ?? '') }}" placeholder="https://linkedin.com/company" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fab fa-youtube text-red-600 ml-2"></i> YouTube</label>
-                        <input type="text" name="youtube" value="{{ old('youtube', $settings['youtube'] ?? '') }}" placeholder="https://youtube.com/channel" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
+                    @php
+                        $socialFields = ['whatsapp', 'instagram', 'facebook', 'twitter', 'linkedin', 'youtube'];
+                        $placeholders = [
+                            'whatsapp' => '966500000000+',
+                            'instagram' => 'https://instagram.com/username',
+                            'facebook' => 'https://facebook.com/page',
+                            'twitter' => 'https://twitter.com/username',
+                            'linkedin' => 'https://linkedin.com/company',
+                            'youtube' => 'https://youtube.com/channel',
+                        ];
+                    @endphp
+
+                    @foreach($socialFields as $field)
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fab fa-{{ $field === 'twitter' ? 'x-twitter' : $field }} {{ $field === 'whatsapp' ? 'text-green-500' : ($field === 'instagram' ? 'text-pink-500' : ($field === 'facebook' ? 'text-blue-600' : ($field === 'twitter' ? 'text-gray-800' : ($field === 'linkedin' ? 'text-blue-700' : 'text-red-600')))) }} ml-2"></i>
+                                {{ ucfirst($field === 'twitter' ? 'X (Twitter)' : $field) }}
+                            </label>
+                            <input type="text" name="{{ $field }}"
+                                   value="{{ old($field, is_string($settings[$field] ?? null) ? $settings[$field] : '') }}"
+                                   placeholder="{{ $placeholders[$field] }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    @endforeach
                 </div>
                 <div class="mt-6 flex justify-end">
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-lg transition-colors flex items-center">
@@ -167,13 +193,11 @@
                 </div>
             </form>
         </div>
-
     </div>
 
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // 1. دالة التبويب
                 window.showTab = function(tabName) {
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
                     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -186,7 +210,6 @@
                     activeBtn.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
                 }
 
-                // 2. تحديث اسم ملف الشعار
                 const logoInput = document.getElementById('logo');
                 const logoFileName = document.getElementById('logoFileName');
                 if (logoInput) {
@@ -195,7 +218,6 @@
                     });
                 }
 
-                // 3. تحديث اسم ملف الأيقونة
                 const faviconInput = document.getElementById('favicon');
                 const faviconFileName = document.getElementById('faviconFileName');
                 if (faviconInput) {

@@ -246,70 +246,24 @@
         <div class="section-container">
             <div class="section-header-new" data-aos="fade-up">
                 <div>
-                    <div class="section-label" style="color: var(--gold);">لماذا نحن</div>
+                    <div class="section-label" style="color: var(--gold);">{{$whyUsSectionSection->label ?? ''}}</div>
                     <h2 class="section-heading">
-                        لماذا <span class="accent">يختارنا عملاؤنا؟</span>
+                        {!! sectionHeading($whyUsSectionSection->heading ) !!}
                     </h2>
                 </div>
-                <p class="section-desc">
-                    نلتزم بتقديم تجربة استثنائية لعملائنا في كل جوانب الخدمة
-                </p>
+                <p class="section-desc">{{$whyUsSectionSection->description ?? ''}}</p>
             </div>
-
             <div class="whyus-grid">
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="whyus-number">01</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-award"></i>
+                @foreach($whyUsItems as $whyUsItem)
+                    <div class="whyus-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="whyus-number">{{ $loop->iteration}}</div>
+                        <div class="whyus-icon">
+                            <i class="{{$whyUsItem->icon}}"></i>
+                        </div>
+                        <h3 class="whyus-title">{{$whyUsItem->title}}</h3>
+                        <p class="whyus-desc">{{$whyUsItem->description}}</p>
                     </div>
-                    <h3 class="whyus-title">أكثر من 20 عاماً من الخبرة</h3>
-                    <p class="whyus-desc">خبرة طويلة في قطاع مواد البناء والسباكة نضمن لك من خلالها الجودة والاحترافية</p>
-                </div>
-
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="whyus-number">02</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3 class="whyus-title">منتجات أصلية</h3>
-                    <p class="whyus-desc">نوفر منتجات من علامات تجارية موثوقة مع ضمان الجودة والشهادات المعتمدة</p>
-                </div>
-
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="whyus-number">03</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <h3 class="whyus-title">أسعار منافسة</h3>
-                    <p class="whyus-desc">أفضل الأسعار في السوق مع عروض وخصومات مستمرة للجملة والتجزئة</p>
-                </div>
-
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="whyus-number">04</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3 class="whyus-title">تشكيلة واسعة</h3>
-                    <p class="whyus-desc">آلاف المنتجات تحت سقف واحد من مواد البناء، السباكة، الأدوات الصحية، والكهرباء</p>
-                </div>
-
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="whyus-number">05</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3 class="whyus-title">توريد للمشاريع</h3>
-                    <p class="whyus-desc">حلول متكاملة للمقاولين والشركات مع خدمة التوصيل والتركيب عند الحاجة</p>
-                </div>
-
-                <div class="whyus-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="whyus-number">06</div>
-                    <div class="whyus-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3 class="whyus-title">خدمة عملاء احترافية</h3>
-                    <p class="whyus-desc">فريق متخصص لمساعدتك في اختيار المنتجات المناسبة ومتابعة ما بعد البيع</p>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -457,69 +411,24 @@
         <div class="section-container">
             <div class="section-header-new" data-aos="fade-up">
                 <div>
-                    <div class="section-label" style="color: var(--gold);">علاماتنا التجارية</div>
+                    <div class="section-label" style="color: var(--gold);">{{$partnersSection->label}}</div>
                     <h2 class="section-heading">
-                        علاماتنا <span class="accent">التجارية</span>
+                        {!! sectionHeading($partnersSection->heading) !!}
                     </h2>
                 </div>
-                <p class="section-desc">
-                    نتعامل مع أفضل العلامات التجارية العالمية في مجال مواد البناء والسباكة
-                </p>
+                <p class="section-desc">{{$partnersSection->description}}</p>
             </div>
 
             <!-- Swiper -->
             <div class="swiper brands-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/altaj.webp" alt="التاج">
+                    @foreach($partners as $partner)
+                        <div class="swiper-slide">
+                            <div class="brand-logo-box">
+                                <img src="{{$partner->logo}}" alt="{{$partner->name}}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/arkime.webp" alt="أركيم">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/bls.webp" alt="BLS">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/bt.webp" alt="BT">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/grmn.webp" alt="جرمان">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/sky.webp" alt="سكاي">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/pipe.webp" alt="بايب">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/dbt.webp" alt="DBT">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/rgm.webp" alt="RGM">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="brand-logo-box">
-                            <img src="./img/brands/jeddah-plast.webp" alt="جدة بلاست">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -528,25 +437,29 @@
     <!-- CTA Section -->
     <section class="cta-section" id="contact" data-aos="fade-up">
         <div class="cta-image">
-            <img src="./img/hero.webp"
-                 alt="تواصل معنا">
+            <img src="{{$cta->image}}"
+                 alt="{{$cta->heading}}">
         </div>
         <div class="cta-content">
+            @php
+                [$firstLine, $secondLine] = array_pad(
+                    explode('|', $cta->heading, 2),
+                    2,
+                    ''
+                );
+            @endphp
+
             <h2 class="cta-heading">
-                هل تحتاج إلى<br>
-                <span class="accent">استشارة أو عرض أسعار؟</span>
+                {{ $firstLine }}<br>
+                <span class="accent">{{ $secondLine }}</span>
             </h2>
 
-            <p class="cta-desc">
-                فريقنا جاهز للإجابة على استفساراتك ومساعدتك في اختيار المنتجات المناسبة لمشروعك.
-                نوفر مواد البناء، الأنابيب البلاستيكية PVC و UPVC و CPVC و PPR، الأدوات الصحية،
-                المحابس، مضخات المياه، وإكسسوارات المطابخ والحمامات بجودة عالية وأسعار تنافسية.
-            </p>
+            <p class="cta-desc">{{$cta->description}}</p>
 
             <div class="cta-buttons">
-                <a href="https://wa.me/967777181353" class="btn-hero-outline" target="_blank">
+                <a href="https://wa.me/{{$cta->mobile}}" class="btn-hero-outline" target="_blank">
                     <i class="fab fa-whatsapp"></i>
-                    احصل على أفضل الأسعار
+                    {{$cta->button_text}}
                 </a>
             </div>
         </div>

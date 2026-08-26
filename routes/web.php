@@ -7,9 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\WhyUsController;
 
 // الصفحة الرئيسية للزوار (لاحقاً)
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home');
+Route::get('/',[\App\Http\Controllers\Frontend\FrontendController::class,'index'])->name('home');
 
 // تبديل اللغة
 Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.switch');

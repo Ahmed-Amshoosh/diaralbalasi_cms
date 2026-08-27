@@ -1,37 +1,3 @@
-const swiper = new Swiper('.brands-swiper', {
-    slidesPerView: 'auto',
-    spaceBetween: 50,
-    loop: true,
-    speed: 4000,
-    autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-        reverseDirection: false,
-    },
-    breakpoints: {
-        320: {
-            slidesPerView: 2,
-            spaceBetween: 20
-        },
-        480: {
-            slidesPerView: 3,
-            spaceBetween: 30
-        },
-        768: {
-            slidesPerView: 4,
-            spaceBetween: 40
-        },
-        992: {
-            slidesPerView: 5,
-            spaceBetween: 50
-        },
-        1200: {
-            slidesPerView: 6,
-            spaceBetween: 50
-        }
-    }
-});
 
 AOS.init({
     duration: 1000,

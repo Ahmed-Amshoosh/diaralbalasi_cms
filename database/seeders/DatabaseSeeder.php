@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
             WhyUsItemSeeder::class,
             WhyUsSectionSeeder::class,
             PartnersSectionSeeder::class,
+            TestimonialsSectionSeeder::class,
+            TestimonialSeeder::class,
+            MarqueeSeeder::class,
+            HeroStatSeeder::class,
+            CategorySectionSeeder::class,
         ]);
     }
 }

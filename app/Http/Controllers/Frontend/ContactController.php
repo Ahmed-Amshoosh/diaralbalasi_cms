@@ -21,6 +21,12 @@ class ContactController extends Controller {
         ]);
 
         ContactMessage::create($validated);
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'تم إرسال رسالتك بنجاح، سنتواصل معك في أقرب وقت.'
+            ]);
+        }
 
         return back()->with('success', 'تم إرسال رسالتك بنجاح، سنتواصل معك في أقرب وقت.');
     }

@@ -2,66 +2,64 @@
 
 
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <!-- Bootstrap 5 RTL (نسخة مضمونة عبر CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
     <!-- NEW HERO SECTION WITH BACKGROUND IMAGE -->
     <section class="hero-new" id="home">
         <div class="hero-bg">
-            <img src="./img/hero.webp"
-                 alt="مواد البناء والسباكة" class="hero-bg-image">
+            <img src="{{ asset('storage/' . $hero->bg_image) }}"
+                 alt="{{ $hero->getTranslation('title', app()->getLocale()) }}"
+                 class="hero-bg-image">
         </div>
+
         <div class="hero-content">
             <div class="hero-badge-new">
                 <i class="fas fa-award"></i>
-                <span>أكثر من 20 عاماً من الثقة في قطاع مواد البناء</span>
+                <span>
+                    {{ $hero->getTranslation('sub_title', app()->getLocale()) }}
+                </span>
             </div>
-
             <h1 class="hero-title-new">
-                شريكك الموثوق في<br>
-                <span class="highlight">مواد البناء</span> والسباكة<br>
-                والأدوات الصحية
+                {{ $hero->getTranslation('title', app()->getLocale()) }}
             </h1>
-
-            <p class="hero-desc-new">نوفر تشكيلة متكاملة من مواد البناء، والأنابيب البلاستيكية، والأدوات الصحية، والمحابس،
-                ومضخات المياه، وإكسسوارات المطابخ والحمامات، بجودة عالية وأسعار تنافسية تلبي احتياجات الأفراد والمقاولين
-                والمشاريع.</p>
+            <p class="hero-desc-new">
+                {{ $hero->getTranslation('description', app()->getLocale()) }}
+            </p>
         </div>
 
         <div class="hero-stats-floating">
-            <div class="hero-stat-float">
-                <span class="number" data-target="20">0</span>
-                <span class="label">عاماً من الخبرة</span>
-            </div>
-            <div class="hero-stat-float">
-                <span class="number" data-target="5000">0</span>
-                <span class="label">منتج متنوع</span>
-            </div>
-            <div class="hero-stat-float">
-                <span class="number" data-target="15">0</span>
-                <span class="label">ألف عميل</span>
-            </div>
-            <div class="hero-stat-float">
-                <span class="number" data-target="8">0</span>
-                <span class="label">أقسام رئيسية</span>
-            </div>
+            @foreach($heroStats as $stat)
+                <div class="hero-stat-float">
+                    <span class="number" data-target="{{ $stat->number }}">0</span>
+                    <span class="label">
+                        {{ $stat->getTranslation('label', app()->getLocale()) }}
+                    </span>
+                </div>
+            @endforeach
         </div>
-
         <div class="hero-scroll-indicator">
             <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
-    <!-- Marquee Strip -->
     <div class="marquee-strip">
         <div class="marquee-track">
-            <div class="marquee-item">منتجات أصلية 100% <span class="star">✦</span></div>
-            <div class="marquee-item">أسعار تنافسية للجملة والتجزئة <span class="star"></span></div>
-            <div class="marquee-item">توريد للمشاريع والمقاولين <span class="star">✦</span></div>
-            <div class="marquee-item">استشارات فنية متخصصة <span class="star">✦</span></div>
-            <div class="marquee-item">خدمة عملاء احترافية <span class="star">✦</span></div>
-            <div class="marquee-item">منتجات أصلية 100% <span class="star">✦</span></div>
-            <div class="marquee-item">أسعار تنافسية للجملة والتجزئة <span class="star">✦</span></div>
-            <div class="marquee-item">توريد للمشاريع والمقاولين <span class="star">✦</span></div>
-            <div class="marquee-item">استشارات فنية متخصصة <span class="star">✦</span></div>
-            <div class="marquee-item">خدمة عملاء احترافية <span class="star">✦</span></div>
+
+            @foreach($marqueeItems as $marquee)
+                <div class="marquee-item">
+                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
+                    <span class="star">✦</span>
+                </div>
+            @endforeach
+
+            @foreach($marqueeItems as $marquee)
+                <div class="marquee-item">
+                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
+                    <span class="star">✦</span>
+                </div>
+            @endforeach
+
         </div>
     </div>
 
@@ -70,62 +68,42 @@
         <div class="section-container">
             <div class="section-header-new" data-aos="fade-up">
                 <div>
-                    <div class="section-label">تصنيفاتنا</div>
+                    <div class="section-label">
+                        {{ $categorySection->label}}
+                    </div>
                     <h2 class="section-heading">
-                        استكشف <span class="accent">أقسام منتجاتنا</span>
+                        {!! sectionHeading($categorySection->heading ) !!}
                     </h2>
                 </div>
                 <p class="section-desc">
-                    نوفر جميع مستلزمات البناء والتشطيب والسباكة في أقسام منظمة لتسهيل الوصول إلى المنتجات التي تحتاجها
+                    {{ $categorySection->description }}
                 </p>
             </div>
 
             <div class="bento-grid">
-                <div class="bento-item large" data-aos="fade-up" data-aos-delay="300"
-                     onclick="window.location.href='products.html?category=building'">
-                    <img src="./img/car3.webp"
-                         alt="مواد البناء">
-                    <div class="bento-arrow">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                    <div class="bento-content">
-                        <div class="bento-icon">
-                            <i class="fas fa-hard-hat"></i>
+                @foreach($categories as $index => $category)
+                    <div
+                        class="bento-item {{ count($categories) === 3 && $index === 0 ? 'large' : '' }}"
+                        data-aos="fade-up"
+                        data-aos-delay="{{ $index * 100 }}">
+                        <img
+                            src="{{ $category->image_url }}"
+                            alt="{{ $category->getTranslation('name', app()->getLocale()) }}">
+                        <div class="bento-arrow">
+                            <i class="fas fa-arrow-left"></i>
                         </div>
-                        <h3 class="bento-title">مواد البناء</h3>
-                    </div>
-                </div>
-
-                <div class="bento-item" data-aos="fade-up" data-aos-delay="100"
-                     onclick="window.location.href='products.html?category=sanitary'">
-                    <img src="./img/cat1.webp"
-                         alt="الأدوات الصحية">
-                    <div class="bento-arrow">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                    <div class="bento-content">
-                        <div class="bento-icon">
-                            <i class="fas fa-bath"></i>
+                        <div class="bento-content">
+                            @if($category->icon)
+                                <div class="bento-icon">
+                                    <i class="{{ $category->icon }}"></i>
+                                </div>
+                            @endif
+                            <h3 class="bento-title">
+                                {{ $category->getTranslation('name', app()->getLocale()) }}
+                            </h3>
                         </div>
-                        <h3 class="bento-title">الأدوات الصحية</h3>
                     </div>
-                </div>
-
-                <div class="bento-item" data-aos="fade-up" data-aos-delay="200"
-                     onclick="window.location.href='products.html?category=plumbing'">
-                    <img src="./img/cat2.webp"
-                         alt="السباكة والأنابيب">
-                    <div class="bento-arrow">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                    <div class="bento-content">
-                        <div class="bento-icon">
-                            <i class="fas fa-faucet"></i>
-                        </div>
-                        <h3 class="bento-title">السباكة والأنابيب</h3>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </section>
@@ -136,68 +114,46 @@
             <div class="about-grid">
                 <div class="about-visual" data-aos="fade-left">
                     <div class="about-img-main">
-                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                             alt="محل مواد البناء">
+                        <img
+                            src="{{$about->main_image}}"
+                            alt="{{$about->heading}}">
                     </div>
                     <div class="about-img-secondary">
-                        <img src="./img/about.webp"
-                             alt="ديار البلعسي">
+                        <img src="{{$about->secondary_image}}"
+                             alt="{{$about->heading}}">
                     </div>
                     <div class="about-experience-badge">
-                        <div class="number">20+</div>
-                        <div class="text">عاماً من التميز</div>
+                        <div class="number">{{$about->experience_number}}</div>
+                        <div class="text">{{$about->experience_text}}</div>
                     </div>
                 </div>
 
                 <div class="about-content" data-aos="fade-right">
-                    <div class="section-label">من نحن</div>
+                    <div class="section-label">{{$about->label}}</div>
                     <h2 class="section-heading">
-                        شريكك الموثوق في <span class="accent">عالم البناء</span>
+                        {!! sectionHeading($about->heading ) !!}
                     </h2>
-                    <p style="color: var(--gray-500); margin-top: 25px; line-height: 1.9; font-size: 1.05rem;">
-                        ديار البلعسي مؤسسة متخصصة في توفير مواد البناء، والأنابيب البلاستيكية، والأدوات الصحية، ومستلزمات
-                        السباكة، والمحابس، ومضخات المياه، وإكسسوارات المطابخ والحمامات. نحرص على توفير منتجات أصلية بجودة
-                        عالية تلبي احتياجات الأفراد والمقاولين والشركات، مع الالتزام بالأسعار المناسبة وخدمة العملاء
-                        المتميزة.
-                    </p>
-
+                    <p style="color: var(--gray-500); margin-top: 25px; line-height: 1.9; font-size: 1.05rem;">{{$about->description}}</p>
                     <div class="about-features">
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <i class="fas fa-certificate"></i>
-                            </div>
-                            <div>
-                                <div class="about-feature-title">منتجات أصلية</div>
-                                <div class="about-feature-desc">نوفر منتجات من علامات تجارية موثوقة</div>
-                            </div>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <i class="fas fa-tags"></i>
-                            </div>
-                            <div>
-                                <div class="about-feature-title">أسعار منافسة</div>
-                                <div class="about-feature-desc">أفضل الأسعار للجملة والتجزئة</div>
-                            </div>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <i class="fas fa-truck-loading"></i>
-                            </div>
-                            <div>
-                                <div class="about-feature-title">توريد للمشاريع</div>
-                                <div class="about-feature-desc">حلول متكاملة للمقاولين والشركات</div>
-                            </div>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                            <div>
-                                <div class="about-feature-title">استشارات فنية</div>
-                                <div class="about-feature-desc">مساعدتك في اختيار المنتجات المناسبة</div>
-                            </div>
-                        </div>
+                        @if(!empty($about?->features))
+                            @foreach($about->features as $feature)
+                                <div class="about-feature">
+                                    <div class="about-feature-icon">
+                                        <i class="{{ $feature['icon'] ?? 'fas fa-check' }}"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="about-feature-title">
+                                            {{ $feature['title_' . app()->getLocale()] ?? $feature['title_ar'] ?? '' }}
+                                        </div>
+
+                                        <div class="about-feature-desc">
+                                            {{ $feature['desc_' . app()->getLocale()] ?? $feature['desc_ar'] ?? '' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -273,139 +229,172 @@
         <div class="section-container">
             <div class="section-header-new" data-aos="fade-up">
                 <div>
-                    <div class="section-label" style="color: var(--gold);">آراء العملاء</div>
+                    <div class="section-label" style="color: var(--gold);">{{$testimonialsSection->label}}</div>
                     <h2 class="section-heading">
-                        ماذا يقول <span class="accent">عملاؤنا وشركاؤنا؟</span>
+                        {!! sectionHeading($testimonialsSection->heading ) !!}
                     </h2>
                 </div>
-                <p class="section-desc">
-                    نفخر بثقة عملائنا وشراكاتنا الناجحة في مختلف المشاريع الإنشائية والتجارية
-                </p>
+                <p class="section-desc">{{$testimonialsSection->description}}</p>
             </div>
 
             <!-- Swiper -->
             <div class="swiper testimonials-swiper" data-aos="fade-up" data-aos-delay="200">
                 <div class="swiper-wrapper">
-                    @php
-                        $testimonials = \App\Models\Testimonial::where('is_active', true)->orderBy('order')->get();
-                    @endphp
 
                     @forelse($testimonials as $testimonial)
                         <div class="swiper-slide">
                             <div class="testimonial-card">
+
                                 <div class="testimonial-quote-icon">
                                     <i class="fas fa-quote-right"></i>
                                 </div>
+
                                 <p class="testimonial-text">
                                     {{ $testimonial->getTranslation('content', app()->getLocale()) }}
                                 </p>
+
                                 <div class="testimonial-author">
+
                                     <div class="author-info">
-                                        <h4 class="author-name">{{ $testimonial->getTranslation('name', app()->getLocale()) }}</h4>
-                                        <span class="author-role">{{ $testimonial->getTranslation('role', app()->getLocale()) }}</span>
+                                        <h4 class="author-name">
+                                            {{ $testimonial->getTranslation('name', app()->getLocale()) }}
+                                        </h4>
+
+                                        <span class="author-role">
+                                {{ $testimonial->getTranslation('role', app()->getLocale()) }}
+                            </span>
                                     </div>
+
                                     <div class="author-rating">
                                         @for($i = 1; $i <= 5; $i++)
                                             <i class="fas fa-star {{ $i <= $testimonial->rating ? 'active' : '' }}"></i>
                                         @endfor
                                     </div>
+
                                 </div>
+
                             </div>
                         </div>
+
                     @empty
+
                         <div class="swiper-slide">
-                            <div class="text-center py-10 text-gray-500">
-                                <p>لا توجد آراء مضافة حالياً.</p>
+                            <div class="testimonial-card text-center">
+                                <p class="testimonial-text">
+                                    {{ app()->getLocale() === 'ar'
+                                        ? 'لا توجد آراء مضافة حالياً.'
+                                        : 'No testimonials available at the moment.'
+                                    }}
+                                </p>
                             </div>
                         </div>
+
                     @endforelse
+
                 </div>
-                <!-- Pagination -->
+
                 <div class="swiper-pagination"></div>
             </div>
         </div>
-    </section>
-
-    @push('styles')
         <style>
-            .testimonials-section { padding: 80px 0; background-color: #f8f9fa; }
+            .testimonials-swiper {
+                width: 100%;
+                overflow: hidden;
+                padding: 10px 5px 50px;
+            }
+
+            .testimonials-swiper .swiper-wrapper {
+                align-items: stretch;
+            }
+
+            .testimonials-swiper .swiper-slide {
+                height: auto;
+                display: flex;
+            }
+
             .testimonial-card {
-                background: #ffffff;
-                border-radius: 16px;
-                padding: 30px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                width: 100%;
                 height: 100%;
+                padding: 30px;
+                background: #fff;
+                border-radius: 16px;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
                 display: flex;
                 flex-direction: column;
-                border: 1px solid rgba(0,0,0,0.03);
             }
-            .testimonial-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            }
+
             .testimonial-quote-icon {
-                font-size: 2rem;
-                color: var(--gold, #d4af37);
-                margin-bottom: 15px;
-                opacity: 0.8;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: var(--gold);
+                color: #fff;
+
+                margin-bottom: 20px;
             }
+
             .testimonial-text {
-                font-size: 1.05rem;
-                line-height: 1.8;
-                color: var(--gray-600, #4b5563);
-                flex-grow: 1;
-                margin-bottom: 25px;
-                font-style: italic;
+                flex: 1;
+                margin: 0 0 25px;
+                line-height: 1.9;
+                color: #555;
             }
+
             .testimonial-author {
                 display: flex;
+                align-items: flex-end;
                 justify-content: space-between;
-                align-items: center;
-                border-top: 1px solid #eee;
-                padding-top: 20px;
+                gap: 20px;
+                margin-top: auto;
             }
-            .author-info { display: flex; flex-direction: column; }
+
             .author-name {
-                font-size: 1.1rem;
+                margin: 0 0 5px;
+                font-size: 18px;
                 font-weight: 700;
-                color: #1f2937;
-                margin: 0 0 4px 0;
+                color: #222;
             }
+
             .author-role {
-                font-size: 0.85rem;
-                color: var(--gold, #d4af37);
-                font-weight: 600;
+                display: block;
+                font-size: 14px;
+                color: #888;
             }
-            .author-rating { display: flex; gap: 3px; }
-            .author-rating .fa-star { color: #e5e7eb; font-size: 0.9rem; }
-            .author-rating .fa-star.active { color: #fbbf24; }
 
-            .testimonials-swiper { padding-bottom: 50px !important; }
-            .swiper-pagination-bullet-active { background-color: var(--gold, #d4af37) !important; }
+            .author-rating {
+                display: flex;
+                gap: 3px;
+                direction: ltr;
+            }
+
+            .author-rating i {
+                color: #ddd;
+                font-size: 14px;
+            }
+
+            .author-rating i.active {
+                color: var(--gold);
+            }
+
+            .testimonials-swiper .swiper-pagination {
+                bottom: 5px;
+            }
+
+            .testimonials-swiper
+            .swiper-pagination-bullet-active {
+                background: var(--gold);
+            }
         </style>
-    @endpush
 
-    @push('scripts')
-        <script>
-            // تهيئة سلايدر آراء العملاء
-            document.addEventListener('DOMContentLoaded', function() {
-                if (document.querySelector('.testimonials-swiper')) {
-                    new Swiper('.testimonials-swiper', {
-                        slidesPerView: 1,
-                        spaceBetween: 30,
-                        loop: true,
-                        autoplay: { delay: 4000, disableOnInteraction: false },
-                        pagination: { el: '.swiper-pagination', clickable: true },
-                        breakpoints: {
-                            768: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 }
-                        }
-                    });
-                }
-            });
-        </script>
-    @endpush
+    </section>
+
 
     <section class="partners-section" data-aos="fade-up">
         <div class="section-container">
@@ -465,131 +454,340 @@
         </div>
 
     </section>
+<style>
+    /* --- متغيرات الألوان والخطوط --- */
+    :root {
+        --primary-color: #2563eb;
+        --primary-dark: #1d4ed8;
+        --accent-color: #f59e0b;
+        --text-dark: #1e293b;
+        --text-gray: #64748b;
+        --bg-light: #f8fafc;
+        --white: #ffffff;
+        --error: #ef4444;
+        --success: #10b981;
+        --radius: 16px;
+        --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 20px 50px -12px rgba(37, 99, 235, 0.15);
+    }
 
-    @php
-        $contact = \App\Models\ContactSection::first();
-    @endphp
+    /* --- الإعدادات العامة للقسم --- */
+    .contact-section {
+        position: relative;
+        padding: 5rem 1rem;
+        background: var(--bg-light);
+        font-family: 'Cairo', sans-serif;
+        overflow: hidden;
+        direction: rtl;
+    }
 
+    .container-custom {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* --- الخلفية الزخرفية --- */
+    .contact-bg-shapes .shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.15;
+        z-index: 1;
+        animation: floatBlob 8s ease-in-out infinite;
+    }
+    .shape-1 { width: 400px; height: 400px; background: var(--primary-color); top: -100px; left: -100px; }
+    .shape-2 { width: 350px; height: 350px; background: var(--accent-color); bottom: -50px; right: -50px; animation-delay: 2s; }
+
+    @keyframes floatBlob {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(20px, -30px) scale(1.05); }
+    }
+
+    /* --- عنوان القسم --- */
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: linear-gradient(135deg, var(--accent-color), #d97706);
+        color: var(--white);
+        font-size: 0.9rem;
+        font-weight: 700;
+        border-radius: 50px;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        line-height: 1.3;
+    }
+    .section-desc {
+        font-size: 1.1rem;
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    /* --- شبكة العرض (Grid) --- */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    @media (min-width: 1024px) {
+        .contact-grid { grid-template-columns: 5fr 7fr; align-items: start; }
+    }
+
+    /* --- بطاقات المعلومات --- */
+    .contact-info-col { display: flex; flex-direction: column; gap: 1.5rem; }
+    .info-card, .social-card {
+        background: var(--white);
+        padding: 1.5rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+    .info-card:hover, .social-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+        border-color: rgba(37, 99, 235, 0.1);
+    }
+    .info-icon {
+        width: 55px; height: 55px;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; color: var(--white);
+        flex-shrink: 0;
+    }
+    .info-icon.bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .info-icon.bg-green { background: linear-gradient(135deg, #10b981, #059669); }
+    .info-icon.bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+    .info-content h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .info-content p, .info-link { font-size: 0.95rem; color: var(--text-gray); text-decoration: none; display: block; transition: color 0.2s; }
+    .info-link:hover { color: var(--primary-color); }
+
+    /* --- بطاقات التواصل الاجتماعي --- */
+    .social-card { flex-direction: column; align-items: flex-start; }
+    .social-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
+    .social-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .social-btn {
+        width: 45px; height: 45px;
+        border-radius: 12px;
+        background: var(--bg-light);
+        color: var(--text-gray);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    .social-btn:hover {
+        background: var(--social-color);
+        color: var(--white);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px -5px var(--social-color);
+    }
+
+    /* --- نموذج المراسلة --- */
+    .contact-form-col {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+    .form-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .form-icon-wrapper {
+        width: 50px; height: 50px;
+        background: linear-gradient(135deg, var(--accent-color), #d97706);
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--white); font-size: 1.2rem;
+    }
+    .form-header h3 { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); margin: 0; }
+
+    .form-row { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    @media (min-width: 768px) { .form-row { grid-template-columns: 1fr 1fr; } }
+
+    .form-group { position: relative; }
+    .form-group label {
+        display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem;
+    }
+    .required { color: var(--error); }
+
+    .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-family: 'Cairo', sans-serif;
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        background: var(--bg-light);
+        transition: all 0.3s ease;
+        outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        border-color: var(--primary-color);
+        background: var(--white);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    /* تنسيق خاص للقائمة المنسدلة */
+    .select-wrapper { position: relative; }
+    .select-wrapper select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: left 1rem center; /* لليسار في RTL */
+        background-size: 1.2rem;
+        padding-left: 2.5rem;
+    }
+
+    /* رسائل الخطأ */
+    .error-msg {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--error);
+        margin-top: 0.4rem;
+        min-height: 1.2rem;
+        opacity: 0;
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+    }
+    .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select {
+        border-color: var(--error);
+        background: #fef2f2;
+        animation: shake 0.4s ease-in-out;
+    }
+    .form-group.has-error .error-msg { opacity: 1; transform: translateY(0); }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    /* زر الإرسال */
+    .submit-btn {
+        width: 100%;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+        border: none;
+        border-radius: 12px;
+        font-family: 'Cairo', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+        margin-top: 1rem;
+    }
+    .submit-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.5);
+    }
+    .submit-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+    .btn-loader { display: none; }
+    .submit-btn.loading .btn-text, .submit-btn.loading .btn-icon { display: none; }
+    .submit-btn.loading .btn-loader { display: inline-block; }
+
+    /* --- التجاوب مع الشاشات الصغيرة --- */
+    @media (max-width: 768px) {
+        .contact-section { padding: 3rem 1rem; }
+        .section-title { font-size: 1.8rem; }
+        .contact-form-col { padding: 1.5rem; }
+    }
+</style>
     @if($contact)
-        <section id="contact" class="py-20 bg-gray-50 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
-            <div class="absolute bottom-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <section id="contact" class="contact-section">
+            <!-- خلفية زخرفية متحركة -->
+            <div class="contact-bg-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+            </div>
 
-            <div class="container mx-auto px-4 relative z-10">
-
-                {{-- العنوان الديناميكي --}}
-                <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wider mb-4">
-                {{ $contact->getTranslation('label', app()->getLocale()) }}
-            </span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                        {!! $contact->getTranslation('heading', app()->getLocale()) !!}
-                    </h2>
-                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed">
-                        {{ $contact->getTranslation('description', app()->getLocale()) }}
-                    </p>
+            <div class="container-custom">
+                <!-- عنوان القسم -->
+                <div class="section-header" data-aos="fade-up">
+                    <span class="section-badge">{{ $contact->getTranslation('label', app()->getLocale()) }}</span>
+                    <h2 class="section-title">{!! $contact->getTranslation('heading', app()->getLocale()) !!}</h2>
+                    <p class="section-desc">{{ $contact->getTranslation('description', app()->getLocale()) }}</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-
-                    {{-- معلومات التواصل --}}
-                    <div class="lg:col-span-2 space-y-6" data-aos="fade-left">
-
-                        @if($contact->address && (is_array($contact->address) ? ($contact->getTranslation('address', app()->getLocale()) ?? '') : $contact->address))
-                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-                                    <i class="fas fa-map-marker-alt text-2xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">موقعنا</h4>
-                                    <p class="text-gray-600 mt-1 text-sm leading-relaxed">{{ $contact->getTranslation('address', app()->getLocale()) }}</p>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if(!empty($contact->phones))
-                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
-                                    <i class="fas fa-phone-alt text-2xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">اتصل بنا</h4>
-                                    @foreach($contact->phones as $phone)
-                                        <p class="text-gray-600 mt-1 text-sm" dir="ltr" style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">{{ $phone }}</p>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-
-                        @if(!empty($contact->emails))
-                            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
-                                    <i class="fas fa-envelope text-2xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">البريد الإلكتروني</h4>
-                                    @foreach($contact->emails as $email)
-                                        <p class="text-gray-600 mt-1 text-sm" dir="ltr" style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">{{ $email }}</p>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- نموذج المراسلة --}}
-                    <div class="lg:col-span-3" data-aos="fade-right">
-                        @if(session('success'))
-                            <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-500 text-xl"></i>
-                                <p class="text-green-700">{{ session('success') }}</p>
-                            </div>
-                        @endif
-
-                        <form action="{{ route('frontend.contact.submit') }}" method="POST" class="bg-white p-8 md:p-10 rounded-3xl shadow-lg border border-gray-100">
+                <div class="contact-grid">
+                    <div class="contact-form-col" data-aos="fade-right" data-aos-delay="200">
+                        <form id="contactForm" action="{{ route('frontend.contact.submit') }}" method="POST">
                             @csrf
-                            <h3 class="text-2xl font-bold text-gray-900 mb-6">أرسل لنا رسالة</h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
-                                    <input type="text" name="name" value="{{ old('name') }}" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none" placeholder="أدخل اسمك">
-                                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            <div class="form-header">
+                                <div class="form-icon-wrapper">
+                                    <i class="fas fa-paper-plane"></i>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">رقم الجوال <span class="text-red-500">*</span></label>
-                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-right" placeholder="05xxxxxxxx">
-                                    @error('phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                <h3>أرسل لنا رسالة</h3>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>الاسم الكامل <span class="required">*</span></label>
+                                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="أدخل اسمك الثلاثي">
+                                    <span class="error-msg"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>رقم الجوال <span class="required">*</span></label>
+                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" placeholder="05xxxxxxxx">
+                                    <span class="error-msg"></span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-right" placeholder="example@domain.com">
-                                    @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>البريد الإلكتروني</label>
+                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" placeholder="example@domain.com">
+                                    <span class="error-msg"></span>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">الموضوع <span class="text-red-500">*</span></label>
-                                    <select name="subject" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none">
-                                        <option value="" disabled selected>اختر موضوع الرسالة</option>
-                                        <option value="طلب عرض أسعار" {{ old('subject') === 'طلب عرض أسعار' ? 'selected' : '' }}>طلب عرض أسعار</option>
-                                        <option value="دعم فني" {{ old('subject') === 'دعم فني' ? 'selected' : '' }}>دعم فني</option>
-                                        <option value="شراكة تجارية" {{ old('subject') === 'شراكة تجارية' ? 'selected' : '' }}>شراكة تجارية</option>
-                                        <option value="استفسار عام" {{ old('subject') === 'استفسار عام' ? 'selected' : '' }}>استفسار عام</option>
-                                    </select>
-                                    @error('subject') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                <div class="form-group">
+                                    <label>الموضوع <span class="required">*</span></label>
+                                    <div class="select-wrapper">
+                                        <select name="subject" required>
+                                            <option value="" disabled selected>اختر موضوع الرسالة</option>
+                                            <option value="طلب عرض أسعار" {{ old('subject') === 'طلب عرض أسعار' ? 'selected' : '' }}>طلب عرض أسعار</option>
+                                            <option value="دعم فني" {{ old('subject') === 'دعم فني' ? 'selected' : '' }}>دعم فني</option>
+                                            <option value="شراكة تجارية" {{ old('subject') === 'شراكة تجارية' ? 'selected' : '' }}>شراكة تجارية</option>
+                                            <option value="استفسار عام" {{ old('subject') === 'استفسار عام' ? 'selected' : '' }}>استفسار عام</option>
+                                        </select>
+                                    </div>
+                                    <span class="error-msg"></span>
                                 </div>
                             </div>
 
-                            <div class="mb-8">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">تفاصيل الرسالة <span class="text-red-500">*</span></label>
-                                <textarea name="message" rows="5" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none resize-none" placeholder="اكتب تفاصيل استفسارك...">{{ old('message') }}</textarea>
-                                @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            <div class="form-group full-width">
+                                <label>تفاصيل الرسالة <span class="required">*</span></label>
+                                <textarea name="message" rows="5" required placeholder="اكتب تفاصيل استفسارك أو طلبك هنا...">{{ old('message') }}</textarea>
+                                <span class="error-msg"></span>
                             </div>
 
-                            <button type="submit" class="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all duration-300 flex items-center justify-center gap-2 group">
-                                <span>إرسال الرسالة</span>
-                                <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                            <button type="submit" id="submitBtn" class="submit-btn">
+                                <span class="btn-text">إرسال الرسالة</span>
+                                <i class="fas fa-paper-plane btn-icon"></i>
+                                <i class="fas fa-spinner fa-spin btn-loader"></i>
                             </button>
                         </form>
                     </div>
@@ -597,5 +795,172 @@
             </div>
         </section>
     @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
 
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    clearErrors();
+
+                    // تفعيل حالة التحميل
+                    submitBtn.classList.add('loading');
+                    submitBtn.disabled = true;
+
+                    const formData = new FormData(form);
+                    const csrfToken = form.querySelector('input[name="_token"]').value;
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(errors => { throw { status: 422, errors: errors }; });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // نجاح الإرسال
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.success(data.message || 'تم إرسال رسالتك بنجاح، سنتواصل معك قريباً.', 'نجاح', {
+                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
+                                        timeOut: 4000, progressBar: true
+                                    });
+                                } else {
+                                    alert(data.message || 'تم الإرسال بنجاح!');
+                                }
+                                form.reset(); // إفراغ الحقول
+                            } else {
+                                throw new Error(data.message || 'حدث خطأ أثناء الإرسال');
+                            }
+                        })
+                        .catch(error => {
+                            if (error.status === 422) {
+                                displayErrors(error.errors);
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.error('يرجى تصحيح الأخطاء المميزة في النموذج', 'خطأ في التحقق', {
+                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
+                                        timeOut: 4000
+                                    });
+                                }
+                            } else {
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.error(error.message || 'حدث خطأ غير متوقع في الخادم', 'خطأ', {
+                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
+                                        timeOut: 4000
+                                    });
+                                }
+                            }
+                        })
+                        .finally(() => {
+                            // إعادة الزر لحالته الطبيعية
+                            submitBtn.classList.remove('loading');
+                            submitBtn.disabled = false;
+                        });
+                });
+            }
+
+            // دالة عرض الأخطاء تحت الحقول
+            function displayErrors(errors) {
+                for (const field in errors) {
+                    const input = form.querySelector(`[name="${field}"]`);
+                    if (input) {
+                        const formGroup = input.closest('.form-group');
+                        formGroup.classList.add('has-error');
+                        const errorSpan = formGroup.querySelector('.error-msg');
+                        if (errorSpan) {
+                            errorSpan.textContent = errors[field][0];
+                        }
+                    }
+                }
+            }
+
+            // دالة مسح الأخطاء
+            function clearErrors() {
+                document.querySelectorAll('.form-group.has-error').forEach(el => el.classList.remove('has-error'));
+                document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            }
+
+            // إزالة الخطأ فوراً عند بدء الكتابة
+            document.querySelectorAll('.form-group input, .form-group textarea, .form-group select').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.closest('.form-group').classList.remove('has-error');
+                });
+            });
+        });
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // دالة ذكية تمنع تحذيرات الـ Loop في Swiper v11
+            function initSmartSwiper(selector, config) {
+                const slides = document.querySelectorAll(`${selector} .swiper-slide`);
+                const totalSlides = slides.length;
+
+                // حساب أقصى عدد للشرائح المعروضة (من الإعدادات الأساسية أو نقاط التوقف breakpoints)
+                let maxPerView = config.slidesPerView || 1;
+                if (config.breakpoints) {
+                    Object.values(config.breakpoints).forEach(bp => {
+                        if (bp.slidesPerView > maxPerView) {
+                            maxPerView = bp.slidesPerView;
+                        }
+                    });
+                }
+
+                // تفعيل الـ Loop فقط إذا كان العدد الكلي أكبر من العدد المعروض + 1 (لضمان سلاسة الحركة)
+                const shouldLoop = totalSlides > maxPerView;
+
+                new Swiper(selector, {
+                    ...config,
+                    loop: shouldLoop,
+                    // تعطيل التشغيل التلقائي إذا لم يكن هناك حلقة لمنع أخطاء الانزلاق
+                    autoplay: (shouldLoop && config.autoplay) ? config.autoplay : false,
+                });
+            }
+
+            // 1. إعدادات سلايدر الآراء (Testimonials)
+            initSmartSwiper('.testimonials-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.testimonials-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    768: { slidesPerView: 2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3, spaceBetween: 25 },
+                },
+            });
+
+            // 2. إعدادات سلايدر الشركاء/الماركات (Brands/Partners)
+            initSmartSwiper('.brands-swiper', {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+                breakpoints: {
+                    768: { slidesPerView: 3, spaceBetween: 40 },
+                    1024: { slidesPerView: 5, spaceBetween: 50 },
+                },
+            });
+        });
+    </script>
 @endsection

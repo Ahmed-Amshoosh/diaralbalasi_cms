@@ -127,10 +127,10 @@
         href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;900&family=Playfair+Display:wght@400;700;900&display=swap"
         rel="stylesheet">
     <!-- CSS -->
-    <link rel="preload" href="css/bootstrap.rtl.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{asset('frontend/css/bootstrap.rtl.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link rel="stylesheet"
-              href="css/bootstrap.rtl.min.css">
+              href="{{asset('frontend/css/bootstrap.rtl.min.css')}}">
     </noscript>
 
     <link rel="stylesheet" href="{{asset('frontend/css/all.min.css')}}">
@@ -140,8 +140,6 @@
 
     <link rel="preload" href="{{asset('frontend/css/aos.css')}}" as="style"
           onload="this.onload=null;this.rel='stylesheet'">
-
-    <link rel="preload" as="image" href="{{asset('frontend/img/hero.webp')}}">
 
     <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
 

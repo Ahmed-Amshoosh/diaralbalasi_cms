@@ -93,6 +93,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::put('/categories-section', [\App\Http\Controllers\Admin\CategoryController::class, 'updateSection'])->name('categories.section.update');
 
 // Products
     Route::get('/products', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->name('products.index');

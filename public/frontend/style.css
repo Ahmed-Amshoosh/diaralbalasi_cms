@@ -37,7 +37,7 @@
 html{
     overflow-x: hidden;
 }
-
+a{text-decoration: none !important;}
 * {
     margin: 0;
     padding: 0;
@@ -49,7 +49,7 @@ html {
 }
 
 body {
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Tajawal', sans-serif !important;
     overflow-x: hidden;
     background: var(--cream);
     color: var(--brown);
@@ -241,6 +241,7 @@ body {
 
 .nav-menu a {
     color: white;
+    white-space: nowrap;
     text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
@@ -437,6 +438,7 @@ body {
 }
 
 .btn-hero-outline {
+    white-space: nowrap;
     background: transparent;
     color: var(--white);
     padding: 18px 40px;
@@ -936,7 +938,7 @@ body {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Tajawal', sans-serif !important;
     font-size: 0.95rem;
     color: var(--brown);
 }
@@ -985,12 +987,10 @@ body {
 }
 
 .product-showcase-card {
-    background: var(--white);
     border-radius: 25px;
     overflow: hidden;
     transition: all 0.4s ease;
     position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .products-showcase.list-view .product-showcase-card {
@@ -999,13 +999,10 @@ body {
 }
 
 .product-showcase-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
 }
 
 .product-showcase-image {
     height: 280px;
-    background: var(--cream);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -1021,12 +1018,12 @@ body {
 .product-showcase-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
 }
 
 .product-showcase-card:hover .product-showcase-image img {
-    transform: scale(1.08);
+    transform: scale(1.01);
 }
 
 .product-badge-new {
@@ -1100,7 +1097,7 @@ body {
     justify-content: center;
     gap: 10px;
     text-decoration: none;
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Tajawal', sans-serif !important;
 }
 
 .btn-whatsapp-product:hover {
@@ -1781,7 +1778,7 @@ body {
     justify-content: center;
     gap: 10px;
     text-decoration: none;
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Tajawal', sans-serif !important;
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -2062,9 +2059,6 @@ body {
     z-index: 1;
 }
 
-.product-showcase-card:hover .product-showcase-image::after {
-    opacity: 1;
-}
 
 /* 3. تصميم الزر الأساسي (مخفي) */
 .btn-wa-hover {
@@ -2102,7 +2096,6 @@ body {
 .product-showcase-card:hover .btn-wa-hover {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
 }
 
 /* 5. تأثير إضافي عند تمرير الماوس على الزر نفسه */
@@ -2395,6 +2388,14 @@ a{text-decoration: none}
     font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Tajawal', sans-serif;
     font-size: 0.9rem; color: var(--brown);
 }
+.product-price {
+    color: var(--brown);font-size: 14px;font-weight: 600;
+}
+.product-name{
+    color: var(--brown);
+    font-weight: 600;
+    font-size: 16px;
+}
 .filter-tab-new:hover { background: var(--cream-dark); }
 .filter-tab-new.active { background: var(--brown); color: var(--gold); }
 
@@ -2426,19 +2427,17 @@ a{text-decoration: none}
 }
 
 .product-showcase-card {
-    background: var(--white); border-radius: 25px; overflow: hidden;
+   border-radius: 25px; overflow: hidden;
     transition: all 0.4s ease; position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.05);
 }
-.product-showcase-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+.product-showcase-info {padding:10px 10px 0 0px !important;}
 
 .product-showcase-image {
-    height: 260px; background: var(--cream); position: relative; overflow: hidden;
+    position: relative; overflow: hidden;
 }
 .product-showcase-image img {
-    width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;
+    width: 100%; height: 100%; object-fit: contain; transition: transform 0.6s ease;
 }
-.product-showcase-card:hover .product-showcase-image img { transform: scale(1.1); }
 
 /* Hover WhatsApp Button (Shared) */
 .product-showcase-image::after {
@@ -2446,7 +2445,6 @@ a{text-decoration: none}
     background: linear-gradient(to top, rgba(44, 24, 16, 0.6) 0%, transparent 100%);
     opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 1;
 }
-.product-showcase-card:hover .product-showcase-image::after { opacity: 1; }
 
 .btn-wa-hover {
     position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
@@ -2724,4 +2722,27 @@ a{text-decoration: none}
 
 .language-option:hover {
     background: #f5f7fa;
+}
+@media (max-width: 1120px) {
+    .nav-menu {gap: 22px}
+    .language-switcher {
+        margin-inline-end: 0px;
+    }
+}
+@media (max-width: 1120px) {
+    .brand-logo {
+        width: 140px;
+    }
+    .language-arrow {
+         margin-inline-start: 0px;
+    }
+    .language-btn > i:first-child {
+        font-size: 14px;
+    }
+    .language-btn {
+        padding: 0 10px;
+        font-size: 13px;
+    }
+    .nav-container {
+        padding: 0px 15px;}
 }

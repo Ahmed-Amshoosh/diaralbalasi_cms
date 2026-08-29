@@ -48,6 +48,7 @@
         $currentUrl = url()->current();
         $locale = app()->getLocale();
         $ogLocale = $locale === 'ar' ? 'ar_YE' : 'en_US';
+        $categories = \App\Models\Category::query()->pluck('name');
     @endphp
 
         <!-- ═══════════════════════════════════════════ -->
@@ -142,21 +143,37 @@
           onload="this.onload=null;this.rel='stylesheet'">
 
     <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
+    <style>
+        body{
+            font-family: 'Tajawal', sans-serif !important;
+        }
+    @if(app()->getLocale() === 'en')
 
+            @media (max-width: 991px) {
+                .nav-menu {
+                    transform: translateX(-100%);
+                }
+            }
+
+    @endif
+    </style>
 </head>
 <body>
 <nav class="navbar-premium" id="navbar">
     <div class="nav-container">
         <a href="#" class="brand-logo">
-            <img src="{{$logoPath}}" alt="{{ $seoTitle }}" width="150" height="59">
+            <img src="{{ Storage::url($logoPath) }}"
+                 alt="{{ $seoTitle }}"
+                 width="150"
+                 height="59">
         </a>
         <ul class="nav-menu" id="navMenu">
-            <li><a href="#home" class="active">{{ __('messages.nav_home') }}</a></li>
-            <li><a href="#categories">{{ __('messages.nav_categories') }}</a></li>
-            <li><a href="#about">{{ __('messages.nav_about') }}</a></li>
-            <li><a href="#products">{{ __('messages.nav_products') }}</a></li>
-            <li><a href="#whyus">{{ __('messages.nav_why_us') }}</a></li>
-            <li><a href="#contact">{{ __('messages.nav_contact') }}</a></li>
+            <li><a href="/#home" class="active">{{ __('messages.nav_home') }}</a></li>
+            <li><a href="/#categories">{{ __('messages.nav_categories') }}</a></li>
+            <li><a href="/#about">{{ __('messages.nav_about') }}</a></li>
+            <li><a href="/#products">{{ __('messages.nav_products') }}</a></li>
+            <li><a href="/#whyus">{{ __('messages.nav_why_us') }}</a></li>
+            <li><a href="/#contact">{{ __('messages.nav_contact') }}</a></li>
         </ul>
         <div class="nav-cta">
             <!-- Language -->
@@ -214,7 +231,7 @@
         <div class="footer-grid">
             <div>
                 <a href="#" class="brand-logo">
-                    <img src="{{$logoPath}}" alt="{{  $seoTitle  }}">
+                    <img src="{{ Storage::url($logoPath) }}" alt="{{  $seoTitle  }}">
                 </a>
                 <p class="footer-brand-desc">{{$seoDesc}}</p>
             </div>
@@ -222,20 +239,21 @@
             <div>
                 <h3 class="footer-heading">{{ __('messages.quick_links') }}</h3>
                 <ul class="footer-links">
-                    <li><a href="#home" >{{ __('messages.nav_home') }}</a></li>
-                    <li><a href="#categories">{{ __('messages.nav_categories') }}</a></li>
-                    <li><a href="#about">{{ __('messages.nav_about') }}</a></li>
-                    <li><a href="#products">{{ __('messages.nav_products') }}</a></li>
-                    <li><a href="#whyus">{{ __('messages.nav_why_us') }}</a></li>
+                    <li><a href="/#home" >{{ __('messages.nav_home') }}</a></li>
+                    <li><a href="/#categories">{{ __('messages.nav_categories') }}</a></li>
+                    <li><a href="/#about">{{ __('messages.nav_about') }}</a></li>
+                    <li><a href="/#products">{{ __('messages.nav_products') }}</a></li>
+                    <li><a href="/#whyus">{{ __('messages.nav_why_us') }}</a></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="footer-heading">{{ __('messages.categories') }}</h3>
                 <ul class="footer-links">
-                    <li><a href="products.html?category=building">مواد البناء</a></li>
-                    <li><a href="products.html?category=sanitary">الأدوات الصحية</a></li>
-                    <li><a href="products.html?category=plumbing">السباكة والأنابيب</a></li>
+                    @foreach($categories as $category)
+                        <li><a href="#">{{$category}}</a></li>
+                    @endforeach
+
                 </ul>
             </div>
 

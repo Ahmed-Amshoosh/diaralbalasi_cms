@@ -115,11 +115,12 @@
                 <div class="about-visual" data-aos="fade-left">
                     <div class="about-img-main">
                         <img
-                            src="{{$about->main_image}}"
+
+                            src="{{ Storage::url($about->main_image) }}"
                             alt="{{$about->heading}}">
                     </div>
                     <div class="about-img-secondary">
-                        <img src="{{$about->secondary_image}}"
+                        <img src="{{ Storage::url($about->secondary_image) }}"
                              alt="{{$about->heading}}">
                     </div>
                     <div class="about-experience-badge">
@@ -163,40 +164,224 @@
     <!-- Products Section -->
     <section class="products-section" id="products">
         <div class="section-container">
+
             <div class="section-header-new" data-aos="fade-up">
                 <div>
-                    <div class="section-label">منتجاتنا</div>
+                    <div class="section-label">
+                        {{ $productSection->label }}
+                    </div>
+
                     <h2 class="section-heading">
-                        منتجات <span class="accent">مختارة بعناية</span>
+                        {!! sectionHeading($productSection->heading) !!}
                     </h2>
                 </div>
+
                 <p class="section-desc">
-                    تصفح مجموعة متنوعة من المنتجات عالية الجودة المناسبة للمنازل والمشاريع التجارية والإنشائية
+                    {{ $productSection->description }}
                 </p>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4" data-aos="fade-up">
+            <div
+                class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4"
+                data-aos="fade-up">
+
                 <div class="filter-tabs-new">
-                    <button class="filter-tab-new active" data-filter="all">الكل</button>
-                    <button class="filter-tab-new" data-filter="sanitary">الصحية</button>
-                    <button class="filter-tab-new" data-filter="plumbing">السباكة</button>
-                    <button class="filter-tab-new" data-filter="building">البناء</button>
+
+                    <button
+                        class="filter-tab-new active"
+                        data-filter="all">
+                        {{ __('messages.all') }}
+                    </button>
+
+                    @foreach($categories as $category)
+                        <button
+                            class="filter-tab-new"
+                            data-filter="{{ $category->id }}">
+                            {{ $category->name }}
+                        </button>
+                    @endforeach
+
                 </div>
             </div>
 
-            <div class="products-showcase" id="productsShowcase">
-                <!-- Products will be loaded here -->
+            <div
+                class="products-showcase"
+                id="productsShowcase">
+
+                <div class="text-center py-5">
+                    <div class="spinner"></div>
+                    <p>{{ __('messages.loading_products') }}</p>
+                </div>
+
             </div>
 
             <div class="text-center mt-60" data-aos="fade-up">
-                <a href="products.html" class="btn-hero-outline">
-                    عرض جميع المنتجات
+                <a href="{{route('frontend.products.index')}}"
+                   class="btn-hero-outline">
+                    {{ __('messages.view_all_products') }}
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
+
         </div>
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const showcase = document.getElementById('productsShowcase');
+            const filterTabs = document.querySelectorAll('.filter-tab-new');
 
+            if (!showcase) return;
+
+            const PRODUCTS_URL = @json(route('frontend.products.ajax'));
+            let currentCategory = 'all';
+            let currentPage = 1;
+            let nextPageUrl = null;
+            let isLoading = false;
+
+            // إنشاء عنصر مراقب للتمرير (Sentinel)
+            const sentinel = document.createElement('div');
+            sentinel.className = 'scroll-sentinel';
+            sentinel.style.height = '20px';
+            showcase.appendChild(sentinel);
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && nextPageUrl && !isLoading) {
+                    fetchProducts(currentCategory, currentPage + 1, true);
+                }
+            }, { rootMargin: '300px' }); // يبدأ التحميل قبل الوصول للنهاية بـ 300px
+
+            observer.observe(sentinel);
+
+            async function fetchProducts(category = 'all', page = 1, append = false) {
+                if (isLoading) return;
+                isLoading = true;
+
+                if (!append) {
+                    showcase.innerHTML = `
+                <div class="text-center py-5" style="grid-column: 1/-1;">
+                    <div class="spinner"></div>
+                    <p>{{ __('messages.loading_products') }}</p>
+                </div>`;
+                    currentPage = 1;
+                    nextPageUrl = null;
+                } else {
+                    const loader = document.createElement('div');
+                    loader.className = 'text-center py-3 infinite-loader';
+                    loader.innerHTML = '<div class="spinner"></div>';
+                    showcase.appendChild(loader);
+                }
+
+                try {
+                    const url = new URL(PRODUCTS_URL, window.location.origin);
+                    url.searchParams.set('category', category);
+                    url.searchParams.set('page', page);
+
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+
+                    if (!response.ok) throw new Error('Failed to load products');
+                    const result = await response.json();
+
+                    if (!result.success) throw new Error(result.message);
+
+                    if (!append) showcase.innerHTML = ''; // مسح التحميل الأولي
+
+                    // إزالة عنصر التحميل السفلي إن وجد
+                    const existingLoader = showcase.querySelector('.infinite-loader');
+                    if (existingLoader) existingLoader.remove();
+
+                    displayProducts(result.data, append);
+
+                    nextPageUrl = result.next_page_url;
+                    currentPage = result.current_page;
+
+                } catch (error) {
+                    console.error('Products Error:', error);
+                    if (!append) {
+                        showcase.innerHTML = `
+                    <div class="text-center py-5" style="grid-column: 1/-1;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #dc3545; margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--brown);">{{ __('messages.products_load_error') }}</h4>
+                    </div>`;
+                    }
+                } finally {
+                    isLoading = false;
+                }
+            }
+
+            function displayProducts(products, append) {
+                if (!products || products.length === 0) {
+                    if (!append) {
+                        showcase.innerHTML = `
+                    <div class="text-center py-5" style="grid-column: 1/-1;">
+                        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
+                        <p style="color: var(--gray-500);">{{ __('messages.no_products') }}</p>
+                    </div>`;
+                    } else {
+                        // إخفاء المراقب إذا لم تعد هناك منتجات
+                        sentinel.style.display = 'none';
+                    }
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                const whatsappBase = "https://wa.me/"; // أضف رقمك هنا إذا أردت، أو اتركه ليتم ملؤه لاحقاً
+
+                products.forEach(function (product, index) {
+                    const div = document.createElement('div');
+                    div.className = 'product-showcase-card fade-in-up';
+                    div.style.animationDelay = `${index * 0.08}s`;
+
+                    const whatsappMessage = encodeURIComponent(`{{ __('messages.whatsapp_product_message') }}: ${product.name}`);
+
+                    div.innerHTML = `
+                <a href="${product.url}" class="product-card-link">
+                    <div class="product-showcase-image">
+                        <img src="${product.image}" alt="${escapeHtml(product.name)}" loading="lazy"
+                             onerror="this.src='{{ asset('frontend/img/product-placeholder.png') }}'">
+                        <div class="product-overlay">
+
+                </div>
+            </div>
+            <div class="product-showcase-info">
+                <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                        ${product.price ? `<span class="product-price">${product.price}</span>` : ''}
+                    </div>
+                </a>
+            `;
+                    fragment.appendChild(div);
+                });
+
+                showcase.appendChild(fragment);
+
+                if (typeof AOS !== 'undefined') {
+                    setTimeout(() => AOS.refresh(), 100);
+                }
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            filterTabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    filterTabs.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-filter');
+                    // إعادة تعيين التمرير عند تغيير الفلتر
+                    sentinel.style.display = 'block';
+                    fetchProducts(currentCategory, 1, false);
+                });
+            });
+
+            // التحميل الأولي
+            fetchProducts('all', 1, false);
+        });
+        </script>
     <!-- Why Us Section -->
     <section class="whyus-section" id="whyus">
         <div class="section-container">
@@ -414,7 +599,7 @@
                     @foreach($partners as $partner)
                         <div class="swiper-slide">
                             <div class="brand-logo-box">
-                                <img src="{{$partner->logo}}" alt="{{$partner->name}}">
+                                <img src="{{ Storage::url($partner->logo) }}" alt="{{$partner->name}}">
                             </div>
                         </div>
                     @endforeach
@@ -426,7 +611,7 @@
     <!-- CTA Section -->
     <section class="cta-section" id="contact" data-aos="fade-up">
         <div class="cta-image">
-            <img src="{{$cta->image}}"
+            <img src="{{ Storage::url($cta->image) }}"
                  alt="{{$cta->heading}}">
         </div>
         <div class="cta-content">
@@ -454,451 +639,613 @@
         </div>
 
     </section>
-<style>
-    /* --- متغيرات الألوان والخطوط --- */
-    :root {
-        --primary-color: #2563eb;
-        --primary-dark: #1d4ed8;
-        --accent-color: #f59e0b;
-        --text-dark: #1e293b;
-        --text-gray: #64748b;
-        --bg-light: #f8fafc;
-        --white: #ffffff;
-        --error: #ef4444;
-        --success: #10b981;
-        --radius: 16px;
-        --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
-        --shadow-hover: 0 20px 50px -12px rgba(37, 99, 235, 0.15);
-    }
+    <style>/* --- قسم CTA والتواصل الفاخر --- */
+        .premium-cta-section {
+            position: relative;
+            padding: 6rem 1rem;
+            background: var(--cream);
+            font-family: 'Cairo', sans-serif;
+            overflow: hidden;
+        }
 
-    /* --- الإعدادات العامة للقسم --- */
-    .contact-section {
-        position: relative;
-        padding: 5rem 1rem;
-        background: var(--bg-light);
-        font-family: 'Cairo', sans-serif;
-        overflow: hidden;
-        direction: rtl;
-    }
+        .premium-cta-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
 
-    .container-custom {
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 2;
-    }
+        @media (min-width: 992px) {
+            .premium-cta-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 5rem;
+            }
+        }
 
-    /* --- الخلفية الزخرفية --- */
-    .contact-bg-shapes .shape {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.15;
-        z-index: 1;
-        animation: floatBlob 8s ease-in-out infinite;
-    }
-    .shape-1 { width: 400px; height: 400px; background: var(--primary-color); top: -100px; left: -100px; }
-    .shape-2 { width: 350px; height: 350px; background: var(--accent-color); bottom: -50px; right: -50px; animation-delay: 2s; }
+        /* --- محتوى النص --- */
+        .premium-cta-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
 
-    @keyframes floatBlob {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(20px, -30px) scale(1.05); }
-    }
+        .cta-split-heading .accent {
+            color: var(--gold);
+            position: relative;
+            display: inline-block;
+        }
 
-    /* --- عنوان القسم --- */
-    .section-header { text-align: center; margin-bottom: 3.5rem; }
-    .section-badge {
-        display: inline-block;
-        padding: 0.5rem 1.5rem;
-        background: linear-gradient(135deg, var(--accent-color), #d97706);
-        color: var(--white);
-        font-size: 0.9rem;
-        font-weight: 700;
-        border-radius: 50px;
-        margin-bottom: 1rem;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-    }
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--text-dark);
-        margin-bottom: 1rem;
-        line-height: 1.3;
-    }
-    .section-desc {
-        font-size: 1.1rem;
-        color: var(--text-gray);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.8;
-    }
+        .cta-split-heading .accent::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            right: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(238, 182, 23, 0.2);
+            border-radius: 4px;
+            z-index: -1;
+        }
 
-    /* --- شبكة العرض (Grid) --- */
-    .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
-    @media (min-width: 1024px) {
-        .contact-grid { grid-template-columns: 5fr 7fr; align-items: start; }
-    }
+        .quick-contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-    /* --- بطاقات المعلومات --- */
-    .contact-info-col { display: flex; flex-direction: column; gap: 1.5rem; }
-    .info-card, .social-card {
-        background: var(--white);
-        padding: 1.5rem;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        display: flex;
-        align-items: flex-start;
-        gap: 1.25rem;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-    .info-card:hover, .social-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-hover);
-        border-color: rgba(37, 99, 235, 0.1);
-    }
-    .info-icon {
-        width: 55px; height: 55px;
-        border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem; color: var(--white);
-        flex-shrink: 0;
-    }
-    .info-icon.bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .info-icon.bg-green { background: linear-gradient(135deg, #10b981, #059669); }
-    .info-icon.bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .qc-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
 
-    .info-content h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
-    .info-content p, .info-link { font-size: 0.95rem; color: var(--text-gray); text-decoration: none; display: block; transition: color 0.2s; }
-    .info-link:hover { color: var(--primary-color); }
+        .qc-item i {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            box-shadow: var(--shadow-sm);
+        }
 
-    /* --- بطاقات التواصل الاجتماعي --- */
-    .social-card { flex-direction: column; align-items: flex-start; }
-    .social-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
-    .social-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .social-btn {
-        width: 45px; height: 45px;
-        border-radius: 12px;
-        background: var(--bg-light);
-        color: var(--text-gray);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-    .social-btn:hover {
-        background: var(--social-color);
-        color: var(--white);
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 20px -5px var(--social-color);
-    }
+        /* زر الهيرو الخارجي */
+        .btn-hero-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--gold);
+            color: var(--gold-dark);
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: transparent;
+            width: fit-content;
+            margin-top: 1rem;
+        }
 
-    /* --- نموذج المراسلة --- */
-    .contact-form-col {
-        background: var(--white);
-        padding: 2.5rem;
-        border-radius: 24px;
-        box-shadow: var(--shadow);
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-    .form-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-    .form-icon-wrapper {
-        width: 50px; height: 50px;
-        background: linear-gradient(135deg, var(--accent-color), #d97706);
-        border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--white); font-size: 1.2rem;
-    }
-    .form-header h3 { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); margin: 0; }
+        .btn-hero-outline:hover {
+            background: var(--gold);
+            color: var(--white);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-2px);
+        }
 
-    .form-row { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-    @media (min-width: 768px) { .form-row { grid-template-columns: 1fr 1fr; } }
+        /* --- بطاقة النموذج الفاخرة --- */
+        .premium-form-wrapper {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border-top: 4px solid var(--gold);
+            position: relative;
+        }
 
-    .form-group { position: relative; }
-    .form-group label {
-        display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem;
-    }
-    .required { color: var(--error); }
+        .form-title-bar {
+            margin-bottom: 2rem;
+            position: relative;
+        }
 
-    .form-group input, .form-group textarea, .form-group select {
-        width: 100%;
-        padding: 0.9rem 1.2rem;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        font-family: 'Cairo', sans-serif;
-        font-size: 0.95rem;
-        color: var(--text-dark);
-        background: var(--bg-light);
-        transition: all 0.3s ease;
-        outline: none;
-    }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-        border-color: var(--primary-color);
-        background: var(--white);
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-    }
+        .form-title-bar h4 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 0;
+        }
 
-    /* تنسيق خاص للقائمة المنسدلة */
-    .select-wrapper { position: relative; }
-    .select-wrapper select {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: left 1rem center; /* لليسار في RTL */
-        background-size: 1.2rem;
-        padding-left: 2.5rem;
-    }
+        .title-bar-accent {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-gold);
+            margin-top: 0.75rem;
+            border-radius: 2px;
+        }
 
-    /* رسائل الخطأ */
-    .error-msg {
-        display: block;
-        font-size: 0.8rem;
-        color: var(--error);
-        margin-top: 0.4rem;
-        min-height: 1.2rem;
-        opacity: 0;
-        transform: translateY(-5px);
-        transition: all 0.3s ease;
-    }
-    .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select {
-        border-color: var(--error);
-        background: #fef2f2;
-        animation: shake 0.4s ease-in-out;
-    }
-    .form-group.has-error .error-msg { opacity: 1; transform: translateY(0); }
+        /* --- حقول النموذج العائمة (Floating Labels) --- */
+        .form-row-new {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
+        @media (min-width: 768px) {
+            .form-row-new { grid-template-columns: 1fr 1fr; }
+        }
 
-    /* زر الإرسال */
-    .submit-btn {
-        width: 100%;
-        padding: 1rem 2rem;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: var(--white);
-        border: none;
-        border-radius: 12px;
-        font-family: 'Cairo', sans-serif;
-        font-size: 1.05rem;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
-        margin-top: 1rem;
-    }
-    .submit-btn:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.5);
-    }
-    .submit-btn:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-        transform: none;
-    }
-    .btn-loader { display: none; }
-    .submit-btn.loading .btn-text, .submit-btn.loading .btn-icon { display: none; }
-    .submit-btn.loading .btn-loader { display: inline-block; }
+        .form-group-new {
+            position: relative;
+        }
 
-    /* --- التجاوب مع الشاشات الصغيرة --- */
-    @media (max-width: 768px) {
-        .contact-section { padding: 3rem 1rem; }
-        .section-title { font-size: 1.8rem; }
-        .contact-form-col { padding: 1.5rem; }
-    }
-</style>
-    @if($contact)
-        <section id="contact" class="contact-section">
-            <!-- خلفية زخرفية متحركة -->
-            <div class="contact-bg-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-            </div>
+        .form-group-new input,
+        .form-group-new textarea,
+        .form-group-new select {
+            width: 100%;
+            padding: 1rem 1rem 0.5rem;
+            border: 1px solid var(--cream-dark);
+            border-radius: 8px;
+            background: var(--cream);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            outline: none;
+        }
 
-            <div class="container-custom">
-                <!-- عنوان القسم -->
-                <div class="section-header" data-aos="fade-up">
-                    <span class="section-badge">{{ $contact->getTranslation('label', app()->getLocale()) }}</span>
-                    <h2 class="section-title">{!! $contact->getTranslation('heading', app()->getLocale()) !!}</h2>
-                    <p class="section-desc">{{ $contact->getTranslation('description', app()->getLocale()) }}</p>
-                </div>
+        .form-group-new textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
 
-                <div class="contact-grid">
-                    <div class="contact-form-col" data-aos="fade-right" data-aos-delay="200">
+        /* Floating Label Logic */
+        .form-group-new label {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 0.95rem;
+            color: var(--gray-500);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: transparent;
+            padding: 0 0.25rem;
+        }
+
+        .form-group-new .req {
+            color: var(--brown);
+        }
+
+        .form-group-new input:focus,
+        .form-group-new textarea:focus,
+        .form-group-new select:focus,
+        .form-group-new input:not(:placeholder-shown),
+        .form-group-new textarea:not(:placeholder-shown),
+        .form-group-new select:valid {
+            border-color: var(--gold);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(238, 182, 23, 0.1);
+        }
+
+        .form-group-new input:focus ~ label,
+        .form-group-new textarea:focus ~ label,
+        .form-group-new select:focus ~ label,
+        .form-group-new input:not(:placeholder-shown) ~ label,
+        .form-group-new textarea:not(:placeholder-shown) ~ label,
+        .form-group-new select:valid ~ label {
+            top: -0.6rem;
+            right: 0.8rem;
+            font-size: 0.75rem;
+            color: var(--gold-dark);
+            background: var(--white);
+            font-weight: 600;
+        }
+
+        /* Select Wrapper Fix */
+        .select-wrapper-new {
+            position: relative;
+        }
+        .select-wrapper-new select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23707070'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* رسائل الخطأ */
+        .error-msg {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--brown);
+            margin-top: 0.3rem;
+            min-height: 1rem;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .form-group-new.has-error input,
+        .form-group-new.has-error textarea,
+        .form-group-new.has-error select {
+            border-color: var(--brown);
+            background: #FFF5F5;
+        }
+
+        .form-group-new.has-error .error-msg {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* زر الإرسال الفاخر */
+        .btn-premium-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-brand);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-premium-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(44, 0, 0, 0.3);
+        }
+
+        .btn-premium-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-loader { display: none; }
+        .btn-premium-submit.loading .btn-text,
+        .btn-premium-submit.loading .btn-icon { display: none; }
+        .btn-premium-submit.loading .btn-loader { display: inline-block; }
+
+        /* تجاوب */
+        @media (max-width: 768px) {
+            .premium-cta-section { padding: 4rem 1rem; }
+            .premium-form-wrapper { padding: 1.5rem; }
+            .section-heading { font-size: 2rem !important; }
+        }</style>
+
+    @if($contact || $cta)
+        <section class="premium-cta-section" id="contact">
+            <div class="section-container">
+                <div class="premium-cta-grid">
+
+                    <div class="premium-cta-content" data-aos="fade-right">
+                        <div class="section-header-new" style="text-align: right; margin-bottom: 2rem;">
+                            @if(isset($contact))
+                                <div class="section-label" style="color: var(--gold);">
+                                    {{ $contact->label }}
+                                </div>
+                                <h2 class="section-heading">
+                                    {!! sectionHeading($contact->heading) !!}
+                                </h2>
+                                <p class="section-desc" style="margin: 0; max-width: 100%;">
+                                    {{ $contact->description }}
+                                </p>
+                            @elseif(isset($cta))
+                                @php
+                                    [$firstLine, $secondLine] = array_pad(explode('|', $cta->heading, 2), 2, '');
+                                @endphp
+                                <h2 class="section-heading cta-split-heading">
+                                    {{ $firstLine }}<br>
+                                    <span class="accent">{{ $secondLine }}</span>
+                                </h2>
+                                <p class="section-desc" style="margin: 0; max-width: 100%;">
+                                    {{ $cta->description }}
+                                </p>
+                            @endif
+                        </div>
+
+                        {{-- معلومات تواصل سريعة وأنيقة --}}
+                        <div class="quick-contact-info">
+                            @if(isset($contact) && !empty($contact->phones))
+                                <div class="qc-item">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <span dir="ltr">{{ $contact->phones[0] }}</span>
+                                </div>
+                            @endif
+
+                            @if(isset($contact) && !empty($contact->emails))
+                                <div class="qc-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span dir="ltr">{{ $contact->emails[0] }}</span>
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- زر الواتساب الرئيسي --}}
+                        @if(isset($cta) && $cta->mobile)
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $cta->mobile) }}"
+                               class="btn-hero-outline"
+                               target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                {{ $cta->button_text ?? __('messages.contact_via_whatsapp') }}
+                            </a>
+                        @endif
+                    </div>
+
+                    {{-- العمود الأيسر (في RTL): نموذج التواصل الفاخر --}}
+                    <div class="premium-form-wrapper" data-aos="fade-left" data-aos-delay="100">
                         <form id="contactForm" action="{{ route('frontend.contact.submit') }}" method="POST">
                             @csrf
-                            <div class="form-header">
-                                <div class="form-icon-wrapper">
-                                    <i class="fas fa-paper-plane"></i>
-                                </div>
-                                <h3>أرسل لنا رسالة</h3>
+
+                            <div class="form-title-bar">
+                                <h4>{{ __('messages.contact_form_title') }}</h4>
+                                <div class="title-bar-accent"></div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>الاسم الكامل <span class="required">*</span></label>
-                                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="أدخل اسمك الثلاثي">
+                            <div class="form-row-new">
+                                <div class="form-group-new">
+                                    <input type="text" name="name" value="{{ old('name') }}" required placeholder=" ">
+                                    <label>{{ __('messages.full_name') }} <span class="req">*</span></label>
                                     <span class="error-msg"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label>رقم الجوال <span class="required">*</span></label>
-                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" placeholder="05xxxxxxxx">
+
+                                <div class="form-group-new">
+                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" placeholder=" ">
+                                    <label>{{ __('messages.phone_number') }} <span class="req">*</span></label>
                                     <span class="error-msg"></span>
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>البريد الإلكتروني</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" placeholder="example@domain.com">
+                            <div class="form-row-new">
+                                <div class="form-group-new">
+                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" placeholder=" ">
+                                    <label>{{ __('messages.email') }}</label>
                                     <span class="error-msg"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label>الموضوع <span class="required">*</span></label>
-                                    <div class="select-wrapper">
+
+                                <div class="form-group-new">
+                                    <div class="select-wrapper-new">
                                         <select name="subject" required>
-                                            <option value="" disabled selected>اختر موضوع الرسالة</option>
-                                            <option value="طلب عرض أسعار" {{ old('subject') === 'طلب عرض أسعار' ? 'selected' : '' }}>طلب عرض أسعار</option>
-                                            <option value="دعم فني" {{ old('subject') === 'دعم فني' ? 'selected' : '' }}>دعم فني</option>
-                                            <option value="شراكة تجارية" {{ old('subject') === 'شراكة تجارية' ? 'selected' : '' }}>شراكة تجارية</option>
-                                            <option value="استفسار عام" {{ old('subject') === 'استفسار عام' ? 'selected' : '' }}>استفسار عام</option>
+                                            <option value="" disabled selected></option>
+
+                                            <option value="quote_request"
+                                                {{ old('subject') === 'quote_request' ? 'selected' : '' }}>
+                                                {{ __('messages.quote_request') }}
+                                            </option>
+
+                                            <option value="technical_support"
+                                                {{ old('subject') === 'technical_support' ? 'selected' : '' }}>
+                                                {{ __('messages.technical_support') }}
+                                            </option>
+
+                                            <option value="business_partnership"
+                                                {{ old('subject') === 'business_partnership' ? 'selected' : '' }}>
+                                                {{ __('messages.business_partnership') }}
+                                            </option>
+
+                                            <option value="general_inquiry"
+                                                {{ old('subject') === 'general_inquiry' ? 'selected' : '' }}>
+                                                {{ __('messages.general_inquiry') }}
+                                            </option>
                                         </select>
+
+                                        <label>{{ __('messages.subject') }} <span class="req">*</span></label>
                                     </div>
+
                                     <span class="error-msg"></span>
                                 </div>
                             </div>
 
-                            <div class="form-group full-width">
-                                <label>تفاصيل الرسالة <span class="required">*</span></label>
-                                <textarea name="message" rows="5" required placeholder="اكتب تفاصيل استفسارك أو طلبك هنا...">{{ old('message') }}</textarea>
+                            <div class="form-group-new full-width-new">
+                                <textarea name="message" rows="4" required placeholder=" "></textarea>
+
+                                <label>{{ __('messages.message_details') }} <span class="req">*</span></label>
+
                                 <span class="error-msg"></span>
                             </div>
 
-                            <button type="submit" id="submitBtn" class="submit-btn">
-                                <span class="btn-text">إرسال الرسالة</span>
+                            <button type="submit" id="submitBtn" class="btn-premium-submit">
+                                <span class="btn-text">{{ __('messages.send_request') }}</span>
                                 <i class="fas fa-paper-plane btn-icon"></i>
                                 <i class="fas fa-spinner fa-spin btn-loader"></i>
                             </button>
                         </form>
                     </div>
+
                 </div>
             </div>
         </section>
     @endif
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             const form = document.getElementById('contactForm');
             const submitBtn = document.getElementById('submitBtn');
 
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    clearErrors();
+            if (!form || !submitBtn) return;
 
-                    // تفعيل حالة التحميل
-                    submitBtn.classList.add('loading');
-                    submitBtn.disabled = true;
-
-                    const formData = new FormData(form);
-                    const csrfToken = form.querySelector('input[name="_token"]').value;
-
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken,
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json'
-                        }
-                    })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(errors => { throw { status: 422, errors: errors }; });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                // نجاح الإرسال
-                                if (typeof toastr !== 'undefined') {
-                                    toastr.success(data.message || 'تم إرسال رسالتك بنجاح، سنتواصل معك قريباً.', 'نجاح', {
-                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
-                                        timeOut: 4000, progressBar: true
-                                    });
-                                } else {
-                                    alert(data.message || 'تم الإرسال بنجاح!');
-                                }
-                                form.reset(); // إفراغ الحقول
-                            } else {
-                                throw new Error(data.message || 'حدث خطأ أثناء الإرسال');
-                            }
-                        })
-                        .catch(error => {
-                            if (error.status === 422) {
-                                displayErrors(error.errors);
-                                if (typeof toastr !== 'undefined') {
-                                    toastr.error('يرجى تصحيح الأخطاء المميزة في النموذج', 'خطأ في التحقق', {
-                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
-                                        timeOut: 4000
-                                    });
-                                }
-                            } else {
-                                if (typeof toastr !== 'undefined') {
-                                    toastr.error(error.message || 'حدث خطأ غير متوقع في الخادم', 'خطأ', {
-                                        positionClass: document.documentElement.dir === 'rtl' ? 'toast-top-left' : 'toast-top-right',
-                                        timeOut: 4000
-                                    });
-                                }
-                            }
-                        })
-                        .finally(() => {
-                            // إعادة الزر لحالته الطبيعية
-                            submitBtn.classList.remove('loading');
-                            submitBtn.disabled = false;
-                        });
-                });
+            if (typeof toastr === 'undefined') {
+                console.error('Toastr لم يتم تحميله');
+                return;
             }
 
-            // دالة عرض الأخطاء تحت الحقول
-            function displayErrors(errors) {
-                for (const field in errors) {
-                    const input = form.querySelector(`[name="${field}"]`);
-                    if (input) {
-                        const formGroup = input.closest('.form-group');
-                        formGroup.classList.add('has-error');
-                        const errorSpan = formGroup.querySelector('.error-msg');
-                        if (errorSpan) {
-                            errorSpan.textContent = errors[field][0];
+            // رسائل Toastr حسب لغة الموقع
+            const translations = {
+                success: @json(__('messages.success')),
+                validationError: @json(__('messages.validation_error')),
+                error: @json(__('messages.error')),
+                defaultSuccess: @json(__('messages.contact_success')),
+                defaultError: @json(__('messages.unexpected_error'))
+            };
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                clearErrors();
+
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+
+                const formData = new FormData(form);
+                const csrfToken = form.querySelector('input[name="_token"]')?.value;
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(async response => {
+
+                        const data = await response.json();
+
+                        if (response.status === 422) {
+                            throw {
+                                status: 422,
+                                errors: data.errors || {}
+                            };
                         }
+
+                        if (!response.ok) {
+                            throw {
+                                status: response.status,
+                                message: data.message || translations.defaultError
+                            };
+                        }
+
+                        return data;
+                    })
+
+                    .then(data => {
+
+                        toastr.success(
+                            data.message || translations.defaultSuccess,
+                            translations.success,
+                            {
+                                closeButton: true,
+                                progressBar: true,
+                                timeOut: 5000,
+                                extendedTimeOut: 1000,
+                                positionClass: 'toast-top-left'
+                            }
+                        );
+
+                        form.reset();
+                    })
+
+                    .catch(error => {
+
+                        if (error.status === 422) {
+
+                            displayErrors(error.errors);
+
+                            Object.values(error.errors).forEach(messages => {
+
+                                messages.forEach(message => {
+
+                                    toastr.error(
+                                        message,
+                                        translations.validationError,
+                                        {
+                                            closeButton: true,
+                                            progressBar: true,
+                                            timeOut: 5000,
+                                            extendedTimeOut: 1000,
+                                            positionClass: 'toast-top-left'
+                                        }
+                                    );
+
+                                });
+
+                            });
+
+                        } else {
+
+                            toastr.error(
+                                error.message || translations.defaultError,
+                                translations.error,
+                                {
+                                    closeButton: true,
+                                    progressBar: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    positionClass: 'toast-top-left'
+                                }
+                            );
+                        }
+
+                    })
+
+                    .finally(() => {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                    });
+            });
+
+
+            function displayErrors(errors) {
+
+                for (const field in errors) {
+
+                    const input = form.querySelector(`[name="${field}"]`);
+
+                    if (!input) continue;
+
+                    const formGroup = input.closest('.form-group-new');
+
+                    if (!formGroup) continue;
+
+                    formGroup.classList.add('has-error');
+
+                    const errorSpan = formGroup.querySelector('.error-msg');
+
+                    if (errorSpan) {
+                        errorSpan.textContent = errors[field][0];
                     }
                 }
             }
 
-            // دالة مسح الأخطاء
+
             function clearErrors() {
-                document.querySelectorAll('.form-group.has-error').forEach(el => el.classList.remove('has-error'));
-                document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+
+                document
+                    .querySelectorAll('.form-group-new.has-error')
+                    .forEach(el => el.classList.remove('has-error'));
+
+                document
+                    .querySelectorAll('.error-msg')
+                    .forEach(el => el.textContent = '');
+
+                toastr.clear();
             }
 
-            // إزالة الخطأ فوراً عند بدء الكتابة
-            document.querySelectorAll('.form-group input, .form-group textarea, .form-group select').forEach(input => {
-                input.addEventListener('input', function() {
-                    this.closest('.form-group').classList.remove('has-error');
-                });
-            });
         });
-        </script>
-
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>

@@ -101,12 +101,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::put('/products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
     Route::delete('/product-images/{image}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteImage'])->name('products.images.destroy');
-
+    Route::put('/products-section', [\App\Http\Controllers\Admin\ProductController::class, 'updateSection'])->name('products.section.update');
     Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
     Route::post('/users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
     Route::put('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
 
 });
+Route::get('/products/ajax', [\App\Http\Controllers\Admin\ProductController::class, 'ajax'])
+    ->name('frontend.products.ajax');
+Route::get('/products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'show'])->name('frontend.products.show');
 Route::post('/contact', [\App\Http\Controllers\Frontend\ContactController::class, 'submit'])->name('frontend.contact.submit');
+Route::get('/products', [\App\Http\Controllers\Frontend\FrontendController::class, 'products'])->name('frontend.products.index');
+
 require __DIR__.'/auth.php';

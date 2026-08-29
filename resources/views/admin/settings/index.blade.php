@@ -115,24 +115,40 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('company_name_en') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
+                    {{-- الهاتف (غير مترجم - نص عادي) --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.phone') }}</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ __('messages.phone') }}
+                        </label>
                         <input type="text" name="phone"
-                               value="{{ old('phone', is_string($settings['phone'] ?? null) ? $settings['phone'] : '') }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               value="{{ old('phone', $settings['phone'] ?? '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               dir="ltr">
                     </div>
+
+                    {{-- الجوال (غير مترجم - نص عادي) --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.mobile') }}</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ __('messages.mobile') }}
+                        </label>
                         <input type="text" name="mobile"
-                               value="{{ old('mobile', is_string($settings['mobile'] ?? null) ? $settings['mobile'] : '') }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               value="{{ old('mobile', $settings['mobile'] ?? '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               dir="ltr">
                     </div>
+
+                    {{-- البريد الإلكتروني (غير مترجم - نص عادي) --}}
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.email') }}</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ __('messages.email') }}
+                        </label>
                         <input type="email" name="email"
-                               value="{{ old('email', is_string($settings['email'] ?? null) ? $settings['email'] : '') }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               value="{{ old('email', $settings['email'] ?? '') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               dir="ltr">
                     </div>
+
+
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.address_ar') }}</label>
                         <textarea name="address_ar" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_ar', is_array($settings['address'] ?? null) ? ($settings['address']['ar'] ?? '') : '') }}</textarea>

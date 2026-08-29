@@ -14,23 +14,17 @@ class SettingController extends Controller
         if (!auth()->user()->can('view settings')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
+
         $settings = [];
         $records = Setting::all();
 
-        $simpleFields = ['logo', 'favicon', 'phone', 'mobile', 'email', 'whatsapp', 'instagram', 'facebook', 'twitter', 'linkedin', 'youtube'];
-
         foreach ($records as $record) {
-            $translations = $record->getTranslations('value');
-
-            if (in_array($record->key, $simpleFields)) {
-                if (is_array($translations) && !empty($translations)) {
-                    $values = array_values($translations);
-                    $settings[$record->key] = $values[0] ?? null;
-                } else {
-                    $settings[$record->key] = $record->value;
-                }
+            if (Setting::isTranslatable($record->key)) {
+                // الحقول المترجمة: إرجاع مصفوفة كاملة ['ar' => '...', 'en' => '...']
+                $settings[$record->key] = $record->getTranslations('value');
             } else {
-                $settings[$record->key] = is_array($translations) ? $translations : [];
+                // ✅ الحقول غير المترجمة: إرجاع نص اللغة الحالية فقط
+                $settings[$record->key] = Setting::get($record->key);
             }
         }
 
@@ -86,6 +80,7 @@ class SettingController extends Controller
         if (!auth()->user()->can('edit settings')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
+
         $request->validate([
             'company_name_ar' => 'required|string|max:255',
             'company_name_en' => 'required|string|max:255',
@@ -94,20 +89,26 @@ class SettingController extends Controller
             'email' => 'nullable|email|max:255',
             'address_ar' => 'nullable|string',
             'address_en' => 'nullable|string',
-        ], [
-            'company_name_ar.required' => __('messages.company_name_ar_required'),
-            'company_name_en.required' => __('messages.company_name_en_required'),
         ]);
 
-        Setting::set('company_name', ['ar' => $request->company_name_ar, 'en' => $request->company_name_en], 'company');
-        Setting::set('address', ['ar' => $request->address_ar, 'en' => $request->address_en], 'company');
+        // ✅ حقول مترجمة (مصفوفة)
+        Setting::set('company_name', [
+            'ar' => $request->company_name_ar,
+            'en' => $request->company_name_en
+        ], 'company');
+
+        Setting::set('address', [
+            'ar' => $request->address_ar,
+            'en' => $request->address_en
+        ], 'company');
+
+        // ✅ حقول غير مترجمة (نص عادي) - الآن ستُحفظ بشكل صحيح
         Setting::set('phone', $request->phone, 'company');
         Setting::set('mobile', $request->mobile, 'company');
         Setting::set('email', $request->email, 'company');
 
         return back()->with('success', __('messages.company_data_saved_successfully'));
     }
-
     public function updateSocial(Request $request)
     {
         if (!auth()->user()->can('edit settings')) {

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\MarqueeItem;
 use Illuminate\Database\Seeder;
 use App\Models\Marquee;
 
@@ -58,7 +57,7 @@ class MarqueeSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            MarqueeItem::create($item);
+            Marquee::create($item);
         }
     }
 }

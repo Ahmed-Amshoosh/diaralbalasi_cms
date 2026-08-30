@@ -3,153 +3,6 @@
 @section('title', __('messages.all_products') . ' - ' . config('app.name'))
 
 @section('content')
-    <section class="all-products-page"
-             style="padding: 4rem 0; background: var(--cream); min-height: 80vh;">
-        <div class="section-container">
-            <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
-                <a href="{{ route('home') }}">
-                    {{ __('messages.home') }}
-                </a>
-                <i class="fas fa-chevron-left"></i>
-                <span class="current">
-                    {{ __('messages.all_products') }}
-                </span>
-            </nav>
-            <div class="text-center mb-8" data-aos="fade-up">
-                <h1 class="section-heading" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                    {{ __('messages.all_products') }}
-                </h1>
-                <p class="section-desc" style="max-width: 600px; margin: 0 auto;">
-                    {{ __('messages.explore_our_products_desc') }}
-                </p>
-            </div>
-            <div class="products-layout">
-                <div class="mobile-filter-bar">
-                    <button type="button" class="mobile-filter-btn" id="openFilters">
-                        <i class="fas fa-sliders-h"></i>
-                        <span>
-                            {{ __('messages.filters') }}
-                        </span>
-                        <span class="filter-count" id="filterCount">
-                            0
-                        </span>
-                    </button>
-                </div>
-                <div class="filters-overlay"
-                     id="filtersOverlay">
-                </div>
-                <aside class="products-sidebar" id="productsSidebar">
-                    <div class="sidebar-header">
-                        <div>
-                            <span class="sidebar-label">
-                                <i class="fas fa-sliders-h"></i>
-                                {{ __('messages.filters') }}
-                            </span>
-                            <h3>
-                                {{ __('messages.filter_products') }}
-                            </h3>
-                        </div>
-                        <button type="button" class="close-sidebar" id="closeFilters">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="filter-group">
-                        <div class="filter-group-title">
-                            <span class="filter-icon">
-                                <i class="fas fa-folder"></i>
-                            </span>
-                            <span>
-                                {{ __('messages.categories') }}
-                            </span>
-                        </div>
-                        <div class="filter-options">
-                            <button type="button" class="sidebar-filter active" data-type="category" data-filter="all">
-                                <span>
-                                    {{ __('messages.all_products') }}
-                                </span>
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            @foreach($categories as $category)
-                                <button type="button" class="sidebar-filter" data-type="category" data-filter="{{ $category->id }}">
-                                    <span>
-                                        {{ $category->getTranslation('name', app()->getLocale()) }}
-                                    </span>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="sidebar-divider"></div>
-                    <div class="filter-group">
-                        <div class="filter-group-title">
-                            <span class="filter-icon">
-                                <i class="fas fa-award"></i>
-                            </span>
-                            <span>
-                                {{ __('messages.partners') }}
-                            </span>
-                        </div>
-                        <div class="filter-options">
-                            <button type="button" class="sidebar-filter active" data-type="partner" data-filter="all">
-                                <span>
-                                    {{ __('messages.all') }}
-                                </span>
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            @foreach($partners as $partner)
-                                <button type="button" class="sidebar-filter" data-type="partner" data-filter="{{ $partner->id }}">
-                                    <span>
-                                        {{ $partner->getTranslation('name', app()->getLocale()) }}
-                                    </span>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
-                    <button type="button" class="clear-filters" id="clearFilters">
-                        <i class="fas fa-redo-alt"></i>
-                        {{ __('messages.reset_filters') }}
-                    </button>
-                </aside>
-                <main class="products-content">
-                    <div class="products-search" data-aos="fade-up">
-                        <div class="search-box">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="search" id="productSearch" class="product-search-input" placeholder="{{ __('messages.search_products') }}" autocomplete="off">
-                            <button type="button" id="clearSearch" class="clear-search" style="display:none;" aria-label="{{ __('messages.clear') }}">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="products-topbar">
-                        <div>
-                            <span class="products-result-label">
-                                {{ __('messages.all_products') }}
-                            </span>
-                            <h2>
-                                {{ __('messages.explore_our_products') }}
-                            </h2>
-                        </div>
-                        <div class="selected-filter-info" id="selectedFilterInfo">
-                            {{ __('messages.all_products') }}
-                        </div>
-                    </div>
-                    <div class="products-grid-showcase" id="productsGrid">
-                    </div>
-                    <div class="scroll-sentinel" id="scrollSentinel">
-                        <div class="spinner" style="display:none;">
-                        </div>
-                        <p class="loading-text" style="display:none;">
-                            {{ __('messages.loading_more') }}
-                        </p>
-                        <p class="end-text" style="display:none;">
-                            {{ __('messages.no_more_products') }}
-                        </p>
-                    </div>
-                </main>
-            </div>
-        </div>
-    </section>
     <style>
         .products-layout {
             display: grid;
@@ -655,6 +508,153 @@
             background: var(--brown);
         }
     </style>
+    <section class="all-products-page"
+             style="padding: 4rem 0; background: var(--cream); min-height: 80vh;">
+        <div class="section-container">
+            <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
+                <a href="{{ route('home') }}">
+                    {{ __('messages.home') }}
+                </a>
+                <i class="fas fa-chevron-left"></i>
+                <span class="current">
+                    {{ __('messages.all_products') }}
+                </span>
+            </nav>
+            <div class="text-center mb-8" data-aos="fade-up">
+                <h1 class="section-heading" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    {{ __('messages.all_products') }}
+                </h1>
+                <p class="section-desc" style="max-width: 600px; margin: 0 auto;">
+                    {{ __('messages.explore_our_products_desc') }}
+                </p>
+            </div>
+            <div class="products-layout">
+                <div class="mobile-filter-bar">
+                    <button type="button" class="mobile-filter-btn" id="openFilters">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>
+                            {{ __('messages.filters') }}
+                        </span>
+                        <span class="filter-count" id="filterCount">
+                            0
+                        </span>
+                    </button>
+                </div>
+                <div class="filters-overlay"
+                     id="filtersOverlay">
+                </div>
+                <aside class="products-sidebar" id="productsSidebar">
+                    <div class="sidebar-header">
+                        <div>
+                            <span class="sidebar-label">
+                                <i class="fas fa-sliders-h"></i>
+                                {{ __('messages.filters') }}
+                            </span>
+                            <h3>
+                                {{ __('messages.filter_products') }}
+                            </h3>
+                        </div>
+                        <button type="button" class="close-sidebar" id="closeFilters">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-group-title">
+                            <span class="filter-icon">
+                                <i class="fas fa-folder"></i>
+                            </span>
+                            <span>
+                                {{ __('messages.categories') }}
+                            </span>
+                        </div>
+                        <div class="filter-options">
+                            <button type="button" class="sidebar-filter active" data-type="category" data-filter="all">
+                                <span>
+                                    {{ __('messages.all_products') }}
+                                </span>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            @foreach($categories as $category)
+                                <button type="button" class="sidebar-filter" data-type="category" data-filter="{{ $category->id }}">
+                                    <span>
+                                        {{ $category->getTranslation('name', app()->getLocale()) }}
+                                    </span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="sidebar-divider"></div>
+                    <div class="filter-group">
+                        <div class="filter-group-title">
+                            <span class="filter-icon">
+                                <i class="fas fa-award"></i>
+                            </span>
+                            <span>
+                                {{ __('messages.partners') }}
+                            </span>
+                        </div>
+                        <div class="filter-options">
+                            <button type="button" class="sidebar-filter active" data-type="partner" data-filter="all">
+                                <span>
+                                    {{ __('messages.all') }}
+                                </span>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            @foreach($partners as $partner)
+                                <button type="button" class="sidebar-filter" data-type="partner" data-filter="{{ $partner->id }}">
+                                    <span>
+                                        {{ $partner->getTranslation('name', app()->getLocale()) }}
+                                    </span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                    <button type="button" class="clear-filters" id="clearFilters">
+                        <i class="fas fa-redo-alt"></i>
+                        {{ __('messages.reset_filters') }}
+                    </button>
+                </aside>
+                <main class="products-content">
+                    <div class="products-search" data-aos="fade-up">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="search" id="productSearch" class="product-search-input" placeholder="{{ __('messages.search_products') }}" autocomplete="off">
+                            <button type="button" id="clearSearch" class="clear-search" style="display:none;" aria-label="{{ __('messages.clear') }}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="products-topbar">
+                        <div>
+                            <span class="products-result-label">
+                                {{ __('messages.all_products') }}
+                            </span>
+                            <h2>
+                                {{ __('messages.explore_our_products') }}
+                            </h2>
+                        </div>
+                        <div class="selected-filter-info" id="selectedFilterInfo">
+                            {{ __('messages.all_products') }}
+                        </div>
+                    </div>
+                    <div class="products-grid-showcase" id="productsGrid">
+                    </div>
+                    <div class="scroll-sentinel" id="scrollSentinel">
+                        <div class="spinner" style="display:none;">
+                        </div>
+                        <p class="loading-text" style="display:none;">
+                            {{ __('messages.loading_more') }}
+                        </p>
+                        <p class="end-text" style="display:none;">
+                            {{ __('messages.no_more_products') }}
+                        </p>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const productsGrid = document.getElementById('productsGrid');

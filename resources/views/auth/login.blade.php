@@ -14,7 +14,9 @@
         <style>body { font-family: 'Inter', sans-serif; }</style>
     @endif
 </head>
-<body class="bg-gradient-to-br from-blue-600 to-blue-800 min-h-screen flex items-center justify-center p-4">
+<body
+    style="background: linear-gradient(135deg, #321010 0%, #6A2423 50%, #7B2D2B 100%);"
+    class="min-h-screen flex items-center justify-center p-4">
 <div class="w-full max-w-md">
     <div class="bg-white rounded-2xl shadow-2xl p-8">
         <div class="text-center mb-8">
@@ -35,8 +37,12 @@
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <i class="fas fa-envelope text-gray-400"></i>
                     </div>
-                    <input type="email" name="email" value="{{ old('email') }}" required autofocus
-                        class="w-full ps-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email') }}"
+                           required
+                           autofocus
+                           class="w-full ps-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6A2423] focus:border-[#6A2423]">
                 </div>
                 @error('email')
                 <p class="text-red-500 text-sm mt-1">
@@ -52,8 +58,10 @@
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <i class="fas fa-lock text-gray-400"></i>
                     </div>
-                    <input type="password" name="password" required
-                        class="w-full ps-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="password"
+                           name="password"
+                           required
+                           class="w-full ps-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6A2423] focus:border-[#6A2423]">
                 </div>
                 @error('password')
                 <p class="text-red-500 text-sm mt-1">
@@ -61,16 +69,8 @@
                 </p>
                 @enderror
             </div>
-            <div class="flex items-center justify-between">
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}"
-                        class="text-sm text-blue-600 hover:text-blue-800">
-                        {{ __('messages.forgot_password') }}
-                    </a>
-                @endif
-            </div>
             <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                    class="w-full bg-[#6A2423] hover:bg-[#521B1A] text-white font-bold py-3 px-4 rounded-lg transition-colors">
                 {{ __('messages.login') }}
             </button>
         </form>

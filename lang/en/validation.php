@@ -6,6 +6,7 @@ return [
     'min' => [
         'string' => 'The :attribute must be at least :min characters.',
     ],
+    'credentials_do_not_match' => 'These credentials do not match our records.',
     'max' => [
         'string' => 'The :attribute may not be greater than :max characters.',
     ],

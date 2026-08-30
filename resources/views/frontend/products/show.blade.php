@@ -3,107 +3,6 @@
 @section('title', $product->getTranslation('name', app()->getLocale()) . ' - ' . config('app.name'))
 
 @section('content')
-    <div class="product-details-page" style="padding: 4rem 0; background: var(--cream);">
-        <div class="section-container">
-            <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
-                <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
-                <i class="fas fa-chevron-left"></i>
-                @if($product->category)
-                    <a href="{{ route('frontend.products.index', ['category' => $product->category->id]) }}">
-                        {{ $product->category->getTranslation('name', app()->getLocale()) }}
-                    </a>
-                    <i class="fas fa-chevron-left"></i>
-                @endif
-                <span class="current">{{ $product->getTranslation('name', app()->getLocale()) }}</span>
-            </nav>
-            <div class="product-details-grid" data-aos="fade-up">
-                <div class="product-gallery">
-                    <div class="main-image-container">
-                        <img id="mainProductImage"
-                             src="{{ $product->main_image ?: asset('frontend/img/product-placeholder.png') }}"
-                             alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
-                    </div>
-                    @if($product->images->count() > 1)
-                        <div class="thumbnail-grid">
-                            @foreach($product->images as $index => $image)
-                                <div class="thumbnail-item {{ $index === 0 ? 'active' : '' }}"
-                                     onclick="changeMainImage('{{ asset('storage/' . $image->image) }}', this)">
-                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Thumbnail">
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-                <div class="product-info-panel">
-                    @if($product->partner)
-                        <span class="brand-badge">
-                        <i class="fas fa-award"></i> {{ $product->partner->getTranslation('name', app()->getLocale()) }}
-                    </span>
-                    @endif
-                    <h3 class="product-main-title">
-                        {{ $product->getTranslation('name', app()->getLocale()) }}
-                    </h3>
-                    @if($product->price)
-                        <div class="product-price-tag">
-                            {{ number_format($product->price, 2) }} <span>{{ __('messages.currency') }}</span>
-                        </div>
-                    @endif
-                    <div class="product-meta-info">
-                        @if($product->category)
-                            <div class="meta-item">
-                                <i class="fas fa-folder"></i>
-                                <span>{{ $product->category->getTranslation('name', app()->getLocale()) }}</span>
-                            </div>
-                        @endif
-                    </div>
-                    @if($product->getTranslation('description', app()->getLocale()))
-                        <div class="product-description-box">
-                            <h4>{{ __('messages.description') }}</h4>
-                            <p style="white-space: pre-line;">{{ $product->getTranslation('description', app()->getLocale()) }}</p>
-                        </div>
-                    @endif
-                    <div class="product-actions">
-                        @php
-                            $productName = $product->getTranslation('name', app()->getLocale());
-                            $whatsappMsg = urlencode("مرحباً، أود الاستفسار عن المنتج: " . $productName);
-                            $whatsappNumber = \App\Models\Setting::get('mobile', '');
-                            $cleanNumber = preg_replace('/[^0-9]/', '', $whatsappNumber);
-                        @endphp
-                        <div class="">
-                            <a href="https://wa.me/{{ $cleanNumber }}?text={{ $whatsappMsg }}"
-                               class="btn-hero-outline btn-whatsapp-action" target="_blank">
-                                <i class="fab fa-whatsapp"></i>
-                                {{ __('messages.inquire_via_whatsapp') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if($similarProducts->count() > 0)
-                <div class="similar-products-section" style="margin-top: 5rem;" data-aos="fade-up">
-                    <div class="section-header-new" style="text-align: center; margin-bottom: 3rem;">
-                        <h5 class="section-heading">{{ __('messages.similar_products') }}</h5>
-                    </div>
-                    <div class="products-showcase" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
-                        @foreach($similarProducts as $similar)
-                            <a href="{{ route('frontend.products.show', $similar->id) }}" class="product-showcase-card">
-                                <div class="product-showcase-image">
-                                    <img src="{{ $similar->main_image ?: asset('frontend/img/product-placeholder.png') }}"
-                                         alt="{{ $similar->getTranslation('name', app()->getLocale()) }}" loading="lazy">
-                                </div>
-                                <div class="product-showcase-info">
-                                    <h3 class="product-name">{{ $similar->getTranslation('name', app()->getLocale()) }}</h3>
-                                    @if($similar->price)
-                                        <span class="product-price">{{ number_format($similar->price, 2) }} {{ __('messages.currency') }}</span>
-                                    @endif
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-        </div>
-    </div>
     <style>
         .section-heading {
             font-size: 2rem;
@@ -264,6 +163,107 @@
         }
         .scroll-sentinel { height: 1px; width: 100%; }
     </style>
+    <div class="product-details-page" style="padding: 4rem 0; background: var(--cream);">
+        <div class="section-container">
+            <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
+                <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
+                <i class="fas fa-chevron-left"></i>
+                @if($product->category)
+                    <a href="{{ route('frontend.products.index', ['category' => $product->category->id]) }}">
+                        {{ $product->category->getTranslation('name', app()->getLocale()) }}
+                    </a>
+                    <i class="fas fa-chevron-left"></i>
+                @endif
+                <span class="current">{{ $product->getTranslation('name', app()->getLocale()) }}</span>
+            </nav>
+            <div class="product-details-grid" data-aos="fade-up">
+                <div class="product-gallery">
+                    <div class="main-image-container">
+                        <img id="mainProductImage"
+                             src="{{ $product->main_image ?: asset('frontend/img/product-placeholder.png') }}"
+                             alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
+                    </div>
+                    @if($product->images->count() > 1)
+                        <div class="thumbnail-grid">
+                            @foreach($product->images as $index => $image)
+                                <div class="thumbnail-item {{ $index === 0 ? 'active' : '' }}"
+                                     onclick="changeMainImage('{{ asset('storage/' . $image->image) }}', this)">
+                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Thumbnail">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                <div class="product-info-panel">
+                    @if($product->partner)
+                        <span class="brand-badge">
+                        <i class="fas fa-award"></i> {{ $product->partner->getTranslation('name', app()->getLocale()) }}
+                    </span>
+                    @endif
+                    <h3 class="product-main-title">
+                        {{ $product->getTranslation('name', app()->getLocale()) }}
+                    </h3>
+                    @if($product->price)
+                        <div class="product-price-tag">
+                            {{ number_format($product->price, 2) }} <span>{{ __('messages.currency') }}</span>
+                        </div>
+                    @endif
+                    <div class="product-meta-info">
+                        @if($product->category)
+                            <div class="meta-item">
+                                <i class="fas fa-folder"></i>
+                                <span>{{ $product->category->getTranslation('name', app()->getLocale()) }}</span>
+                            </div>
+                        @endif
+                    </div>
+                    @if($product->getTranslation('description', app()->getLocale()))
+                        <div class="product-description-box">
+                            <h4>{{ __('messages.description') }}</h4>
+                            <p style="white-space: pre-line;">{{ $product->getTranslation('description', app()->getLocale()) }}</p>
+                        </div>
+                    @endif
+                    <div class="product-actions">
+                        @php
+                            $productName = $product->getTranslation('name', app()->getLocale());
+                            $whatsappMsg = urlencode("مرحباً، أود الاستفسار عن المنتج: " . $productName);
+                            $whatsappNumber = \App\Models\Setting::get('mobile', '');
+                            $cleanNumber = preg_replace('/[^0-9]/', '', $whatsappNumber);
+                        @endphp
+                        <div class="">
+                            <a href="https://wa.me/{{ $cleanNumber }}?text={{ $whatsappMsg }}"
+                               class="btn-hero-outline btn-whatsapp-action" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                {{ __('messages.inquire_via_whatsapp') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if($similarProducts->count() > 0)
+                <div class="similar-products-section" style="margin-top: 5rem;" data-aos="fade-up">
+                    <div class="section-header-new" style="text-align: center; margin-bottom: 3rem;">
+                        <h5 class="section-heading">{{ __('messages.similar_products') }}</h5>
+                    </div>
+                    <div class="products-showcase" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
+                        @foreach($similarProducts as $similar)
+                            <a href="{{ route('frontend.products.show', $similar->id) }}" class="product-showcase-card">
+                                <div class="product-showcase-image">
+                                    <img src="{{ $similar->main_image ?: asset('frontend/img/product-placeholder.png') }}"
+                                         alt="{{ $similar->getTranslation('name', app()->getLocale()) }}" loading="lazy">
+                                </div>
+                                <div class="product-showcase-info">
+                                    <h3 class="product-name">{{ $similar->getTranslation('name', app()->getLocale()) }}</h3>
+                                    @if($similar->price)
+                                        <span class="product-price">{{ number_format($similar->price, 2) }} {{ __('messages.currency') }}</span>
+                                    @endif
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
     <script>
         function changeMainImage(src, element) {
             document.getElementById('mainProductImage').src = src;

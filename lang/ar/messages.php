@@ -410,7 +410,7 @@ return [
     'nav_why_us' => 'لماذا نحن',
     'nav_contact' => 'تواصل معنا',
     'nav_contact_sales' => 'تواصل مع المبيعات',
-    'menu_aria_label' => 'القائمة',
+    'menu_aria_label' => 'القائمة','credentials_do_not_match' => 'بيانات تسجيل الدخول غير صحيحة.',
     'login' => 'تسجيل الدخول',
     'welcome_to_dashboard' => 'مرحباً بك في لوحة التحكم',
     'remember_me' => 'تذكرني',

@@ -374,7 +374,7 @@ return [
 
     'brands' => 'Brands',
     'dashboard' => 'Dashboard',
-    'login' => 'Login',
+    'login' => 'Login','credentials_do_not_match' => 'These credentials do not match our records.',
     'welcome_to_dashboard' => 'Welcome to the Dashboard',
     'remember_me' => 'Remember Me',
     'forgot_password' => 'Forgot Password?',

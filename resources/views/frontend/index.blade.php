@@ -3,537 +3,86 @@
 @section('content')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
-    <!-- NEW HERO SECTION WITH BACKGROUND IMAGE -->
-    <section class="hero-new" id="home">
-        <div class="hero-bg">
-            <img src="{{ asset('storage/' . $hero->bg_image) }}"
-                 alt="{{ $hero->getTranslation('title', app()->getLocale()) }}" class="hero-bg-image">
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge-new">
-                <i class="fas fa-award"></i>
-                <span>
-                    {{ $hero->getTranslation('sub_title', app()->getLocale()) }}
-                </span>
-            </div>
-            <h1 class="hero-title-new">
-                {{ $hero->getTranslation('title', app()->getLocale()) }}
-            </h1>
-            <p class="hero-desc-new">
-                {{ $hero->getTranslation('description', app()->getLocale()) }}
-            </p>
-        </div>
-        <div class="hero-stats-floating">
-            @foreach($heroStats as $stat)
-                <div class="hero-stat-float">
-                    <span class="number" data-target="{{ $stat->number }}">0</span>
-                    <span class="label">
-                        {{ $stat->getTranslation('label', app()->getLocale()) }}
-                    </span>
-                </div>
-            @endforeach
-        </div>
-        <div class="hero-scroll-indicator">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
-
-    <div class="marquee-strip">
-        <div class="marquee-track">
-            @foreach($marqueeItems as $marquee)
-                <div class="marquee-item">
-                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
-                    <span class="star">✦</span>
-                </div>
-            @endforeach
-            @foreach($marqueeItems as $marquee)
-                <div class="marquee-item">
-                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
-                    <span class="star">✦</span>
-                </div>
-            @endforeach
-        </div>
-    </div>
-
-    <!-- BENTO GRID SECTION (Moved from Hero) -->
-    <section class="bento-grid-section" id="categories">
-        <div class="section-container">
-            <div class="section-header-new" data-aos="fade-up">
-                <div>
-                    <div class="section-label">
-                        {{ $categorySection->label}}
-                    </div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($categorySection->heading ) !!}
-                    </h2>
-                </div>
-                <p class="section-desc">
-                    {{ $categorySection->description }}
-                </p>
-            </div>
-            <div class="bento-grid">
-                @foreach($categories as $index => $category)
-                    <div
-                        class="bento-item {{ count($categories) === 3 && $index === 0 ? 'large' : '' }}"
-                        data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                        <img src="{{ $category->image_url }}"
-                            alt="{{ $category->getTranslation('name', app()->getLocale()) }}">
-                        <div class="bento-arrow">
-                            <i class="fas fa-arrow-left"></i>
-                        </div>
-                        <div class="bento-content">
-                            @if($category->icon)
-                                <div class="bento-icon">
-                                    <i class="{{ $category->icon }}"></i>
-                                </div>
-                            @endif
-                            <h3 class="bento-title">
-                                {{ $category->getTranslation('name', app()->getLocale()) }}
-                            </h3>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="section-container">
-            <div class="about-grid">
-                <div class="about-visual" data-aos="fade-left">
-                    <div class="about-img-main">
-                        <img src="{{ Storage::url($about->main_image) }}" alt="{{$about->heading}}">
-                    </div>
-                    <div class="about-img-secondary">
-                        <img src="{{ Storage::url($about->secondary_image) }}" alt="{{$about->heading}}">
-                    </div>
-                    <div class="about-experience-badge">
-                        <div class="number">{{$about->experience_number}}</div>
-                        <div class="text">{{$about->experience_text}}</div>
-                    </div>
-                </div>
-                <div class="about-content" data-aos="fade-right">
-                    <div class="section-label">{{$about->label}}</div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($about->heading ) !!}
-                    </h2>
-                    <p style="color: var(--gray-500); margin-top: 25px; line-height: 1.9; font-size: 1.05rem;">{{$about->description}}</p>
-                    <div class="about-features">
-                        @if(!empty($about?->features))
-                            @foreach($about->features as $feature)
-                                <div class="about-feature">
-                                    <div class="about-feature-icon">
-                                        <i class="{{ $feature['icon'] ?? 'fas fa-check' }}"></i>
-                                    </div>
-                                    <div>
-                                        <div class="about-feature-title">
-                                            {{ $feature['title_' . app()->getLocale()] ?? $feature['title_ar'] ?? '' }}
-                                        </div>
-                                        <div class="about-feature-desc">
-                                            {{ $feature['desc_' . app()->getLocale()] ?? $feature['desc_ar'] ?? '' }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products-section" id="products">
-        <div class="section-container">
-            <div class="section-header-new" data-aos="fade-up">
-                <div>
-                    <div class="section-label">
-                        {{ $productSection->label }}
-                    </div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($productSection->heading) !!}
-                    </h2>
-                </div>
-                <p class="section-desc">
-                    {{ $productSection->description }}
-                </p>
-            </div>
-            <div
-                class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4"
-                data-aos="fade-up">
-                <div class="filter-tabs-new">
-                    <button
-                        class="filter-tab-new active"
-                        data-filter="all">
-                        {{ __('messages.all') }}
-                    </button>
-                    @foreach($categories as $category)
-                        <button
-                            class="filter-tab-new"
-                            data-filter="{{ $category->id }}">
-                            {{ $category->name }}
-                        </button>
-                    @endforeach
-                </div>
-            </div>
-            <div class="products-showcase" id="productsShowcase">
-                <div class="text-center py-5">
-                    <div class="spinner"></div>
-                    <p>{{ __('messages.loading_products') }}</p>
-                </div>
-            </div>
-            <div class="text-center mt-60" data-aos="fade-up">
-                <a href="{{route('frontend.products.index')}}"
-                   class="btn-hero-outline">
-                    {{ __('messages.view_all_products') }}
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const showcase = document.getElementById('productsShowcase');
-            const filterTabs = document.querySelectorAll('.filter-tab-new');
-            if (!showcase) return;
-            const PRODUCTS_URL = @json(route('frontend.products.ajax'));
-            let currentCategory = 'all';
-            let currentPage = 1;
-            let nextPageUrl = null;
-            let isLoading = false;
-            const sentinel = document.createElement('div');
-            sentinel.className = 'scroll-sentinel';
-            sentinel.style.height = '20px';
-            showcase.appendChild(sentinel);
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && nextPageUrl && !isLoading) {
-                    fetchProducts(currentCategory, currentPage + 1, true);
-                }
-            }, { rootMargin: '300px' });
-            observer.observe(sentinel);
-            async function fetchProducts(category = 'all', page = 1, append = false) {
-                if (isLoading) return;
-                isLoading = true;
-                if (!append) {
-                    showcase.innerHTML = `
-                <div class="text-center py-5" style="grid-column: 1/-1;">
-                    <div class="spinner"></div>
-                    <p>{{ __('messages.loading_products') }}</p>
-                </div>`;
-                    currentPage = 1;
-                    nextPageUrl = null;
-                } else {
-                    const loader = document.createElement('div');
-                    loader.className = 'text-center py-3 infinite-loader';
-                    loader.innerHTML = '<div class="spinner"></div>';
-                    showcase.appendChild(loader);
-                }
-                try {
-                    const url = new URL(PRODUCTS_URL, window.location.origin);
-                    url.searchParams.set('category', category);
-                    url.searchParams.set('page', page);
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
-                    });
-                    if (!response.ok) throw new Error('Failed to load products');
-                    const result = await response.json();
-                    if (!result.success) throw new Error(result.message);
-                    if (!append) showcase.innerHTML = ''; // مسح التحميل الأولي
-                    const existingLoader = showcase.querySelector('.infinite-loader');
-                    if (existingLoader) existingLoader.remove();
-                    displayProducts(result.data, append);
-                    nextPageUrl = result.next_page_url;
-                    currentPage = result.current_page;
-                } catch (error) {
-                    console.error('Products Error:', error);
-                    if (!append) {
-                        showcase.innerHTML = `
-                    <div class="text-center py-5" style="grid-column: 1/-1;">
-                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #dc3545; margin-bottom: 15px;"></i>
-                        <h4 style="color: var(--brown);">{{ __('messages.products_load_error') }}</h4>
-                    </div>`;
-                    }
-                } finally {
-                    isLoading = false;
-                }
-            }
-
-            function displayProducts(products, append) {
-                if (!products || products.length === 0) {
-                    if (!append) {
-                        showcase.innerHTML = `
-                    <div class="text-center py-5" style="grid-column: 1/-1;">
-                        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
-                        <p style="color: var(--gray-500);">{{ __('messages.no_products') }}</p>
-                    </div>`;
-                    } else {
-                        sentinel.style.display = 'none';
-                    }
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
-                const whatsappBase = "https://wa.me/";
-                products.forEach(function (product, index) {
-                    const div = document.createElement('div');
-                    div.className = 'product-showcase-card fade-in-up';
-                    div.style.animationDelay = `${index * 0.08}s`;
-                    const whatsappMessage = encodeURIComponent(`{{ __('messages.whatsapp_product_message') }}: ${product.name}`);
-
-                    div.innerHTML = `
-                <a href="${product.url}" class="product-card-link">
-                    <div class="product-showcase-image">
-                        <img src="${product.image}" alt="${escapeHtml(product.name)}" loading="lazy"
-                             onerror="this.src='{{ asset('frontend/img/product-placeholder.png') }}'">
-                        <div class="product-overlay">
-                </div>
-            </div>
-            <div class="product-showcase-info">
-                <h3 class="product-name">${escapeHtml(product.name)}</h3>
-                        ${product.price ? `<span class="product-price">${product.price}</span>` : ''}
-                    </div>
-                </a>
-            `;
-                    fragment.appendChild(div);
-                });
-                showcase.appendChild(fragment);
-                if (typeof AOS !== 'undefined') {
-                    setTimeout(() => AOS.refresh(), 100);
-                }
-            }
-            function escapeHtml(text) {
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            }
-            filterTabs.forEach(function (tab) {
-                tab.addEventListener('click', function () {
-                    filterTabs.forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = this.getAttribute('data-filter');
-                    sentinel.style.display = 'block';
-                    fetchProducts(currentCategory, 1, false);
-                });
-            });
-
-            fetchProducts('all', 1, false);
-        });
-        </script>
-    <!-- Why Us Section -->
-    <section class="whyus-section" id="whyus">
-        <div class="section-container">
-            <div class="section-header-new" data-aos="fade-up">
-                <div>
-                    <div class="section-label" style="color: var(--gold);">{{$whyUsSectionSection->label ?? ''}}</div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($whyUsSectionSection->heading ) !!}
-                    </h2>
-                </div>
-                <p class="section-desc">{{$whyUsSectionSection->description ?? ''}}</p>
-            </div>
-            <div class="whyus-grid">
-                @foreach($whyUsItems as $whyUsItem)
-                    <div class="whyus-card" data-aos="fade-up" data-aos-delay="0">
-                        <div class="whyus-number">{{ $loop->iteration}}</div>
-                        <div class="whyus-icon">
-                            <i class="{{$whyUsItem->icon}}"></i>
-                        </div>
-                        <h3 class="whyus-title">{{$whyUsItem->title}}</h3>
-                        <p class="whyus-desc">{{$whyUsItem->description}}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section" id="testimonials">
-        <div class="section-container">
-            <div class="section-header-new" data-aos="fade-up">
-                <div>
-                    <div class="section-label" style="color: var(--gold);">{{$testimonialsSection->label}}</div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($testimonialsSection->heading ) !!}
-                    </h2>
-                </div>
-                <p class="section-desc">{{$testimonialsSection->description}}</p>
-            </div>
-            <!-- Swiper -->
-            <div class="swiper testimonials-swiper" data-aos="fade-up" data-aos-delay="200">
-                <div class="swiper-wrapper" style="padding-bottom: 35px">
-                    @forelse($testimonials as $testimonial)
-                        <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-quote-icon">
-                                    <i class="fas fa-quote-right"></i>
-                                </div>
-                                <p class="testimonial-text">
-                                    {{ $testimonial->getTranslation('content', app()->getLocale()) }}
-                                </p>
-                                <div class="testimonial-author">
-                                    <div class="author-info">
-                                        <h4 class="author-name">
-                                            {{ $testimonial->getTranslation('name', app()->getLocale()) }}
-                                        </h4>
-                                        <span class="author-role">
-                                            {{ $testimonial->getTranslation('role', app()->getLocale()) }}
-                                        </span>
-                                    </div>
-                                    <div class="author-rating">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            <i class="fas fa-star {{ $i <= $testimonial->rating ? 'active' : '' }}"></i>
-                                        @endfor
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="swiper-slide">
-                            <div class="testimonial-card text-center">
-                                <p class="testimonial-text">
-                                    {{ app()->getLocale() === 'ar'
-                                        ? 'لا توجد آراء مضافة حالياً.'
-                                        : 'No testimonials available at the moment.'
-                                    }}
-                                </p>
-                            </div>
-                        </div>
-                    @endforelse
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        <style>
-            .testimonials-swiper {
-                width: 100%;
-                overflow: hidden;
-                padding: 10px 5px 50px;
-            }
-            .testimonials-swiper .swiper-wrapper {
-                align-items: stretch;
-            }
-            .testimonials-swiper .swiper-slide {
-                height: auto;
-                display: flex;
-            }
-            .testimonial-card {
-                width: 100%;
-                height: 100%;
-                padding: 30px;
-                background: #fff;
-                border-radius: 16px;
-                border: 1px solid rgba(0, 0, 0, 0.06);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-                display: flex;
-                flex-direction: column;
-            }
-            .testimonial-quote-icon {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--gold);
-                color: #fff;
-                margin-bottom: 20px;
-            }
-            .testimonial-text {
-                flex: 1;
-                margin: 0 0 25px;
-                line-height: 1.9;
-                color: #555;
-            }
-            .testimonial-author {
-                display: flex;
-                align-items: flex-end;
-                justify-content: space-between;
-                gap: 20px;
-                margin-top: auto;
-            }
-            .author-name {
-                margin: 0 0 5px;
-                font-size: 18px;
-                font-weight: 700;
-                color: #222;
-            }
-            .author-role {
-                display: block;
-                font-size: 14px;
-                color: #888;
-            }
-            .author-rating {
-                display: flex;
-                gap: 3px;
-                direction: ltr;
-            }
-            .author-rating i {
-                color: #ddd;
-                font-size: 14px;
-            }
-            .author-rating i.active {
-                color: var(--gold);
-            }
-            .testimonials-swiper .swiper-pagination {
-                bottom: 5px;
-            }
-            .testimonials-swiper
-            .swiper-pagination-bullet-active {
-                background: var(--gold);
-            }
-        </style>
-    </section>
-
-    <section class="partners-section" data-aos="fade-up">
-        <div class="section-container">
-            <div class="section-header-new" data-aos="fade-up">
-                <div>
-                    <div class="section-label" style="color: var(--gold);">{{$partnersSection->label}}</div>
-                    <h2 class="section-heading">
-                        {!! sectionHeading($partnersSection->heading) !!}
-                    </h2>
-                </div>
-                <p class="section-desc">{{$partnersSection->description}}</p>
-            </div>
-            <!-- Swiper -->
-            <div class="swiper brands-swiper">
-                <div class="swiper-wrapper">
-                    @foreach($partners as $partner)
-                        <div class="swiper-slide">
-                            <div class="brand-logo-box">
-                                <img src="{{ Storage::url($partner->logo) }}" alt="{{$partner->name}}">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact" data-aos="fade-up">
-        <div class="cta-image">
-            <img src="{{ Storage::url($cta->image) }}" alt="{{$cta->heading}}">
-        </div>
-        <div class="cta-content">
-            @php
-                [$firstLine, $secondLine] = array_pad(explode('|', $cta->heading, 2),2,'');
-            @endphp
-            <h2 class="cta-heading">
-                {{ $firstLine }}<br>
-                <span class="accent">{{ $secondLine }}</span>
-            </h2>
-            <p class="cta-desc">{{$cta->description}}</p>
-            <div class="cta-buttons">
-                <a href="https://wa.me/{{$cta->mobile}}" class="btn-hero-outline" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                    {{$cta->button_text}}
-                </a>
-            </div>
-        </div>
-    </section>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .testimonials-swiper {
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 5px 50px;
+        }
+        .testimonials-swiper .swiper-wrapper {
+            align-items: stretch;
+        }
+        .testimonials-swiper .swiper-slide {
+            height: auto;
+            display: flex;
+        }
+        .testimonial-card {
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+        .testimonial-quote-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gold);
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .testimonial-text {
+            flex: 1;
+            margin: 0 0 25px;
+            line-height: 1.9;
+            color: #555;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: auto;
+        }
+        .author-name {
+            margin: 0 0 5px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+        }
+        .author-role {
+            display: block;
+            font-size: 14px;
+            color: #888;
+        }
+        .author-rating {
+            display: flex;
+            gap: 3px;
+            direction: ltr;
+        }
+        .author-rating i {
+            color: #ddd;
+            font-size: 14px;
+        }
+        .author-rating i.active {
+            color: var(--gold);
+        }
+        .testimonials-swiper .swiper-pagination {
+            bottom: 5px;
+        }
+        .testimonials-swiper
+        .swiper-pagination-bullet-active {
+            background: var(--gold);
+        }
+    </style>
     <style>
         .premium-cta-section {
             position: relative;
@@ -765,6 +314,330 @@
             .section-heading { font-size: 2rem !important; }
         }
     </style>
+    <!-- NEW HERO SECTION WITH BACKGROUND IMAGE -->
+    <section class="hero-new" id="home">
+        <div class="hero-bg">
+            <img src="{{ asset('storage/' . $hero->bg_image) }}"
+                 alt="{{ $hero->getTranslation('title', app()->getLocale()) }}" class="hero-bg-image">
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge-new">
+                <i class="fas fa-award"></i>
+                <span>
+                    {{ $hero->getTranslation('sub_title', app()->getLocale()) }}
+                </span>
+            </div>
+            <h1 class="hero-title-new">
+                {{ $hero->getTranslation('title', app()->getLocale()) }}
+            </h1>
+            <p class="hero-desc-new">
+                {{ $hero->getTranslation('description', app()->getLocale()) }}
+            </p>
+        </div>
+        <div class="hero-stats-floating">
+            @foreach($heroStats as $stat)
+                <div class="hero-stat-float">
+                    <span class="number" data-target="{{ $stat->number }}">0</span>
+                    <span class="label">
+                        {{ $stat->getTranslation('label', app()->getLocale()) }}
+                    </span>
+                </div>
+            @endforeach
+        </div>
+        <div class="hero-scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <div class="marquee-strip">
+        <div class="marquee-track">
+            @foreach($marqueeItems as $marquee)
+                <div class="marquee-item">
+                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
+                    <span class="star">✦</span>
+                </div>
+            @endforeach
+            @foreach($marqueeItems as $marquee)
+                <div class="marquee-item">
+                    {{ $marquee->getTranslation('text', app()->getLocale()) }}
+                    <span class="star">✦</span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- BENTO GRID SECTION (Moved from Hero) -->
+    <section class="bento-grid-section" id="categories">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label">
+                        {{ $categorySection->label}}
+                    </div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($categorySection->heading ) !!}
+                    </h2>
+                </div>
+                <p class="section-desc">
+                    {{ $categorySection->description }}
+                </p>
+            </div>
+            <div class="bento-grid">
+                @foreach($categories as $index => $category)
+                    <div
+                        class="bento-item {{ count($categories) === 3 && $index === 0 ? 'large' : '' }}"
+                        data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                        <img src="{{ $category->image_url }}"
+                            alt="{{ $category->getTranslation('name', app()->getLocale()) }}">
+                        <div class="bento-arrow">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <div class="bento-content">
+                            @if($category->icon)
+                                <div class="bento-icon">
+                                    <i class="{{ $category->icon }}"></i>
+                                </div>
+                            @endif
+                            <h3 class="bento-title">
+                                {{ $category->getTranslation('name', app()->getLocale()) }}
+                            </h3>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-visual" data-aos="fade-left">
+                    <div class="about-img-main">
+                        <img src="{{ Storage::url($about->main_image) }}" alt="{{$about->heading}}">
+                    </div>
+                    <div class="about-img-secondary">
+                        <img src="{{ Storage::url($about->secondary_image) }}" alt="{{$about->heading}}">
+                    </div>
+                    <div class="about-experience-badge">
+                        <div class="number">{{$about->experience_number}}</div>
+                        <div class="text">{{$about->experience_text}}</div>
+                    </div>
+                </div>
+                <div class="about-content" data-aos="fade-right">
+                    <div class="section-label">{{$about->label}}</div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($about->heading ) !!}
+                    </h2>
+                    <p style="color: var(--gray-500); margin-top: 25px; line-height: 1.9; font-size: 1.05rem;">{{$about->description}}</p>
+                    <div class="about-features">
+                        @if(!empty($about?->features))
+                            @foreach($about->features as $feature)
+                                <div class="about-feature">
+                                    <div class="about-feature-icon">
+                                        <i class="{{ $feature['icon'] ?? 'fas fa-check' }}"></i>
+                                    </div>
+                                    <div>
+                                        <div class="about-feature-title">
+                                            {{ $feature['title_' . app()->getLocale()] ?? $feature['title_ar'] ?? '' }}
+                                        </div>
+                                        <div class="about-feature-desc">
+                                            {{ $feature['desc_' . app()->getLocale()] ?? $feature['desc_ar'] ?? '' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label">
+                        {{ $productSection->label }}
+                    </div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($productSection->heading) !!}
+                    </h2>
+                </div>
+                <p class="section-desc">
+                    {{ $productSection->description }}
+                </p>
+            </div>
+            <div
+                class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4"
+                data-aos="fade-up">
+                <div class="filter-tabs-new">
+                    <button
+                        class="filter-tab-new active"
+                        data-filter="all">
+                        {{ __('messages.all') }}
+                    </button>
+                    @foreach($categories as $category)
+                        <button
+                            class="filter-tab-new"
+                            data-filter="{{ $category->id }}">
+                            {{ $category->name }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+            <div class="products-showcase" id="productsShowcase">
+                <div class="text-center py-5">
+                    <div class="spinner"></div>
+                    <p>{{ __('messages.loading_products') }}</p>
+                </div>
+            </div>
+            <div class="text-center mt-60" data-aos="fade-up">
+                <a href="{{route('frontend.products.index')}}"
+                   class="btn-hero-outline">
+                    {{ __('messages.view_all_products') }}
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section class="whyus-section" id="whyus">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label" style="color: var(--gold);">{{$whyUsSectionSection->label ?? ''}}</div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($whyUsSectionSection->heading ) !!}
+                    </h2>
+                </div>
+                <p class="section-desc">{{$whyUsSectionSection->description ?? ''}}</p>
+            </div>
+            <div class="whyus-grid">
+                @foreach($whyUsItems as $whyUsItem)
+                    <div class="whyus-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="whyus-number">{{ $loop->iteration}}</div>
+                        <div class="whyus-icon">
+                            <i class="{{$whyUsItem->icon}}"></i>
+                        </div>
+                        <h3 class="whyus-title">{{$whyUsItem->title}}</h3>
+                        <p class="whyus-desc">{{$whyUsItem->description}}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label" style="color: var(--gold);">{{$testimonialsSection->label}}</div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($testimonialsSection->heading ) !!}
+                    </h2>
+                </div>
+                <p class="section-desc">{{$testimonialsSection->description}}</p>
+            </div>
+            <!-- Swiper -->
+            <div class="swiper testimonials-swiper" data-aos="fade-up" data-aos-delay="200">
+                <div class="swiper-wrapper" style="padding-bottom: 35px">
+                    @forelse($testimonials as $testimonial)
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-quote-icon">
+                                    <i class="fas fa-quote-right"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    {{ $testimonial->getTranslation('content', app()->getLocale()) }}
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-info">
+                                        <h4 class="author-name">
+                                            {{ $testimonial->getTranslation('name', app()->getLocale()) }}
+                                        </h4>
+                                        <span class="author-role">
+                                            {{ $testimonial->getTranslation('role', app()->getLocale()) }}
+                                        </span>
+                                    </div>
+                                    <div class="author-rating">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="fas fa-star {{ $i <= $testimonial->rating ? 'active' : '' }}"></i>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="swiper-slide">
+                            <div class="testimonial-card text-center">
+                                <p class="testimonial-text">
+                                    {{ app()->getLocale() === 'ar'
+                                        ? 'لا توجد آراء مضافة حالياً.'
+                                        : 'No testimonials available at the moment.'
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners-section" data-aos="fade-up">
+        <div class="section-container">
+            <div class="section-header-new" data-aos="fade-up">
+                <div>
+                    <div class="section-label" style="color: var(--gold);">{{$partnersSection->label}}</div>
+                    <h2 class="section-heading">
+                        {!! sectionHeading($partnersSection->heading) !!}
+                    </h2>
+                </div>
+                <p class="section-desc">{{$partnersSection->description}}</p>
+            </div>
+            <!-- Swiper -->
+            <div class="swiper brands-swiper">
+                <div class="swiper-wrapper">
+                    @foreach($partners as $partner)
+                        <div class="swiper-slide">
+                            <div class="brand-logo-box">
+                                <img src="{{ Storage::url($partner->logo) }}" alt="{{$partner->name}}">
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact" data-aos="fade-up">
+        <div class="cta-image">
+            <img src="{{ Storage::url($cta->image) }}" alt="{{$cta->heading}}">
+        </div>
+        <div class="cta-content">
+            @php
+                [$firstLine, $secondLine] = array_pad(explode('|', $cta->heading, 2),2,'');
+            @endphp
+            <h2 class="cta-heading">
+                {{ $firstLine }}<br>
+                <span class="accent">{{ $secondLine }}</span>
+            </h2>
+            <p class="cta-desc">{{$cta->description}}</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/{{$cta->mobile}}" class="btn-hero-outline" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    {{$cta->button_text}}
+                </a>
+            </div>
+        </div>
+    </section>
 
     @if($contact || $cta)
         <section class="premium-cta-section" id="contact">
@@ -885,7 +758,135 @@
             </div>
         </section>
     @endif
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const showcase = document.getElementById('productsShowcase');
+            const filterTabs = document.querySelectorAll('.filter-tab-new');
+            if (!showcase) return;
+            const PRODUCTS_URL = @json(route('frontend.products.ajax'));
+            let currentCategory = 'all';
+            let currentPage = 1;
+            let nextPageUrl = null;
+            let isLoading = false;
+            const sentinel = document.createElement('div');
+            sentinel.className = 'scroll-sentinel';
+            sentinel.style.height = '20px';
+            showcase.appendChild(sentinel);
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && nextPageUrl && !isLoading) {
+                    fetchProducts(currentCategory, currentPage + 1, true);
+                }
+            }, { rootMargin: '300px' });
+            observer.observe(sentinel);
+            async function fetchProducts(category = 'all', page = 1, append = false) {
+                if (isLoading) return;
+                isLoading = true;
+                if (!append) {
+                    showcase.innerHTML = `
+                <div class="text-center py-5" style="grid-column: 1/-1;">
+                    <div class="spinner"></div>
+                    <p>{{ __('messages.loading_products') }}</p>
+                </div>`;
+                    currentPage = 1;
+                    nextPageUrl = null;
+                } else {
+                    const loader = document.createElement('div');
+                    loader.className = 'text-center py-3 infinite-loader';
+                    loader.innerHTML = '<div class="spinner"></div>';
+                    showcase.appendChild(loader);
+                }
+                try {
+                    const url = new URL(PRODUCTS_URL, window.location.origin);
+                    url.searchParams.set('category', category);
+                    url.searchParams.set('page', page);
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    if (!response.ok) throw new Error('Failed to load products');
+                    const result = await response.json();
+                    if (!result.success) throw new Error(result.message);
+                    if (!append) showcase.innerHTML = ''; // مسح التحميل الأولي
+                    const existingLoader = showcase.querySelector('.infinite-loader');
+                    if (existingLoader) existingLoader.remove();
+                    displayProducts(result.data, append);
+                    nextPageUrl = result.next_page_url;
+                    currentPage = result.current_page;
+                } catch (error) {
+                    console.error('Products Error:', error);
+                    if (!append) {
+                        showcase.innerHTML = `
+                    <div class="text-center py-5" style="grid-column: 1/-1;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #dc3545; margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--brown);">{{ __('messages.products_load_error') }}</h4>
+                    </div>`;
+                    }
+                } finally {
+                    isLoading = false;
+                }
+            }
+
+            function displayProducts(products, append) {
+                if (!products || products.length === 0) {
+                    if (!append) {
+                        showcase.innerHTML = `
+                    <div class="text-center py-5" style="grid-column: 1/-1;">
+                        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
+                        <p style="color: var(--gray-500);">{{ __('messages.no_products') }}</p>
+                    </div>`;
+                    } else {
+                        sentinel.style.display = 'none';
+                    }
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                const whatsappBase = "https://wa.me/";
+                products.forEach(function (product, index) {
+                    const div = document.createElement('div');
+                    div.className = 'product-showcase-card fade-in-up';
+                    div.style.animationDelay = `${index * 0.08}s`;
+                    const whatsappMessage = encodeURIComponent(`{{ __('messages.whatsapp_product_message') }}: ${product.name}`);
+
+                    div.innerHTML = `
+                <a href="${product.url}" class="product-card-link">
+                    <div class="product-showcase-image">
+                        <img src="${product.image}" alt="${escapeHtml(product.name)}" loading="lazy"
+                             onerror="this.src='{{ asset('frontend/img/product-placeholder.png') }}'">
+                        <div class="product-overlay">
+                </div>
+            </div>
+            <div class="product-showcase-info">
+                <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                        ${product.price ? `<span class="product-price">${product.price}</span>` : ''}
+                    </div>
+                </a>
+            `;
+                    fragment.appendChild(div);
+                });
+                showcase.appendChild(fragment);
+                if (typeof AOS !== 'undefined') {
+                    setTimeout(() => AOS.refresh(), 100);
+                }
+            }
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            filterTabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    filterTabs.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-filter');
+                    sentinel.style.display = 'block';
+                    fetchProducts(currentCategory, 1, false);
+                });
+            });
+
+            fetchProducts('all', 1, false);
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>

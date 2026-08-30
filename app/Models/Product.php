@@ -20,7 +20,7 @@ class Product extends Model {
     }
 
     public function images() {
-        return $this->hasMany(ProductImage::class)->orderBy('order');
+        return $this->hasMany(ProductImage::class);
     }
 
     public function getMainImageAttribute(): ?string {

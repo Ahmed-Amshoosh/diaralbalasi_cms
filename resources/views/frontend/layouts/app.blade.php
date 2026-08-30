@@ -48,7 +48,7 @@
         $currentUrl = url()->current();
         $locale = app()->getLocale();
         $ogLocale = $locale === 'ar' ? 'ar_YE' : 'en_US';
-        $categories = \App\Models\Category::query()->pluck('name');
+        $categories = \App\Models\Category::query()->get();
     @endphp
 
         <!-- ═══════════════════════════════════════════ -->
@@ -161,7 +161,7 @@
 <body>
 <nav class="navbar-premium" id="navbar">
     <div class="nav-container">
-        <a href="#" class="brand-logo">
+        <a href="/#" class="brand-logo">
             <img src="{{ Storage::url($logoPath) }}"
                  alt="{{ $seoTitle }}"
                  width="150"
@@ -230,7 +230,7 @@
     <div class="section-container">
         <div class="footer-grid">
             <div>
-                <a href="#" class="brand-logo">
+                <a href="/#" class="brand-logo">
                     <img src="{{ Storage::url($logoPath) }}" alt="{{  $seoTitle  }}">
                 </a>
                 <p class="footer-brand-desc">{{$seoDesc}}</p>
@@ -251,7 +251,7 @@
                 <h3 class="footer-heading">{{ __('messages.categories') }}</h3>
                 <ul class="footer-links">
                     @foreach($categories as $category)
-                        <li><a href="#">{{$category}}</a></li>
+                        <li><a href="{{ route('frontend.products.index', ['category' => $category->id]) }}">{{$category->name}}</a></li>
                     @endforeach
 
                 </ul>

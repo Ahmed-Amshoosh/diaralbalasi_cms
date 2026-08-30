@@ -2111,8 +2111,8 @@ body {
     transform: scale(1.2) rotate(-10deg);
 }
 .partners-section {
-    padding: 80px 0;
-    background: var(--white);
+    padding: 80px 0;margin-top: 20px;
+    background: var(--cream) !important;
     overflow: hidden;
 }
 .swiper-horizontal {padding:  20px 0 !important;}

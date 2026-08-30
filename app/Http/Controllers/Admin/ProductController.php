@@ -170,6 +170,7 @@ public function ajax(): JsonResponse
 {
     $category = request('category', 'all');
     $partner = request('partner', 'all');
+    $search = trim(request('search', ''));
     $page = request('page', 1);
     $locale = app()->getLocale();
 
@@ -180,6 +181,25 @@ public function ajax(): JsonResponse
     ])
         ->where('is_active', true)
         ->orderBy('order');
+    if ($search !== '') {
+
+        $query->where(function ($q) use ($search, $locale) {
+
+            $q->where(
+                "name->{$locale}",
+                'like',
+                '%' . $search . '%'
+            )
+                ->orWhere(
+                    "description->{$locale}",
+                    'like',
+                    '%' . $search . '%'
+                );
+
+        });
+
+    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -191,8 +211,7 @@ public function ajax(): JsonResponse
 
         $query->whereHas('category', function ($q) use ($category) {
 
-            $q->where('slug', $category)
-                ->orWhere('id', $category);
+            $q->where('category_id', (int) $category);
 
         });
 
@@ -262,7 +281,7 @@ public function ajax(): JsonResponse
                             $locale
                         ),
 
-                        'slug' => $product->category->slug,
+                        'id' => $product->category->id,
                     ]
                     : null,
 

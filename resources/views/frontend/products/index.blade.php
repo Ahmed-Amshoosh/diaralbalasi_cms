@@ -246,7 +246,34 @@
                 {{-- Products Content --}}
                 <main class="products-content">
 
+                    {{-- Search --}}
+                    <div class="products-search" data-aos="fade-up">
 
+                        <div class="search-box">
+
+                            <i class="fas fa-search search-icon"></i>
+
+                            <input
+                                type="search"
+                                id="productSearch"
+                                class="product-search-input"
+                                placeholder="{{ __('messages.search_products') }}"
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="button"
+                                id="clearSearch"
+                                class="clear-search"
+                                style="display:none;"
+                                aria-label="{{ __('messages.clear') }}"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
                     {{-- Topbar --}}
                     <div class="products-topbar">
 
@@ -572,7 +599,112 @@
 
             color: var(--gold);
         }
+        /* =========================================================
+           PRODUCT SEARCH
+        ========================================================= */
 
+        .products-search {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            background: var(--white);
+
+            border: 1px solid var(--cream-dark);
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow-sm);
+
+            transition: all .25s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 3px rgba(191, 154, 73, .12),
+                var(--shadow-sm);
+        }
+
+        .search-icon {
+            position: absolute;
+
+            right: 1.1rem;
+
+            color: var(--gold);
+
+            font-size: 1rem;
+
+            pointer-events: none;
+        }
+
+        .product-search-input {
+            width: 100%;
+
+            height: 52px;
+
+            border: 0;
+            outline: 0;
+
+            background: transparent;
+
+            padding:
+                0 3rem
+                0 3rem;
+
+            color: var(--dark);
+
+            font-family: 'Cairo', sans-serif;
+
+            font-size: .95rem;
+
+            font-weight: 600;
+        }
+
+        .product-search-input::placeholder {
+            color: var(--gray-500);
+
+            font-weight: 500;
+        }
+
+        .clear-search {
+            position: absolute;
+
+            left: .8rem;
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+
+            border-radius: 50%;
+
+            background: var(--cream);
+
+            color: var(--gray-500);
+
+            cursor: pointer;
+
+            transition: all .2s ease;
+        }
+
+        .clear-search:hover {
+            background: var(--gold);
+
+            color: var(--white);
+        }
 
         /* =========================================================
            PRODUCTS CONTENT
@@ -1191,7 +1323,11 @@
 
             const selectedFilterInfo =
                 document.getElementById('selectedFilterInfo');
+            const productSearch =
+                document.getElementById('productSearch');
 
+            const clearSearch =
+                document.getElementById('clearSearch');
 
             /* =====================================================
                AJAX URL
@@ -1209,11 +1345,60 @@
 
             let nextPageUrl = null;
 
-            let currentCategory = 'all';
+            const urlParams = new URLSearchParams(window.location.search);
 
-            let currentPartner = 'all';
+            let currentCategory = urlParams.get('category') || 'all';
+            let currentPartner = urlParams.get('partner') || 'all';
 
             let isLoading = false;
+
+
+            /* =====================================================
+               ACTIVATE FILTER FROM URL
+            ===================================================== */
+
+            function activateUrlFilters() {
+
+                // التصنيف
+                if (currentCategory !== 'all') {
+
+                    const categoryButton = document.querySelector(
+                        `.sidebar-filter[data-type="category"][data-filter="${currentCategory}"]`
+                    );
+
+                    if (categoryButton) {
+
+                        document
+                            .querySelectorAll('.sidebar-filter[data-type="category"]')
+                            .forEach(button => {
+                                button.classList.remove('active');
+                            });
+
+                        categoryButton.classList.add('active');
+                    }
+                }
+
+
+                // الماركة
+                if (currentPartner !== 'all') {
+
+                    const partnerButton = document.querySelector(
+                        `.sidebar-filter[data-type="partner"][data-filter="${currentPartner}"]`
+                    );
+
+                    if (partnerButton) {
+
+                        document
+                            .querySelectorAll('.sidebar-filter[data-type="partner"]')
+                            .forEach(button => {
+                                button.classList.remove('active');
+                            });
+
+                        partnerButton.classList.add('active');
+                    }
+                }
+
+            }
 
             let observer = null;
 
@@ -1435,7 +1620,10 @@
                         currentPartner
                     );
 
-
+                    url.searchParams.set(
+                        'search',
+                        productSearch ? productSearch.value.trim() : ''
+                    );
                     const response =
                         await fetch(
                             url,
@@ -2018,14 +2206,101 @@
                 );
 
             }
+            /* =====================================================
+               PRODUCT SEARCH
+            ===================================================== */
+
+            let searchTimer = null;
+
+            if (productSearch) {
+
+                productSearch.addEventListener(
+                    'input',
+                    function () {
+
+                        const value =
+                            this.value.trim();
+
+                        /* إظهار / إخفاء زر المسح */
+
+                        if (clearSearch) {
+
+                            clearSearch.style.display =
+                                value !== ''
+                                    ? 'flex'
+                                    : 'none';
+
+                        }
+
+                        /* تأخير الطلب */
+
+                        clearTimeout(searchTimer);
+
+                        searchTimer = setTimeout(
+                            function () {
+
+                                endText.style.display = 'none';
+
+                                fetchProducts(
+                                    1,
+                                    false
+                                );
+
+                            },
+                            400
+                        );
+
+                    }
+                );
+
+            }
 
 
             /* =====================================================
-               INITIAL LOAD
+               CLEAR SEARCH
             ===================================================== */
 
-            updateFilterInfo();
+            if (clearSearch) {
 
+                clearSearch.addEventListener(
+                    'click',
+                    function () {
+
+                        if (productSearch) {
+
+                            productSearch.value = '';
+
+                        }
+
+                        clearSearch.style.display =
+                            'none';
+
+                        endText.style.display =
+                            'none';
+
+                        fetchProducts(
+                            1,
+                            false
+                        );
+
+                        if (productSearch) {
+
+                            productSearch.focus();
+
+                        }
+
+                    }
+                );
+
+            }
+
+            /* =====================================================
+    INITIAL LOAD
+ ===================================================== */
+
+            activateUrlFilters();
+
+            updateFilterInfo();
 
             fetchProducts(
                 1,

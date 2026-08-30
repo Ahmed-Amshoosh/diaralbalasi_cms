@@ -424,7 +424,7 @@
 
             <!-- Swiper -->
             <div class="swiper testimonials-swiper" data-aos="fade-up" data-aos-delay="200">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper" style="padding-bottom: 35px">
 
                     @forelse($testimonials as $testimonial)
                         <div class="swiper-slide">
@@ -644,7 +644,6 @@
             position: relative;
             padding: 6rem 1rem;
             background: var(--cream);
-            font-family: 'Cairo', sans-serif;
             overflow: hidden;
         }
 
@@ -715,31 +714,13 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* زر الهيرو الخارجي */
-        .btn-hero-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 2.5rem;
-            border: 2px solid var(--gold);
-            color: var(--gold-dark);
-            font-weight: 700;
-            font-size: 1.05rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            background: transparent;
-            width: fit-content;
-            margin-top: 1rem;
-        }
-
         .btn-hero-outline:hover {
             background: var(--gold);
             color: var(--white);
             box-shadow: var(--shadow-gold);
             transform: translateY(-2px);
         }
+        .testimonials-section{    padding-top: 30px;}
 
         /* --- بطاقة النموذج الفاخرة --- */
         .premium-form-wrapper {

@@ -11,7 +11,7 @@
                 <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
                 <i class="fas fa-chevron-left"></i>
                 @if($product->category)
-                    <a href="">
+                    <a href="{{ route('frontend.products.index', ['category' => $product->category->id]) }}">
                         {{ $product->category->getTranslation('name', app()->getLocale()) }}
                     </a>
                     <i class="fas fa-chevron-left"></i>

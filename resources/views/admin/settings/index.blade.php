@@ -20,10 +20,6 @@
                 </button>
             </div>
         </div>
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- تبويب معلومات الموقع --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-general" class="tab-content bg-white rounded-lg shadow-sm p-6">
             <form action="{{ route('admin.settings.updateGeneral') }}" method="POST" enctype="multipart/form-data">
                 @csrf @method('PUT')
@@ -53,8 +49,6 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_desc_en') }}</label>
                         <textarea name="site_description_en" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('site_description_en', is_array($settings['site_description'] ?? null) ? ($settings['site_description']['en'] ?? '') : '') }}</textarea>
                     </div>
-
-                    {{-- الشعار --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_logo') }}</label>
                         @if(!empty($settings['logo']) && is_string($settings['logo']))
@@ -67,8 +61,6 @@
                         <input type="file" id="logo" name="logo" accept="image/*" class="hidden">
                         @error('logo') <p class="text-red-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                     </div>
-
-                    {{-- الأيقونة --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.site_favicon') }}</label>
                         @if(!empty($settings['favicon']) && is_string($settings['favicon']))
@@ -89,17 +81,12 @@
                 </div>
             </form>
         </div>
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- تبويب بيانات الشركة --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-company" class="tab-content bg-white rounded-lg shadow-sm p-6 hidden">
             <form action="{{ route('admin.settings.updateCompany') }}" method="POST">
                 @csrf @method('PUT')
                 <h3 class="text-lg font-bold text-gray-800 mb-6 pb-3 border-b">
                     <i class="fas fa-building text-blue-500 ml-2"></i> {{ __('messages.tab_company') }}
                 </h3>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.company_name_ar') }} <span class="text-red-500">*</span></label>
@@ -115,7 +102,6 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         @error('company_name_en') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
-                    {{-- الهاتف (غير مترجم - نص عادي) --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             {{ __('messages.phone') }}
@@ -125,8 +111,6 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                dir="ltr">
                     </div>
-
-                    {{-- الجوال (غير مترجم - نص عادي) --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             {{ __('messages.mobile') }}
@@ -136,8 +120,6 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                dir="ltr">
                     </div>
-
-                    {{-- البريد الإلكتروني (غير مترجم - نص عادي) --}}
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             {{ __('messages.email') }}
@@ -147,8 +129,6 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                dir="ltr">
                     </div>
-
-
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.address_ar') }}</label>
                         <textarea name="address_ar" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address_ar', is_array($settings['address'] ?? null) ? ($settings['address']['ar'] ?? '') : '') }}</textarea>
@@ -165,17 +145,12 @@
                 </div>
             </form>
         </div>
-
-        {{-- ═══════════════════════════════════════════ --}}
-        {{-- تبويب وسائل التواصل --}}
-        {{-- ═══════════════════════════════════════════ --}}
         <div id="content-social" class="tab-content bg-white rounded-lg shadow-sm p-6 hidden">
             <form action="{{ route('admin.settings.updateSocial') }}" method="POST">
                 @csrf @method('PUT')
                 <h3 class="text-lg font-bold text-gray-800 mb-6 pb-3 border-b">
                     <i class="fas fa-share-alt text-blue-500 ml-2"></i> {{ __('messages.social_media') }}
                 </h3>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @php
                         $socialFields = ['whatsapp', 'instagram', 'facebook', 'twitter', 'linkedin', 'youtube'];
@@ -210,7 +185,6 @@
             </form>
         </div>
     </div>
-
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -225,7 +199,6 @@
                     activeBtn.classList.remove('text-gray-600');
                     activeBtn.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
                 }
-
                 const logoInput = document.getElementById('logo');
                 const logoFileName = document.getElementById('logoFileName');
                 if (logoInput) {
@@ -233,7 +206,6 @@
                         logoFileName.textContent = this.files.length > 0 ? this.files[0].name : "{{ __('messages.no_file_chosen') }}";
                     });
                 }
-
                 const faviconInput = document.getElementById('favicon');
                 const faviconFileName = document.getElementById('faviconFileName');
                 if (faviconInput) {
@@ -241,7 +213,6 @@
                         faviconFileName.textContent = this.files.length > 0 ? this.files[0].name : "{{ __('messages.no_file_chosen') }}";
                     });
                 }
-
                 @if ($errors->any())
                 @foreach ($errors->all() as $error)
                 toastr.error("{{ $error }}", "{{ __('messages.validation_error') ?? 'خطأ في التحقق' }}", {
@@ -250,7 +221,6 @@
                 });
                 @endforeach
                 @endif
-
             });
         </script>
     @endpush

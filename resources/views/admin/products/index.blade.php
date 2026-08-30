@@ -12,7 +12,6 @@
             </div>
             <form id="sectionForm" action="{{ route('admin.products.section.update') }}" method="POST" novalidate>
                 @csrf @method('PUT')
-
                 <div class="px-6 pt-4">
                     <div class="inline-flex bg-gray-100 rounded-lg p-1 gap-1">
                         <button type="button" data-tab="ar"
@@ -27,156 +26,86 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
-
-                    {{-- Arabic --}}
                     <div id="tab-content-ar" class="tab-content space-y-5">
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.section_label') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <input
-                                type="text"
-                                name="label_ar"
-                                id="label_ar"
-                                value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                dir="rtl"
-                                required
-                            >
-
+                            <input type="text" name="label_ar" id="label_ar" value="{{ old('label_ar', $section?->getTranslation('label', 'ar') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="rtl" required>
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_ar">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.main_heading') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <input
-                                type="text"
-                                name="heading_ar"
-                                id="heading_ar"
-                                value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                dir="rtl"
-                                required
-                            >
-
+                            <input type="text" name="heading_ar" id="heading_ar" value="{{ old('heading_ar', $section?->getTranslation('heading', 'ar') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="rtl" required>
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_ar">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.description') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <textarea
-                                name="description_ar"
-                                id="description_ar"
-                                rows="3"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
-                                dir="rtl"
-                                required
+                            <textarea name="description_ar" id="description_ar" rows="3"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" dir="rtl" required
                             >{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
-
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_ar">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                     </div>
-
-
-                    {{-- English --}}
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
-
                         <div class="relative">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.section_label') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <input
-                                type="text"
-                                name="label_en"
-                                id="label_en"
-                                value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                dir="ltr"
-                                required
-                            >
-
+                            <input type="text" name="label_en" id="label_en" value="{{ old('label_en', $section?->getTranslation('label', 'en') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="ltr" required>
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-label_en">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-
                         <div class="relative">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.main_heading') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <input
-                                type="text"
-                                name="heading_en"
-                                id="heading_en"
-                                value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                dir="ltr"
-                                required
-                            >
-
+                            <input type="text" name="heading_en" id="heading_en" value="{{ old('heading_en', $section?->getTranslation('heading', 'en') ?? '') }}"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="ltr" required>
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-heading_en">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-
                         <div class="relative">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.description') }}
                                 <span class="text-red-500">*</span>
                             </label>
-
-                            <textarea
-                                name="description_en"
-                                id="description_en"
-                                rows="3"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
-                                dir="ltr"
-                                required
+                            <textarea name="description_en" id="description_en" rows="3"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" dir="ltr" required
                             >{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
-
                             <p class="field-error text-red-500 text-xs mt-1.5 hidden" id="error-description_en">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
                     <button type="submit"
                             class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-sm transition-all flex items-center gap-2">
@@ -185,7 +114,6 @@
                 </div>
             </form>
         </div>
-
         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
             <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                 <i class="fas fa-box text-blue-500"></i> {{ __('messages.products_management') }}
@@ -196,9 +124,7 @@
                     <i class="fas fa-plus"></i> {{ __('messages.add_product') }}
                 </button>
             @endcan
-
         </div>
-
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
@@ -241,7 +167,6 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
-
                                 @can('edit products')
                                     <button onclick='window.openEditModal(@json($product))'
                                             class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
@@ -257,7 +182,6 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 @endcan
-
                             </div>
                         </td>
                     </tr>
@@ -274,7 +198,6 @@
         </div>
     </div>
 
-    {{-- Modal إضافة/تعديل منتج --}}
     <div id="productModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="window.closeModal()"></div>
@@ -293,9 +216,7 @@
                 <form id="productForm" method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
                     <input type="hidden" name="_method" id="formMethod" value="POST">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-start">
-                        {{-- الاسم عربي --}}
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_name') }}
@@ -307,7 +228,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-                        {{-- الاسم إنجليزي --}}
                         <div class="relative">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_name') }}
@@ -322,8 +242,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-                        {{-- الوصف عربي --}}
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_description') }}
@@ -332,7 +250,6 @@
                                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all resize-none"
                                       dir="rtl"></textarea>
                         </div>
-                        {{-- الوصف إنجليزي --}}
                         <div class="relative">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_description') }}
@@ -345,8 +262,6 @@
                                     class="absolute top-9 right-2.5 bg-gray-100 hover:bg-blue-100 text-xs px-2 py-1 rounded">
                                 <i class="fas fa-copy"></i></button>
                         </div>
-
-                        {{-- السعر --}}
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_price') }}</label>
@@ -360,7 +275,6 @@
                             <input type="number" name="order" id="item_order" value="0" min="0"
                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all">
                         </div>
-
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.product_category') }}</label>
@@ -385,45 +299,29 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.upload_images') }}
                             </label>
-
-                            <input
-                                type="file"
-                                name="images[]"
-                                id="item_images"
-                                multiple
-                                accept="image/*"
-                                class="hidden"
-                            >
-
-                            <label
-                                for="item_images"
-                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-700 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors"
-                            >
+                            <input type="file" name="images[]" id="item_images" multiple accept="image/*" class="hidden">
+                            <label for="item_images"
+                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-700 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors">
                                 <i class="fas fa-upload"></i>
                                 {{ __('messages.choose_images') }}
                             </label>
-
                             <span id="selected_images" class="text-sm text-gray-500 ms-2">
-        {{ __('messages.no_images_selected') }}
-    </span>
-
+                                {{ __('messages.no_images_selected') }}
+                            </span>
                             <p class="text-xs text-gray-500 mt-1">
                                 <i class="fas fa-info-circle"></i>
                                 {{ __('messages.can_upload_multiple_images') }}
                             </p>
                         </div>
-
                         <div class="md:col-span-2 hidden" id="current_images_section">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.current_images') }}</label>
                             <div id="current_images_grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
                         </div>
-
                         <div class="md:col-span-2 flex items-center pb-1">
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="is_active" id="item_is_active" value="1" checked
@@ -435,7 +333,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                         <button type="button" onclick="window.closeModal()"
                                 class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">{{ __('messages.cancel') }}</button>
@@ -448,11 +345,9 @@
             </div>
         </div>
     </div>
-
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-
                 const sectionForm = document.getElementById('sectionForm');
                 if (sectionForm) {
                     window.switchTab = (lang) => {
@@ -483,7 +378,6 @@
                             {id: 'heading_ar', tab: 'ar'}, {id: 'heading_en', tab: 'en'},
                             {id: 'description_ar', tab: 'ar'}, {id: 'description_en', tab: 'en'}
                         ];
-
                         requiredFields.forEach(field => {
                             const input = document.getElementById(field.id);
                             if (input && !input.value.trim()) {
@@ -498,7 +392,6 @@
                                 document.getElementById(`badge-${field.tab}`).classList.remove('hidden');
                             }
                         });
-
                         if (hasError) {
                             e.preventDefault();
                             window.switchTab(firstErrorTab);
@@ -527,9 +420,6 @@
                     });
                 }
 
-
-
-
                 const form = document.getElementById('productForm');
                 const modal = document.getElementById('productModal');
 
@@ -551,7 +441,6 @@
                     form.action = `/admin/products/${product.id}`;
                     document.getElementById('formMethod').value = "PUT";
                     document.getElementById('modalTitleText').innerText = "{{ __('messages.edit') }}";
-
                     document.getElementById('item_name_ar').value = product.name?.ar || '';
                     document.getElementById('item_name_en').value = product.name?.en || '';
                     document.getElementById('item_description_ar').value = product.description?.ar || '';
@@ -562,11 +451,9 @@
                     document.getElementById('item_brand_id').value = product.partner_id || '';
                     document.getElementById('item_is_active').checked = Number(product.is_active) === 1;
 
-                    // عرض الصور الحالية
                     const imagesSection = document.getElementById('current_images_section');
                     const imagesGrid = document.getElementById('current_images_grid');
                     imagesGrid.innerHTML = '';
-
                     if (product.images && product.images.length > 0) {
                         product.images.forEach(img => {
                             const div = document.createElement('div');
@@ -586,7 +473,6 @@
                     } else {
                         imagesSection.classList.add('hidden');
                     }
-
                     window.clearErrors();
                     modal.classList.remove('hidden');
                 };
@@ -612,7 +498,6 @@
                 form.addEventListener('submit', (e) => {
                     let hasError = false, firstErrorField = null;
                     window.clearErrors();
-
                     const requiredFields = ['item_name_ar', 'item_name_en'];
                     requiredFields.forEach(id => {
                         const input = document.getElementById(id);
@@ -624,7 +509,6 @@
                             input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                         }
                     });
-
                     if (hasError) {
                         e.preventDefault();
                         setTimeout(() => {
@@ -637,7 +521,6 @@
                         });
                     }
                 });
-
                 form.addEventListener('input', (e) => {
                     if (['item_name_ar', 'item_name_en'].includes(e.target.id)) {
                         e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
@@ -646,7 +529,6 @@
                     }
                 });
             });
-
             window.copyField = function (sourceId, targetId) {
                 const source = document.getElementById(sourceId);
                 const target = document.getElementById(targetId);

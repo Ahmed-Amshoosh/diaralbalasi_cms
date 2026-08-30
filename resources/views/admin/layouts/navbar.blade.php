@@ -4,7 +4,6 @@
             <button onclick="toggleSidebar()" class="lg:hidden text-gray-600 hover:text-gray-900">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-
             <div>
                 <h1 class="text-lg md:text-xl font-semibold text-gray-800">@yield('page_title', 'لوحة التحكم')</h1>
                 <p class="text-xs text-gray-500 hidden md:block">
@@ -12,7 +11,6 @@
                 </p>
             </div>
         </div>
-
         <div class="flex items-center gap-2 md:gap-4">
             <form action="{{ route('locale.switch') }}" method="POST" class="hidden md:inline">
                 @csrf
@@ -22,7 +20,6 @@
                     <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>English</option>
                 </select>
             </form>
-
             <form action="{{ route('locale.switch') }}" method="POST" class="md:hidden">
                 @csrf
                 <button type="submit" name="locale" value="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}"
@@ -30,30 +27,24 @@
                     <i class="fas fa-globe text-lg"></i>
                 </button>
             </form>
-
             <a href="{{ route('home') }}" target="_blank"
                class="hidden md:inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-900">
                 <i class="fas fa-external-link-alt"></i>
             </a>
-
             <div class="relative" x-data="{ open: false }">
                 @php
                     $userName = auth()->user()->name;
-
                     if (empty($userName)) {
                         $userName = auth()->user()->name;
                     }
                 @endphp
-
                 <button onclick="toggleUserMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2">
                     <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
                         {{ mb_substr($userName, 0, 1) }}
                     </div>
-
                     <span class="hidden md:block text-sm font-medium text-gray-700">
                         {{ $userName }}
                     </span>
-
                     <i class="fas fa-chevron-down text-xs text-gray-400 hidden md:block"></i>
                 </button>
                 <div id="userDropdown"
@@ -81,13 +72,11 @@
         </div>
     </div>
 </header>
-
 <script>
     function toggleUserMenu() {
         const dropdown = document.getElementById('userDropdown');
         dropdown.classList.toggle('hidden');
     }
-
     document.addEventListener('click', function (event) {
         const dropdown = document.getElementById('userDropdown');
         const button = event.target.closest('button');

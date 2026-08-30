@@ -26,7 +26,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
@@ -99,54 +98,35 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="p-6 space-y-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                             {{ __('messages.cta_image') }}
                         </label>
-
-                        {{-- معاينة الصورة الحالية --}}
                         @if(isset($cta) && $cta->image)
                             <div class="mb-3 flex items-center justify-start">
                                 <div
                                     class="w-70 h-40 bg-gray-50 rounded-lg border border-gray-200 p-2 flex items-center justify-center">
-                                    <img
-                                        src="{{ $cta->image_url }}"
-                                        alt="{{ __('messages.cta_image') }}"
-                                        class="max-w-full max-h-full object-contain rounded-md"
-                                    >
+                                    <img src="{{ $cta->image_url }}" alt="{{ __('messages.cta_image') }}"
+                                        class="max-w-full max-h-full object-contain rounded-md">
                                 </div>
                             </div>
                         @endif
-
-                        {{-- رفع الصورة --}}
                         <div class="w-full md:w-1/2">
                             <label
                                 for="image"
                                 class="flex items-center justify-center gap-3 px-4 py-3
-                   border-2 border-dashed border-gray-300
-                   rounded-lg cursor-pointer
-                   bg-gray-50 hover:bg-purple-50
-                   hover:border-purple-400
-                   transition-all"
-                            >
+                                   border-2 border-dashed border-gray-300
+                                   rounded-lg cursor-pointer
+                                   bg-gray-50 hover:bg-purple-50
+                                   hover:border-purple-400 transition-all">
                                 <i class="fas fa-cloud-upload-alt text-purple-500 text-xl"></i>
-
                                 <span id="fileName" class="text-sm text-gray-600">
-                {{ __('messages.choose_file') }}
-            </span>
+                                    {{ __('messages.choose_file') }}
+                                </span>
                             </label>
-
-                            <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                accept="image/*"
-                                class="hidden"
-                            >
+                            <input type="file" id="image" name="image" accept="image/*" class="hidden">
                         </div>
-
                         @error('image')
                         <p class="text-red-500 text-xs mt-1.5">
                             <i class="fas fa-exclamation-circle"></i>
@@ -156,7 +136,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="flex items-center justify-end gap-3 pb-8">
                 <button type="submit"
                         class="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2">
@@ -165,43 +144,30 @@
             </div>
         </form>
     </div>
-
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-
                 const imageInput = document.getElementById('image');
                 const fileName = document.getElementById('fileName');
-
                 if (imageInput) {
                     imageInput.addEventListener('change', function () {
-
                         const file = this.files[0];
-
                         if (!file) {
                             fileName.textContent = "{{ __('messages.no_file_chosen') }}";
                             return;
                         }
-
                         fileName.textContent = file.name;
                     });
                 }
-
             });
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-
-                // ================================
-                // تبديل التبويبات
-                // ================================
                 window.switchTab = (lang) => {
-
                     document.querySelectorAll('.tab-content').forEach(el => {
                         el.classList.add('hidden');
                         el.classList.remove('tab-animate');
                     });
-
                     document.querySelectorAll('.tab-btn').forEach(btn => {
                         btn.classList.remove(
                             'text-blue-600',
@@ -210,7 +176,6 @@
                             'font-bold',
                             'shadow-sm'
                         );
-
                         btn.classList.add(
                             'text-gray-500',
                             'border-transparent',
@@ -219,21 +184,15 @@
                             'font-medium'
                         );
                     });
-
                     const targetContent = document.getElementById(`tab-content-${lang}`);
-
                     if (!targetContent) return;
-
                     targetContent.classList.remove('hidden');
-
                     requestAnimationFrame(() => {
                         targetContent.classList.add('tab-animate');
                     });
-
                     const activeBtn = document.querySelector(
                         `.tab-btn[data-tab="${lang}"]`
                     );
-
                     if (activeBtn) {
                         activeBtn.classList.remove(
                             'text-gray-500',
@@ -242,7 +201,6 @@
                             'hover:bg-gray-50',
                             'font-medium'
                         );
-
                         activeBtn.classList.add(
                             'text-blue-600',
                             'border-blue-600',
@@ -252,69 +210,38 @@
                         );
                     }
                 };
-
-
-                // ================================
-                // ربط أزرار التبويبات
-                // ================================
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         window.switchTab(btn.dataset.tab);
                     });
                 });
-
-
-                // ================================
-                // اكتشاف أخطاء Validation
-                // ================================
                 const arabicFields = [
                     'heading_ar',
                     'description_ar',
                     'button_text_ar'
                 ];
-
                 const englishFields = [
                     'heading_en',
                     'description_en',
                     'button_text_en'
                 ];
-
                 const commonFields = [
                     'custom_link',
                     'image'
                 ];
-
-
-                const hasError = (field) => {
-                    const input = document.querySelector(`[name="${field}"]`);
-
-                    return input &&
-                        input.classList.contains('border-red-500');
+                const hasError = (field) => {const input = document.querySelector(`[name="${field}"]`);
+                    return input && input.classList.contains('border-red-500');
                 };
-
-
                 const hasArabicError = arabicFields.some(hasError);
                 const hasEnglishError = englishFields.some(hasError);
                 const hasCommonError = commonFields.some(hasError);
-
-
-                // ================================
-                // تحديد التبويب الذي سيتم فتحه
-                // ================================
                 if (hasArabicError) {
-
                     window.switchTab('ar');
-
                 } else if (hasEnglishError) {
-
                     window.switchTab('en');
-
                 } else {
-
-                    // الحقول العامة لا تتبع أي تبويب
                     window.switchTab('ar');
                 }
-
             });
         </script>
     @endpush

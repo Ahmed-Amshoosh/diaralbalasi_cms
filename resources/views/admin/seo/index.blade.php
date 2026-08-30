@@ -6,14 +6,12 @@
     <div class="space-y-6">
         <form action="{{ route('admin.seo.update') }}" method="POST" enctype="multipart/form-data">
             @csrf @method('PUT')
-
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                         <i class="fas fa-tags text-blue-500"></i> {{ __('messages.seo_meta_tags') }}
                     </h3>
                 </div>
-
                 <div class="px-6 pt-4">
                     <div class="flex border-b border-gray-200">
                         <button type="button" data-tab="ar" class="tab-btn flex items-center gap-2 px-6 py-3 text-sm font-bold text-blue-600 border-b-4 border-blue-600 bg-white rounded-t-lg shadow-sm transition-all duration-300">
@@ -24,20 +22,18 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
                             <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1.5">
-            <span>
-                {{ __('messages.seo_title') }}
-                <span class="text-red-500">*</span>
-            </span>
-
+                            <span>
+                                {{ __('messages.seo_title') }}
+                                <span class="text-red-500">*</span>
+                            </span>
                                 <span class="ms-auto text-xs text-gray-500 whitespace-nowrap">
-                <span id="title_en_count">0</span>/70
-                {{ __('messages.seo_chars_count') }}
-            </span>
+                                <span id="title_en_count">0</span>/70
+                                {{ __('messages.seo_chars_count') }}
+                            </span>
                             </label>
                             <input type="text" name="title_ar" id="title_ar" maxlength="70"
                                    value="{{ old('title_ar', $seo['title'] ?? '') }}"
@@ -46,7 +42,6 @@
                             <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_title_hint') }}</p>
                             @error('title_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.seo_description') }} <span class="text-red-500">*</span>
@@ -59,7 +54,6 @@
                             <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_description_hint') }}</p>
                             @error('description_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.seo_keywords') }}</label>
                             <input type="text" name="keywords_ar"
@@ -72,15 +66,15 @@
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div>
                             <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1.5">
-            <span>
-                {{ __('messages.seo_title') }}
-                <span class="text-red-500">*</span>
-            </span>
+                            <span>
+                                {{ __('messages.seo_title') }}
+                                <span class="text-red-500">*</span>
+                            </span>
 
                                 <span class="ms-auto text-xs text-gray-500 whitespace-nowrap">
-                <span id="title_en_count">0</span>/70
-                {{ __('messages.seo_chars_count') }}
-            </span>
+                                <span id="title_en_count">0</span>/70
+                                {{ __('messages.seo_chars_count') }}
+                            </span>
                             </label>
                             <input type="text" name="title_en" id="title_en" maxlength="70"
                                    value="{{ old('title_en', $seo['title'] ?? '') }}"
@@ -89,7 +83,6 @@
                             <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_title_hint') }}</p>
                             @error('title_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.seo_description') }} <span class="text-red-500">*</span>
@@ -102,7 +95,6 @@
                             <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_description_hint') }}</p>
                             @error('description_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.seo_keywords') }}</label>
                             <input type="text" name="keywords_en"
@@ -114,7 +106,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -133,7 +124,6 @@
                         <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> {{ __('messages.seo_og_image_hint') }}</p>
                         @error('og_image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.seo_twitter_card') }}</label>
@@ -149,7 +139,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -172,7 +161,6 @@
                             <input type="url" name="canonical_url" value="{{ old('canonical_url', $seo['canonical_url'] ?? '') }}" placeholder="https://yourwebsite.com" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" dir="ltr">
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 border-t border-gray-100">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.seo_google_analytics') }}</label>
@@ -187,20 +175,12 @@
                         <i class="fas fa-save"></i> {{ __('messages.save_updates') }}
                     </button>
                 </div>
-
             </div>
         </form>
     </div>
-
-    <style>
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .tab-animate { animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    </style>
-
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                // ─── منطق التبويبات ───
                 window.switchTab = (lang) => {
                     document.querySelectorAll('.tab-content').forEach(el => { el.classList.add('hidden'); el.classList.remove('tab-animate'); });
                     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -216,15 +196,12 @@
                 };
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => window.switchTab(btn.dataset.tab)));
                 window.switchTab('ar');
-
-                // ─── عداد الأحرف ───
                 const counters = {
                     'title_ar': { max: 70, counter: 'title_ar_count' },
                     'title_en': { max: 70, counter: 'title_en_count' },
                     'description_ar': { max: 160, counter: 'desc_ar_count' },
                     'description_en': { max: 160, counter: 'desc_en_count' },
                 };
-
                 Object.keys(counters).forEach(id => {
                     const input = document.getElementById(id);
                     const counter = document.getElementById(counters[id].counter);
@@ -239,7 +216,6 @@
                     }
                 });
 
-                // ─── معاينة حية في نتائج البحث ───
                 const previewTitle = document.getElementById('preview-title');
                 const previewDesc = document.getElementById('preview-description');
                 const titleAr = document.getElementById('title_ar');
@@ -255,7 +231,6 @@
                         previewDesc.textContent = descAr.value || 'وصف الموقع سيظهر هنا...';
                     });
                 }
-
                 @if($errors->any())
                 @foreach($errors->all() as $error)
                 toastr.error("{{ $error }}", "خطأ", { positionClass: "{{ app()->getLocale() === 'ar' ? 'toast-top-left' : 'toast-top-right' }}", timeOut: 4000 });

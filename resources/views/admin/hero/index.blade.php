@@ -30,7 +30,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
@@ -61,8 +60,6 @@
                                       dir="rtl">{{ old('description_ar', $hero?->getTranslation('description', 'ar') ?? '') }}</textarea>
                         </div>
                     </div>
-
-                    {{-- محتوى تبويب الإنجليزية --}}
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div>
                             <label
@@ -100,7 +97,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -111,61 +107,40 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.background_image') }}
                     </label>
-
-                    {{-- الصورة الحالية --}}
                     @if(isset($hero) && $hero->bg_image)
                         <div class="relative mb-3 group w-full md:w-1/2">
                             <img
                                 id="bgImagePreview"
                                 src="{{ $hero->bg_image_url }}"
                                 class="object-cover rounded-lg border"
-                                alt="{{ __('messages.background_image') }}"
-                            >
-
+                                alt="{{ __('messages.background_image') }}">
                             <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="text-white text-xs font-medium">
-                    {{ __('messages.will_be_replaced_on_new_upload') }}
-                </span>
+                                <span class="text-white text-xs font-medium">
+                                    {{ __('messages.will_be_replaced_on_new_upload') }}
+                                </span>
                             </div>
                         </div>
                     @else
-                        {{-- المعاينة عند عدم وجود صورة --}}
                         <div id="previewContainer" class="hidden mb-3 w-full md:w-1/2">
                             <img
-                                id="bgImagePreview"
-                                src=""
+                                id="bgImagePreview" src=""
                                 class="w-full h-40 object-cover rounded-lg border"
-                                alt="{{ __('messages.background_image') }}"
-                            >
+                                alt="{{ __('messages.background_image') }}">
                         </div>
                     @endif
-
-                    {{-- اختيار الصورة --}}
                     <div class="w-full md:w-1/2">
-                        <label
-                            for="bg_image"
-                            class="flex items-center justify-center gap-2 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg cursor-pointer hover:bg-purple-100 transition-colors"
-                        >
+                        <label for="bg_image"
+                            class="flex items-center justify-center gap-2 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg cursor-pointer hover:bg-purple-100 transition-colors">
                             <i class="fas fa-upload"></i>
-
                             <span id="fileChooseText">
-                {{ __('messages.choose_file') }}
-            </span>
+                                {{ __('messages.choose_file') }}
+                            </span>
                         </label>
-
-                        <input
-                            type="file"
-                            id="bg_image"
-                            name="bg_image"
-                            accept="image/*"
-                            class="hidden"
-                        >
-
+                        <input type="file" id="bg_image" name="bg_image" accept="image/*" class="hidden">
                         <p id="fileName" class="text-xs text-gray-500 mt-2">
                             {{ __('messages.no_file_chosen') }}
                         </p>
                     </div>
-
                     @error('bg_image')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -177,65 +152,48 @@
             </button>
         </form>
     </div>
-
     @push('scripts')
         <script>
             document.getElementById('bg_image')?.addEventListener('change', function () {
                 const file = this.files[0];
-
                 if (!file) {
                     document.getElementById('fileName').textContent =
                         "{{ __('messages.no_file_chosen') }}";
                     return;
                 }
-
-                // عرض اسم الملف
                 document.getElementById('fileName').textContent = file.name;
-
-                // معاينة الصورة
                 const reader = new FileReader();
-
                 reader.onload = function (e) {
                     let preview = document.getElementById('bgImagePreview');
                     let container = document.getElementById('previewContainer');
-
                     preview.src = e.target.result;
-
                     if (container) {
                         container.classList.remove('hidden');
                     }
                 };
-
                 reader.readAsDataURL(file);
             });
-        </script>
-        <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const form = document.getElementById('heroForm');
                 if (!form) return;
-
                 window.switchTab = (lang) => {
                     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
                     document.querySelectorAll('.tab-btn').forEach(btn => {
                         btn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
                         btn.classList.add('text-gray-500', 'hover:text-gray-700');
                     });
-
                     document.getElementById(`tab-content-${lang}`).classList.remove('hidden');
                     const activeBtn = document.querySelector(`.tab-btn[data-tab="${lang}"]`);
                     activeBtn.classList.remove('text-gray-500', 'hover:text-gray-700');
                     activeBtn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
                 };
-
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
                 });
-
                 form.addEventListener('submit', (e) => {
                     let hasError = false;
                     let firstErrorTab = null;
                     let firstErrorField = null;
-
                     document.querySelectorAll('.field-error').forEach(el => el.classList.add('hidden'));
                     document.querySelectorAll('input[required], textarea[required]').forEach(el => {
                         el.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
@@ -243,12 +201,10 @@
                     });
                     document.getElementById('badge-ar').classList.add('hidden');
                     document.getElementById('badge-en').classList.add('hidden');
-
                     const requiredFields = [
                         {id: 'title_ar', tab: 'ar'},
                         {id: 'title_en', tab: 'en'}
                     ];
-
                     requiredFields.forEach(field => {
                         const input = document.getElementById(field.id);
                         if (input && !input.value.trim()) {
@@ -257,14 +213,12 @@
                                 firstErrorTab = field.tab;
                                 firstErrorField = input;
                             }
-
                             document.getElementById(`error-${field.id}`).classList.remove('hidden');
                             input.classList.remove('border-gray-300');
                             input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                             document.getElementById(`badge-${field.tab}`).classList.remove('hidden');
                         }
                     });
-
                     if (hasError) {
                         e.preventDefault();
                         switchTab(firstErrorTab);

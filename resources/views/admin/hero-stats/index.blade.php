@@ -12,9 +12,7 @@
                     <i class="fas fa-plus"></i> {{ __('messages.add_stat') }}
                 </button>
             @endcan
-
         </div>
-
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
@@ -45,7 +43,6 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
-
                                 @can('edit hero-stats')
                                     <button
                                         onclick="openEditModal({{ $stat->id }}, '{{ $stat->number }}', '{{ addslashes($stat->getTranslation('label', 'ar')) }}', '{{ addslashes($stat->getTranslation('label', 'en')) }}', {{ $stat->order }}, {{ $stat->is_active ? 1 : 0 }})"
@@ -62,7 +59,6 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 @endcan
-
                             </div>
                         </td>
                     </tr>
@@ -78,15 +74,10 @@
             </table>
         </div>
     </div>
-
-    {{-- ═══════════════════════════════════════════ --}}
-    {{-- النافذة المنبثقة (Modal) للإضافة والتعديل --}}
-    {{-- ═══════════════════════════════════════════ --}}
     <div id="statModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="closeModal()"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
             <div
                 class="relative inline-block w-full max-w-2xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:p-6">
                 <div class="flex justify-between items-center mb-5 border-b pb-3">
@@ -98,11 +89,9 @@
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-
                 <form id="statForm" method="POST" novalidate>
                     @csrf
                     <input type="hidden" name="_method" id="formMethod" value="POST">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-start">
                         <div class="md:col-span-2">
                             <label
@@ -115,7 +104,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.stat_label') }}
@@ -127,7 +115,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                         <div class="relative">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.stat_label') }}
@@ -140,7 +127,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 text-start">
                         <div>
                             <label
@@ -153,32 +139,29 @@
                                 <input type="checkbox" name="is_active" id="is_active" value="1" checked
                                        class="sr-only peer">
                                 <div class="relative w-11 h-6 bg-gray-300 rounded-full
-                  peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:bg-blue-600
-                   transition-colors duration-200
-                   after:content-['']
-                   after:absolute
-                   after:top-[2px]
-                   after:start-[2px]
-                   after:w-5
-                   after:h-5
-                   after:bg-white
-                   after:rounded-full
-                   after:shadow
-                   after:transition-all
-                   after:duration-200
+                                      peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:bg-blue-600
+                                       transition-colors duration-200
+                                       after:content-['']
+                                       after:absolute
+                                       after:top-[2px]
+                                       after:start-[2px]
+                                       after:w-5
+                                       after:h-5
+                                       after:bg-white
+                                       after:rounded-full
+                                       after:shadow
+                                       after:transition-all
+                                       after:duration-200
 
-                   peer-checked:after:translate-x-full
-                   rtl:peer-checked:after:-translate-x-full"
-                                ></div>
+                                       peer-checked:after:translate-x-full
+                                       rtl:peer-checked:after:-translate-x-full"></div>
 
                                 <span class="ms-3 text-sm font-medium text-gray-700">
-            {{ __('messages.hero_is_active') }}
-        </span>
-
+                                    {{ __('messages.hero_is_active') }}
+                                </span>
                             </label>
                         </div>
                     </div>
-
                     <button type="submit"
                             class="mt-2 px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         <i class="fas fa-save"></i> {{ __('messages.save_updates') }}
@@ -187,12 +170,10 @@
             </div>
         </div>
     </div>
-
     @push('scripts')
         <script>
             const form = document.getElementById('statForm');
             const modal = document.getElementById('statModal');
-
             function openAddModal() {
                 form.reset();
                 form.action = "{{ route('admin.hero-stats.store') }}";
@@ -203,27 +184,22 @@
                 clearErrors();
                 modal.classList.remove('hidden');
             }
-
             function openEditModal(id, number, labelAr, labelEn, order, isActive) {
                 form.action = `/admin/hero-stats/${id}`;
                 document.getElementById('formMethod').value = "PUT";
                 document.getElementById('modalTitleText').innerText = "{{ __('messages.edit') }}";
-
                 document.getElementById('number').value = number;
                 document.getElementById('label_ar').value = labelAr;
                 document.getElementById('label_en').value = labelEn;
                 document.getElementById('order').value = order;
                 document.getElementById('is_active').checked = isActive === 1;
-
                 clearErrors();
                 modal.classList.remove('hidden');
             }
-
             function closeModal() {
                 modal.classList.add('hidden');
                 clearErrors();
             }
-
             function clearErrors() {
                 document.querySelectorAll('.field-error').forEach(el => el.classList.add('hidden'));
                 ['number', 'label_ar', 'label_en'].forEach(id => {
@@ -234,11 +210,9 @@
                     }
                 });
             }
-
             form.addEventListener('submit', (e) => {
                 let hasError = false, firstErrorField = null;
                 clearErrors();
-
                 const requiredFields = ['number', 'label_ar', 'label_en'];
                 requiredFields.forEach(id => {
                     const input = document.getElementById(id);
@@ -250,14 +224,12 @@
                         input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                     }
                 });
-
                 if (hasError) {
                     e.preventDefault();
                     setTimeout(() => {
                         firstErrorField.focus();
                         firstErrorField.scrollIntoView({behavior: 'smooth', block: 'center'});
                     }, 150);
-
                     const isAr = document.documentElement.dir === 'rtl';
                     if (typeof toastr !== 'undefined') {
                         toastr.error("{{ __('messages.fill_required_fields_both_langs') }}", "{{ __('messages.validation_error') }}", {
@@ -267,7 +239,6 @@
                     }
                 }
             });
-
             form.addEventListener('input', (e) => {
                 if (['number', 'label_ar', 'label_en'].includes(e.target.id)) {
                     e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
@@ -275,7 +246,6 @@
                     document.getElementById(`error-${e.target.id}`)?.classList.add('hidden');
                 }
             });
-
             function copyField(sourceId, targetId) {
                 const source = document.getElementById(sourceId);
                 const target = document.getElementById(targetId);

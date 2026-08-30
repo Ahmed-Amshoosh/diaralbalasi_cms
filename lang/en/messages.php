@@ -373,7 +373,13 @@ return [
     'administration' => 'Administration',
 
     'brands' => 'Brands',
-
+    'dashboard' => 'Dashboard',
+    'login' => 'Login',
+    'welcome_to_dashboard' => 'Welcome to the Dashboard',
+    'remember_me' => 'Remember Me',
+    'forgot_password' => 'Forgot Password?',
+    'dont_have_account' => "Don't have an account?",
+    'register_now' => 'Register Now',
 
     'dashboard_welcome' => 'Welcome',
     'manage_site_easily' => 'Here you can manage all sections of your site easily and professionally',

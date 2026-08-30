@@ -12,7 +12,6 @@
             </div>
             <form id="sectionForm" action="{{ route('admin.partners.section.update') }}" method="POST" novalidate>
                 @csrf @method('PUT')
-
                 <div class="px-6 pt-4">
                     <div class="inline-flex bg-gray-100 rounded-lg p-1 gap-1">
                         <button type="button" data-tab="ar"
@@ -27,7 +26,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
@@ -67,7 +65,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div class="relative">
                             <label
@@ -107,7 +104,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
                     <button type="submit"
                             class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-sm transition-all flex items-center gap-2">
@@ -127,9 +123,7 @@
                         <i class="fas fa-plus"></i> {{ __('messages.add_partner') }}
                     </button>
                 @endcan
-
             </div>
-
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
@@ -180,8 +174,6 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     @endcan
-
-
                                 </div>
                             </td>
                         </tr>
@@ -203,7 +195,6 @@
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75"
                  onclick="window.closePartnerModal()"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
             <div
                 class="relative inline-block w-full max-w-2xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:p-6">
                 <div class="flex justify-between items-center mb-5 border-b pb-3">
@@ -216,11 +207,9 @@
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-
                 <form id="partnerForm" method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
                     <input type="hidden" name="_method" id="formMethod" value="POST">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-start">
                         <div>
                             <label
@@ -233,7 +222,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                         <div class="relative">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.partner_name') }}
@@ -245,7 +233,6 @@
                                     class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
                         <div class="md:col-span-2">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.partner_logo') }}
@@ -259,7 +246,6 @@
                                 <img src="" class="h-16 w-auto object-contain bg-gray-50 rounded p-2 border">
                             </div>
                         </div>
-
                         <div>
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.hero_order') }}</label>
@@ -277,7 +263,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                         <button type="button" onclick="window.closePartnerModal()"
                                 class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">
@@ -310,7 +295,6 @@
                         activeBtn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
                     };
                     document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => window.switchTab(btn.dataset.tab)));
-
                     sectionForm.addEventListener('submit', (e) => {
                         let hasError = false, firstErrorTab = null, firstErrorField = null;
                         document.querySelectorAll('.field-error').forEach(el => el.classList.add('hidden'));
@@ -320,13 +304,11 @@
                         });
                         document.getElementById('badge-ar').classList.add('hidden');
                         document.getElementById('badge-en').classList.add('hidden');
-
                         const requiredFields = [
                             {id: 'label_ar', tab: 'ar'}, {id: 'label_en', tab: 'en'},
                             {id: 'heading_ar', tab: 'ar'}, {id: 'heading_en', tab: 'en'},
                             {id: 'description_ar', tab: 'ar'}, {id: 'description_en', tab: 'en'}
                         ];
-
                         requiredFields.forEach(field => {
                             const input = document.getElementById(field.id);
                             if (input && !input.value.trim()) {
@@ -341,7 +323,6 @@
                                 document.getElementById(`badge-${field.tab}`).classList.remove('hidden');
                             }
                         });
-
                         if (hasError) {
                             e.preventDefault();
                             window.switchTab(firstErrorTab);
@@ -358,7 +339,6 @@
                             }
                         }
                     });
-
                     sectionForm.addEventListener('input', (e) => {
                         if (e.target.hasAttribute('required')) {
                             e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
@@ -369,8 +349,6 @@
                         }
                     });
                 }
-
-                // ─── 2. منطق Modal العلامات التجارية ───
                 const partnerForm = document.getElementById('partnerForm');
                 const modal = document.getElementById('partnerModal');
 
@@ -404,7 +382,6 @@
                     } else {
                         document.getElementById('current_logo_preview').classList.add('hidden');
                     }
-
                     window.clearPartnerErrors();
                     modal.classList.remove('hidden');
                 };
@@ -414,7 +391,6 @@
                     modal.classList.add('hidden');
                     window.clearPartnerErrors();
                 };
-
                 window.clearPartnerErrors = function () {
                     document.querySelectorAll('#partnerModal .field-error').forEach(el => el.classList.add('hidden'));
                     ['item_name_ar', 'item_name_en', 'item_logo'].forEach(id => {
@@ -431,16 +407,13 @@
                     window.clearPartnerErrors();
 
                     const requiredFields = ['item_name_ar', 'item_name_en'];
-                    // التحقق من الشعار مطلوب فقط عند الإضافة (POST)
                     if (document.getElementById('formMethod').value === 'POST') {
                         requiredFields.push('item_logo');
                     }
 
                     requiredFields.forEach(id => {
                         const input = document.getElementById(id);
-                        // التحقق الخاص بحقل الملف يختلف عن الحقول النصية
                         const isEmpty = (id === 'item_logo') ? !input.files.length : !input.value.trim();
-
                         if (input && isEmpty) {
                             hasError = true;
                             if (!firstErrorField) firstErrorField = input;
@@ -465,7 +438,6 @@
                         }
                     }
                 });
-
                 partnerForm.addEventListener('input', (e) => {
                     if (['item_name_ar', 'item_name_en', 'item_logo'].includes(e.target.id)) {
                         e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');

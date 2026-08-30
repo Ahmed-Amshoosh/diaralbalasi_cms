@@ -24,7 +24,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
@@ -56,9 +55,7 @@
                                       dir="rtl">{{ old('description_ar', $section?->getTranslation('description', 'ar') ?? '') }}</textarea>
                             @error('description_ar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                     </div>
-
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div>
                             <label
@@ -89,11 +86,9 @@
                                       dir="ltr">{{ old('description_en', $section?->getTranslation('description', 'en') ?? '') }}</textarea>
                             @error('description_en') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
-
                     </div>
                 </div>
             </div>
-
             <div class="flex items-center justify-end gap-3 pb-8">
                 @can('edit content')
                     <button type="submit"
@@ -101,12 +96,10 @@
                         <i class="fas fa-save"></i> {{ __('messages.save_updates') }}
                     </button>
                 @endcan
-
             </div>
         </form>
     </div>
     <div class="space-y-6">
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a href="{{ route('admin.contact-messages.index', ['filter' => 'all']) }}"
                class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'all' ? 'ring-2 ring-blue-500' : '' }}">
@@ -120,7 +113,6 @@
                     </div>
                 </div>
             </a>
-
             <a href="{{ route('admin.contact-messages.index', ['filter' => 'unread']) }}"
                class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all {{ $filter === 'unread' ? 'ring-2 ring-orange-500' : '' }}">
                 <div class="flex items-center justify-between">
@@ -160,7 +152,6 @@
                     @endif
                 </h3>
             </div>
-
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
@@ -172,11 +163,9 @@
                         <th class="px-6 py-4 font-semibold text-center">{{ __('messages.actions') }}</th>
                     </tr>
                     </thead>
-
                     <tbody class="divide-y divide-gray-100">
                     @forelse($messages as $msg)
                         <tr class="hover:bg-gray-50/50 transition-colors {{ !$msg->is_read ? 'bg-blue-50/30' : '' }}">
-
                             <td class="px-6 py-4">
                                 @if($msg->is_read)
                                     <span
@@ -190,25 +179,19 @@
                                     </span>
                                 @endif
                             </td>
-
                             <td class="px-6 py-4">
                                 <div class="font-semibold text-gray-800">{{ $msg->name }}</div>
                                 <div class="text-xs text-gray-500 mt-0.5" dir="ltr">{{ $msg->phone }}</div>
                             </td>
-
                             <td class="px-6 py-4">
                                 <div class="font-semibold text-gray-800">{{ $msg->subject }}</div>
                                 <div class="text-xs text-gray-500 mt-1">{{ Str::limit($msg->message, 50) }}</div>
                             </td>
-
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 {{ $msg->created_at->diffForHumans() }}
                             </td>
-
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-
-                                    {{-- عرض الرسالة --}}
                                     @can('view messages')
                                         <a href="{{ route('admin.contact-messages.show', $msg->id) }}"
                                            class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
@@ -216,16 +199,12 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     @endcan
-
-
-                                    {{-- تحديد الرسالة كمقروءة --}}
                                     @can('view messages')
                                         @if(!$msg->is_read)
                                             <form action="{{ route('admin.contact-messages.mark-read', $msg->id) }}"
                                                   method="POST"
                                                   class="inline">
                                                 @csrf
-
                                                 <button type="submit"
                                                         class="text-green-600 hover:text-green-800 p-2 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
                                                         title="{{ __('messages.mark_as_read') }}">
@@ -234,27 +213,22 @@
                                             </form>
                                         @endif
                                     @endcan
-
-
-                                    {{-- حذف الرسالة --}}
                                     @can('delete messages')
                                         <button
                                             type="button"
                                             onclick="confirmDelete(
-                    '{{ route('admin.contact-messages.destroy', $msg->id) }}',
-                    '{{ addslashes($msg->subject) }}'
-                )"
+                                                '{{ route('admin.contact-messages.destroy', $msg->id) }}',
+                                                '{{ addslashes($msg->subject) }}'
+                                            )"
                                             class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
                                             title="{{ __('messages.delete') }}"
                                         >
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     @endcan
-
                                 </div>
                             </td>
                         </tr>
-
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-gray-500">
@@ -266,7 +240,6 @@
                     </tbody>
                 </table>
             </div>
-
             @if($messages->hasPages())
                 <div class="px-6 py-4 border-t border-gray-100">
                     {{ $messages->appends(['filter' => $filter])->links() }}
@@ -274,7 +247,6 @@
             @endif
         </div>
     </div>
-
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -300,19 +272,13 @@
                             'font-medium'
                         );
                     });
-
                     const targetContent =
                         document.getElementById(`tab-content-${lang}`);
-
                     if (!targetContent) return;
-
                     targetContent.classList.remove('hidden');
-
                     const activeBtn =
                         document.querySelector(`.tab-btn[data-tab="${lang}"]`);
-
                     if (activeBtn) {
-
                         activeBtn.classList.remove(
                             'text-gray-500',
                             'border-transparent',
@@ -320,7 +286,6 @@
                             'hover:bg-gray-50',
                             'font-medium'
                         );
-
                         activeBtn.classList.add(
                             'text-blue-600',
                             'border-blue-600',
@@ -331,68 +296,34 @@
                     }
                 };
                 document.querySelectorAll('.tab-btn').forEach(btn => {
-
                     btn.addEventListener('click', () => {
                         window.switchTab(btn.dataset.tab);
                     });
-
                 });
-
-                const arabicFields = [
-                    'label_ar',
-                    'heading_ar',
-                    'description_ar'
-                ];
-
-                const englishFields = [
-                    'label_en',
-                    'heading_en',
-                    'description_en'
-                ];
-
+                const arabicFields = ['label_ar', 'heading_ar', 'description_ar'];
+                const englishFields = ['label_en', 'heading_en', 'description_en'];
                 const hasError = (field) => {
-
-                    const input =
-                        document.querySelector(`[name="${field}"]`);
-
-                    return input &&
-                        input.classList.contains('border-red-500');
+                    const input = document.querySelector(`[name="${field}"]`);
+                    return input && input.classList.contains('border-red-500');
                 };
-
-                const hasArabicError =
-                    arabicFields.some(hasError);
-
-                const hasEnglishError =
-                    englishFields.some(hasError);
-
+                const hasArabicError = arabicFields.some(hasError);
+                const hasEnglishError = englishFields.some(hasError);
                 if (hasArabicError) {
-
                     window.switchTab('ar');
-
                 } else if (hasEnglishError) {
-
                     window.switchTab('en');
-
                 } else {
-
                     window.switchTab('ar');
                 }
-
-                const firstError =
-                    document.querySelector('.border-red-500');
-
+                const firstError = document.querySelector('.border-red-500');
                 if (firstError) {
-
                     setTimeout(() => {
-
                         firstError.scrollIntoView({
                             behavior: 'smooth',
                             block: 'center'
                         });
-
                     }, 300);
                 }
-
             });
         </script>
     @endpush

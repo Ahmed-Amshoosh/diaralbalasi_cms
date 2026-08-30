@@ -3,7 +3,6 @@
 @section('page_title', __('messages.users_management'))
 
 @section('content')
-
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
             <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -14,7 +13,6 @@
                 <i class="fas fa-plus"></i> {{ __('messages.add_user') }}
             </button>
         </div>
-
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
@@ -45,14 +43,13 @@
                                 <button
                                     type="button"
                                     onclick='window.openEditModal(
-        {{ $user->id }},
-        @json($user->name),
-        @json($user->email),
-        @json($user->roles->pluck("name")->toArray())
-    )'
+                                        {{ $user->id }},
+                                        @json($user->name),
+                                        @json($user->email),
+                                        @json($user->roles->pluck("name")->toArray())
+                                    )'
                                     class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                                    title="{{ __('messages.edit') }}"
-                                >
+                                    title="{{ __('messages.edit') }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button onclick="confirmDelete('{{ route('admin.users.destroy', $user->id) }}', '{{ $user->gname }}')"
@@ -74,8 +71,6 @@
             </table>
         </div>
     </div>
-
-    {{-- Modal إضافة/تعديل مستخدم --}}
     <div id="userModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="window.closeModal()"></div>
@@ -91,12 +86,10 @@
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-
                 <form id="userForm" method="POST" novalidate>
                     @csrf
                     <input type="hidden" name="_method" id="formMethod" value="POST">
                     <input type="hidden" name="user_id" id="user_id">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-start">
                         <div>
                             <label
@@ -139,7 +132,6 @@
                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
                                    dir="ltr">
                         </div>
-
                         <div class="md:col-span-2">
                             <label
                                 class="block text-sm font-semibold text-gray-700 mb-2">{{ __('messages.user_roles') }}
@@ -160,7 +152,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
                         <button type="button" onclick="window.closeModal()"
                                 class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">{{ __('messages.cancel') }}</button>
@@ -179,7 +170,6 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const form = document.getElementById('userForm');
                 const modal = document.getElementById('userModal');
-
                 window.openAddModal = function () {
                     if (!form || !modal) return;
                     form.reset();
@@ -187,8 +177,6 @@
                     document.getElementById('formMethod').value = "POST";
                     document.getElementById('user_id').value = "";
                     document.getElementById('modalTitleText').innerText = "{{ __('messages.add_user') }}";
-
-                    // إظهار حقول كلمة المرور كإجبارية عند الإضافة
                     document.getElementById('item_password').setAttribute('required', 'required');
                     document.getElementById('item_password_confirmation').setAttribute('required', 'required');
                     document.getElementById('password_required').classList.remove('hidden');
@@ -198,39 +186,31 @@
                     modal.classList.remove('hidden');
                 };
 
-                // ✅ تم تعديل الدالة لاستقبال القيم المنفصلة بدلاً من كائن واحد
                 window.openEditModal = function (userId, userName, userEmail, userRoles) {
                     if (!form || !modal) return;
                     form.action = `/admin/users/${userId}`;
                     document.getElementById('formMethod').value = "PUT";
                     document.getElementById('user_id').value = userId;
                     document.getElementById('modalTitleText').innerText = "{{ __('messages.edit_user') }}";
-
                     document.getElementById('item_name').value = userName;
                     document.getElementById('item_email').value = userEmail;
 
-                    // إخفاء إجبارية كلمة المرور عند التعديل (لأنها اختيارية)
                     document.getElementById('item_password').removeAttribute('required');
                     document.getElementById('item_password_confirmation').removeAttribute('required');
                     document.getElementById('password_required').classList.add('hidden');
                     document.getElementById('confirm_password_required').classList.add('hidden');
-
-                    // تحديد الأدوار الحالية
                     document.querySelectorAll('.role-checkbox').forEach(checkbox => {
                         checkbox.checked = userRoles.includes(checkbox.value);
                     });
-
                     window.clearErrors();
                     modal.classList.remove('hidden');
                 };
-
                 window.closeModal = function () {
                     if (modal) {
                         modal.classList.add('hidden');
                         window.clearErrors();
                     }
                 };
-
                 window.clearErrors = function () {
                     document.querySelectorAll('#userModal .field-error').forEach(el => el.classList.add('hidden'));
                     ['item_name', 'item_email', 'item_password', 'item_roles'].forEach(id => {
@@ -241,40 +221,27 @@
                         }
                     });
                 };
-
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-
                     let hasError = false;
                     let firstErrorField = null;
-
                     window.clearErrors();
-
-                    // الحقول المطلوبة
                     const requiredFields = ['item_name', 'item_email'];
-
                     const isAdding =
                         document.getElementById('formMethod').value === 'POST';
-
                     if (isAdding) {
                         requiredFields.push('item_password');
                     }
-
                     requiredFields.forEach(id => {
                         const input = document.getElementById(id);
-
                         if (input && !input.value.trim()) {
                             hasError = true;
-
                             if (!firstErrorField) {
                                 firstErrorField = input;
                             }
-
                             document.getElementById(`error-${id}`)
                                 ?.classList.remove('hidden');
-
                             input.classList.remove('border-gray-300');
-
                             input.classList.add(
                                 'border-red-500',
                                 'ring-2',
@@ -282,19 +249,12 @@
                             );
                         }
                     });
-
-                    // التحقق من الأدوار
-                    const checkedRoles =
-                        document.querySelectorAll('.role-checkbox:checked');
-
+                    const checkedRoles = document.querySelectorAll('.role-checkbox:checked');
                     if (checkedRoles.length === 0) {
                         hasError = true;
-
                         document.getElementById('error-item_roles')
                             ?.classList.remove('hidden');
                     }
-
-                    // أخطاء JavaScript المحلية
                     if (hasError) {
                         if (firstErrorField) {
                             setTimeout(() => {
@@ -305,7 +265,6 @@
                                 });
                             }, 150);
                         }
-
                         toastr.error(
                             "{{ __('messages.fill_required_fields') }}",
                             "{{ __('messages.validation_error') }}",
@@ -314,23 +273,17 @@
                                 timeOut: 4000
                             }
                         );
-
                         return;
                     }
-
-                    // إظهار حالة التحميل
                     const submitButton = form.querySelector('button[type="submit"]');
                     const originalButtonHtml = submitButton.innerHTML;
-
                     submitButton.disabled = true;
                     submitButton.innerHTML = `
-        <i class="fas fa-spinner fa-spin"></i>
-        {{ __('messages.saving') }}
-                    `;
-
+                                <i class="fas fa-spinner fa-spin"></i>
+                                {{ __('messages.saving') }}
+                                            `;
                     try {
                         const formData = new FormData(form);
-
                         const response = await fetch(form.action, {
                             method: 'POST',
                             body: formData,
@@ -339,67 +292,47 @@
                                 'X-Requested-With': 'XMLHttpRequest'
                             }
                         });
-
                         const data = await response.json();
-
-                        // أخطاء Laravel Validation
                         if (response.status === 422) {
-
                             const errors = data.errors || {};
-
                             Object.keys(errors).forEach(field => {
-
                                 const messages = errors[field];
-
-                                // اسم الحقل في Laravel
                                 let inputId = '';
-
                                 if (field === 'name') {
                                     inputId = 'item_name';
                                 }
-
                                 if (field === 'email') {
                                     inputId = 'item_email';
                                 }
-
                                 if (field === 'password') {
                                     inputId = 'item_password';
                                 }
-
                                 if (field === 'roles' || field.startsWith('roles.')) {
                                     inputId = 'item_roles';
                                 }
-
                                 if (inputId) {
                                     const input =
                                         document.getElementById(inputId);
-
                                     const errorElement =
                                         document.getElementById(`error-${inputId}`);
-
                                     if (input) {
                                         input.classList.remove(
                                             'border-gray-300'
                                         );
-
                                         input.classList.add(
                                             'border-red-500',
                                             'ring-2',
                                             'ring-red-200'
                                         );
                                     }
-
                                     if (errorElement) {
                                         errorElement.innerHTML = `
                             <i class="fas fa-exclamation-circle"></i>
                             ${messages[0]}
                         `;
-
                                         errorElement.classList.remove('hidden');
                                     }
                                 }
-
-                                // Toastr
                                 messages.forEach(message => {
                                     toastr.error(
                                         message,
@@ -412,13 +345,9 @@
                                     );
                                 });
                             });
-
                             return;
                         }
-
-                        // نجاح
                         if (response.ok && data.success) {
-
                             toastr.success(
                                 data.message,
                                 "{{ __('messages.success') }}",
@@ -428,33 +357,23 @@
                                     timeOut: 3000
                                 }
                             );
-
                             window.closeModal();
-
-                            // تحديث الجدول فقط
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1000);
-
                             return;
                         }
-
                         toastr.error(
                             "{{ __('messages.something_went_wrong') }}",
                             "{{ __('messages.error') }}"
                         );
-
                     } catch (error) {
-
                         console.error(error);
-
                         toastr.error(
                             "{{ __('messages.something_went_wrong') }}",
                             "{{ __('messages.error') }}"
                         );
-
                     } finally {
-
                         submitButton.disabled = false;
                         submitButton.innerHTML = originalButtonHtml;
                     }

@@ -6,11 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ __('messages.site_name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    {{-- Fonts --}}
     @if(app()->getLocale() === 'ar')
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
         <style>body { font-family: 'Cairo', sans-serif; }</style>
@@ -18,22 +14,17 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <style>body { font-family: 'Inter', sans-serif; }</style>
     @endif
-
     <style>
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-        /* Sidebar Transitions */
         .sidebar-overlay {
             transition: opacity 0.3s ease-in-out;
         }
         .sidebar {
             transition: transform 0.3s ease-in-out;
         }
-
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -47,14 +38,11 @@
         .tab-animate {
             animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-
     </style>
-
     @stack('styles')
 </head>
 <body class="bg-gray-100">
 <div class="flex h-screen overflow-hidden">
-
     <div id="sidebarOverlay"
          class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
          onclick="toggleSidebar()"></div>
@@ -74,40 +62,28 @@
 
 <script>
     function confirmDelete(url, itemName = '') {
-
         const isRTL = document.documentElement.dir === 'rtl';
-
         Swal.fire({
             title: '{{ __('messages.confirm_delete') }}',
             text: itemName
                 ? itemName
                 : '{{ __('messages.delete_warning') }}',
             icon: 'warning',
-
             showCancelButton: true,
-
             confirmButtonColor: '#ef4444',
             cancelButtonColor: '#6b7280',
-
             confirmButtonText: '{{ __('messages.yes_delete') }}',
             cancelButtonText: '{{ __('messages.cancel') }}',
-
             reverseButtons: isRTL
-
         }).then((result) => {
-
             if (result.isConfirmed) {
-
                 const form = document.createElement('form');
-
                 form.method = 'POST';
                 form.action = url;
-
                 form.innerHTML = `
                     @csrf
                 @method('DELETE')
                 `;
-
                 document.body.appendChild(form);
                 form.submit();
             }
@@ -117,14 +93,11 @@
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const isRTL = document.documentElement.dir === 'rtl';
-
         if (sidebar.classList.contains('-translate-x-full') || sidebar.classList.contains('translate-x-full')) {
-            // Open sidebar
             sidebar.classList.remove('-translate-x-full', 'translate-x-full');
             overlay.classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
         } else {
-            // Close sidebar
             if (isRTL) {
                 sidebar.classList.add('translate-x-full');
             } else {
@@ -137,7 +110,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
         const isRTL = document.documentElement.dir === 'rtl';
-
         if (window.innerWidth < 1024) {
             if (isRTL) {
                 sidebar.classList.add('translate-x-full');
@@ -158,7 +130,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const isRTL = document.documentElement.dir === 'rtl';
-
         toastr.options = {
             closeButton: true,
             progressBar: true,

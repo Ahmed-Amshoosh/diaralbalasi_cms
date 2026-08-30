@@ -5,8 +5,6 @@
 @section('content')
     <div class="product-details-page" style="padding: 4rem 0; background: var(--cream);">
         <div class="section-container">
-
-            {{-- Breadcrumb --}}
             <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
                 <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
                 <i class="fas fa-chevron-left"></i>
@@ -18,16 +16,13 @@
                 @endif
                 <span class="current">{{ $product->getTranslation('name', app()->getLocale()) }}</span>
             </nav>
-
             <div class="product-details-grid" data-aos="fade-up">
-
                 <div class="product-gallery">
                     <div class="main-image-container">
                         <img id="mainProductImage"
                              src="{{ $product->main_image ?: asset('frontend/img/product-placeholder.png') }}"
                              alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
                     </div>
-
                     @if($product->images->count() > 1)
                         <div class="thumbnail-grid">
                             @foreach($product->images as $index => $image)
@@ -39,25 +34,20 @@
                         </div>
                     @endif
                 </div>
-
-                {{-- العمود الأيسر: تفاصيل المنتج --}}
                 <div class="product-info-panel">
                     @if($product->partner)
                         <span class="brand-badge">
                         <i class="fas fa-award"></i> {{ $product->partner->getTranslation('name', app()->getLocale()) }}
                     </span>
                     @endif
-
                     <h3 class="product-main-title">
                         {{ $product->getTranslation('name', app()->getLocale()) }}
                     </h3>
-
                     @if($product->price)
                         <div class="product-price-tag">
                             {{ number_format($product->price, 2) }} <span>{{ __('messages.currency') }}</span>
                         </div>
                     @endif
-
                     <div class="product-meta-info">
                         @if($product->category)
                             <div class="meta-item">
@@ -66,24 +56,19 @@
                             </div>
                         @endif
                     </div>
-
                     @if($product->getTranslation('description', app()->getLocale()))
                         <div class="product-description-box">
                             <h4>{{ __('messages.description') }}</h4>
                             <p style="white-space: pre-line;">{{ $product->getTranslation('description', app()->getLocale()) }}</p>
                         </div>
                     @endif
-
                     <div class="product-actions">
                         @php
                             $productName = $product->getTranslation('name', app()->getLocale());
                             $whatsappMsg = urlencode("مرحباً، أود الاستفسار عن المنتج: " . $productName);
-                            // استبدل الرقم أدناه برقم الواتساب الخاص بالموقع من الإعدادات
                             $whatsappNumber = \App\Models\Setting::get('mobile', '');
                             $cleanNumber = preg_replace('/[^0-9]/', '', $whatsappNumber);
                         @endphp
-
-
                         <div class="">
                             <a href="https://wa.me/{{ $cleanNumber }}?text={{ $whatsappMsg }}"
                                class="btn-hero-outline btn-whatsapp-action" target="_blank">
@@ -94,13 +79,11 @@
                     </div>
                 </div>
             </div>
-
             @if($similarProducts->count() > 0)
                 <div class="similar-products-section" style="margin-top: 5rem;" data-aos="fade-up">
                     <div class="section-header-new" style="text-align: center; margin-bottom: 3rem;">
                         <h5 class="section-heading">{{ __('messages.similar_products') }}</h5>
                     </div>
-
                     <div class="products-showcase" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
                         @foreach($similarProducts as $similar)
                             <a href="{{ route('frontend.products.show', $similar->id) }}" class="product-showcase-card">
@@ -119,10 +102,8 @@
                     </div>
                 </div>
             @endif
-
         </div>
     </div>
-
     <style>
         .section-heading {
             font-size: 2rem;
@@ -136,7 +117,6 @@
             background: var(--brown);
         }
         .product-details-page{padding: 9rem 0 4rem !important;}
-        /* تنسيقات صفحة التفاصيل */
         .breadcrumb-new {
             display: flex;
             align-items: center;
@@ -150,7 +130,6 @@
         .breadcrumb-new a:hover { color: var(--gold); }
         .breadcrumb-new .current { color: var(--dark); font-weight: 600; }
         .breadcrumb-new i { font-size: 0.7rem; }
-
         .product-details-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -159,8 +138,6 @@
         @media (min-width: 992px) {
             .product-details-grid { grid-template-columns: 1fr 1fr; }
         }
-
-        /* معرض الصور */
         .main-image-container {
             background: none;
             border-radius: 16px;
@@ -173,7 +150,6 @@
             object-fit: contain;
             transition: transform 0.3s ease;
         }
-
         .thumbnail-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -195,8 +171,6 @@
             height: 100%;
             object-fit: cover;
         }
-
-        /* لوحة المعلومات */
         .brand-badge {
             display: inline-flex;
             align-items: center;
@@ -256,8 +230,6 @@
             color: var(--gray-500);
             line-height: 1.8;
         }
-
-        /* أزرار الإجراءات */
         .product-actions {
             display: flex;
             flex-direction: column;
@@ -272,7 +244,6 @@
             background: #25D366;
             color: white;
         }
-
         .btn-secondary-action {
             flex: 1;
             display: flex;
@@ -291,11 +262,8 @@
             background: var(--brown);
             color: var(--white);
         }
-
-        /* Infinite Scroll Sentinel */
         .scroll-sentinel { height: 1px; width: 100%; }
     </style>
-
     <script>
         function changeMainImage(src, element) {
             document.getElementById('mainProductImage').src = src;

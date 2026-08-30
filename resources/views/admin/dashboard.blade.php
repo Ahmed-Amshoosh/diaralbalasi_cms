@@ -1,12 +1,9 @@
 @extends('admin.layouts.app')
-
-@section('title', __('messages.home'))
-@section('page_title', 'لوحة التحكم')
+@section('title', __('messages.dashboard'))
+@section('page_title',  __('messages.dashboard'))
 
 @section('content')
     <div class="space-y-6">
-
-        {{-- ترحيب --}}
         <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div>
@@ -26,10 +23,7 @@
                 </div>
             </div>
         </div>
-
-        {{-- بطاقات الإحصائيات --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-
             @can('view products')
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-blue-500">
                     <div class="flex items-center justify-between">
@@ -48,7 +42,6 @@
                     </div>
                 </div>
             @endcan
-
             @can('view categories')
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-green-500">
                     <div class="flex items-center justify-between">
@@ -67,7 +60,6 @@
                     </div>
                 </div>
             @endcan
-
             @can('view brands')
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-purple-500">
                     <div class="flex items-center justify-between">
@@ -86,7 +78,6 @@
                     </div>
                 </div>
             @endcan
-
             @canany(['view content', 'view testimonials'])
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-yellow-500">
                     <div class="flex items-center justify-between">
@@ -105,7 +96,6 @@
                     </div>
                 </div>
             @endcanany
-
             @can('view messages')
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-red-500">
                     <div class="flex items-center justify-between">
@@ -124,7 +114,6 @@
                     </div>
                 </div>
             @endcan
-
             @can('view users')
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-indigo-500">
                     <div class="flex items-center justify-between">
@@ -144,8 +133,6 @@
                 </div>
             @endcan
         </div>
-
-        {{-- قسم الإجراءات السريعة --}}
         @canany(['create products', 'create categories', 'create brands', 'create testimonials', 'reply messages', 'edit settings'])
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">
@@ -153,7 +140,6 @@
                     {{ __('messages.quick_actions') }}
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-
                     @can('create products')
                         <a href="{{ route('admin.products.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-blue-50 rounded-lg transition-colors group">
                             <div class="bg-blue-100 rounded-full p-3 mb-2 group-hover:bg-blue-200 transition-colors">
@@ -162,7 +148,6 @@
                             <span class="text-sm font-medium text-gray-700 text-center">{{ __('messages.new_product') }}</span>
                         </a>
                     @endcan
-
                     @can('create categories')
                         <a href="{{ route('admin.categories.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-green-50 rounded-lg transition-colors group">
                             <div class="bg-green-100 rounded-full p-3 mb-2 group-hover:bg-green-200 transition-colors">
@@ -171,7 +156,6 @@
                             <span class="text-sm font-medium text-gray-700 text-center">{{ __('messages.new_category') }}</span>
                         </a>
                     @endcan
-
                     @can('create brands')
                         <a href="{{ route('admin.brands.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-purple-50 rounded-lg transition-colors group">
                             <div class="bg-purple-100 rounded-full p-3 mb-2 group-hover:bg-purple-200 transition-colors">
@@ -180,7 +164,6 @@
                             <span class="text-sm font-medium text-gray-700 text-center">{{ __('messages.new_brand') }}</span>
                         </a>
                     @endcan
-
                     @canany(['view content', 'edit content'])
                         <a href="{{ route('admin.testimonials.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-yellow-50 rounded-lg transition-colors group">
                             <div class="bg-yellow-100 rounded-full p-3 mb-2 group-hover:bg-yellow-200 transition-colors">
@@ -189,7 +172,6 @@
                             <span class="text-sm font-medium text-gray-700 text-center">{{ __('messages.new_testimonial') }}</span>
                         </a>
                     @endcanany
-
                     @can('view messages')
                         <a href="{{ route('admin.contact-messages.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-red-50 rounded-lg transition-colors group">
                             <div class="bg-red-100 rounded-full p-3 mb-2 group-hover:bg-red-200 transition-colors">
@@ -198,7 +180,6 @@
                             <span class="text-sm font-medium text-gray-700 text-center">{{ __('messages.messages') }}</span>
                         </a>
                     @endcan
-
                     @can('view settings')
                         <a href="{{ route('admin.settings.index') }}" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-colors group">
                             <div class="bg-indigo-100 rounded-full p-3 mb-2 group-hover:bg-indigo-200 transition-colors">
@@ -210,11 +191,7 @@
                 </div>
             </div>
         @endcanany
-
-        {{-- قسم المعلومات الإضافية --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-            {{-- آخر الرسائل --}}
             @can('view messages')
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <div class="flex items-center justify-between mb-4">
@@ -226,7 +203,6 @@
                             {{ __('messages.view_all') }}
                         </a>
                     </div>
-
                     <div class="space-y-3">
                         @if($recentMessages->count() > 0)
                             @foreach($recentMessages as $message)
@@ -249,38 +225,31 @@
                     </div>
                 </div>
             @endcan
-
-            {{-- معلومات النظام --}}
             @canany(['view settings', 'view users'])
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">
                         <i class="fas fa-info-circle text-blue-500 {{ app()->getLocale() === 'ar' ? 'ml-2' : 'mr-2' }}"></i>
                         {{ __('messages.system_info') }}
                     </h3>
-
                     <div class="space-y-3">
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">{{ __('messages.laravel_version') }}</span>
                             <span class="font-medium text-gray-800">{{ app()->version() }}</span>
                         </div>
-
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">{{ __('messages.php_version') }}</span>
                             <span class="font-medium text-gray-800">{{ phpversion() }}</span>
                         </div>
-
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">{{ __('messages.current_language') }}</span>
                             <span class="font-medium text-gray-800">
                             {{ app()->getLocale() === 'ar' ? __('messages.arabic') : __('messages.english') }}
                         </span>
                         </div>
-
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">{{ __('messages.timezone') }}</span>
                             <span class="font-medium text-gray-800">{{ config('app.timezone') }}</span>
                         </div>
-
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <span class="text-gray-600">{{ __('messages.system_status') }}</span>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">

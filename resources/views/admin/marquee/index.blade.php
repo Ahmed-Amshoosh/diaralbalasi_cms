@@ -12,9 +12,7 @@
                     <i class="fas fa-plus"></i> {{ __('messages.add_marquee_item') }}
                 </button>
             @endcan
-
         </div>
-
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider text-start">
@@ -53,7 +51,6 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 @endcan
-
                                 @can('delete marquee')
                                     <button
                                         onclick="confirmDelete('{{ route('admin.marquee.destroy', $item->id) }}', '{{ addslashes($item->getTranslation('text', app()->getLocale())) }}')"
@@ -77,19 +74,12 @@
             </table>
         </div>
     </div>
-
-    {{-- ═══════════════════════════════════════════ --}}
-    {{-- النافذة المنبثقة (Modal) للإضافة والتعديل --}}
-    {{-- ═══════════════════════════════════════════ --}}
     <div id="marqueeModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
          aria-modal="true">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="closeModal()"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div
-                class="relative inline-block w-full max-w-3xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:p-6">
-
+            <div class="relative inline-block w-full max-w-3xl px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:p-6">
                 <div class="flex justify-between items-center mb-5 border-b pb-3">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2" id="modalTitle">
                         <i class="fas fa-plus-circle text-blue-500"></i> <span
@@ -99,14 +89,10 @@
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-
                 <form id="marqueeForm" method="POST" novalidate>
                     @csrf
                     <input type="hidden" name="_method" id="formMethod" value="POST">
-
-                    {{-- حقول اللغتين جنباً إلى جنب --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-start">
-                        {{-- الحقل العربي --}}
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.marquee_text') }} (عربي) <span class="text-red-500">*</span>
@@ -118,8 +104,6 @@
                                 <i class="fas fa-exclamation-circle"></i> {{ __('messages.this_field_is_required') }}
                             </p>
                         </div>
-
-                        {{-- الحقل الإنجليزي --}}
                         <div class="relative">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                 {{ __('messages.marquee_text') }} (English) <span class="text-red-500">*</span>
@@ -132,8 +116,6 @@
                             </p>
                         </div>
                     </div>
-
-                    {{-- الإعدادات المشتركة --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100 text-start">
                         <div>
                             <label
@@ -143,42 +125,30 @@
                         </div>
                         <div class="flex items-end pb-1">
                             <label class="inline-flex items-center cursor-pointer">
-
-                                <input
-                                    type="checkbox"
-                                    name="is_active"
-                                    id="is_active"
-                                    value="1"
-                                    checked
-                                    class="sr-only peer"
-                                >
-
+                                <input type="checkbox" name="is_active" id="is_active" value="1" checked class="sr-only peer">
                                 <div
                                     class="relative w-11 h-6 bg-gray-300 rounded-full
-                   peer-focus:ring-2 peer-focus:ring-blue-300
-                   peer-checked:bg-blue-600
-                   transition-colors duration-200
+                                       peer-focus:ring-2 peer-focus:ring-blue-300
+                                       peer-checked:bg-blue-600
+                                       transition-colors duration-200
 
-                   after:content-['']
-                   after:absolute
-                   after:top-[2px]
-                   after:start-[2px]
-                   after:w-5
-                   after:h-5
-                   after:bg-white
-                   after:rounded-full
-                   after:shadow
-                   after:transition-all
-                   after:duration-200
+                                       after:content-['']
+                                       after:absolute
+                                       after:top-[2px]
+                                       after:start-[2px]
+                                       after:w-5
+                                       after:h-5
+                                       after:bg-white
+                                       after:rounded-full
+                                       after:shadow
+                                       after:transition-all
+                                       after:duration-200
 
-                   peer-checked:after:translate-x-full
-                   rtl:peer-checked:after:-translate-x-full"
-                                ></div>
-
+                                       peer-checked:after:translate-x-full
+                                       rtl:peer-checked:after:-translate-x-full"></div>
                                 <span class="ms-3 text-sm font-medium text-gray-700">
-            {{ __('messages.hero_is_active') }}
-        </span>
-
+                                    {{ __('messages.hero_is_active') }}
+                                </span>
                             </label>
                         </div>
                     </div>
@@ -190,13 +160,10 @@
             </div>
         </div>
     </div>
-
     @push('scripts')
         <script>
             const form = document.getElementById('marqueeForm');
             const modal = document.getElementById('marqueeModal');
-
-            // 1. فتح النافذة للإضافة
             function openAddModal() {
                 form.reset();
                 form.action = "{{ route('admin.marquee.store') }}";
@@ -207,28 +174,21 @@
                 clearErrors();
                 modal.classList.remove('hidden');
             }
-
-            // 2. فتح النافذة للتعديل
             function openEditModal(id, textAr, textEn, order, isActive) {
                 form.action = `/admin/marquee/${id}`;
                 document.getElementById('formMethod').value = "PUT";
                 document.getElementById('modalTitleText').innerText = "{{ __('messages.edit') }}";
-
                 document.getElementById('text_ar').value = textAr;
                 document.getElementById('text_en').value = textEn;
                 document.getElementById('order').value = order;
                 document.getElementById('is_active').checked = isActive === 1;
-
                 clearErrors();
                 modal.classList.remove('hidden');
             }
-
-            // 3. إغلاق النافذة
             function closeModal() {
                 modal.classList.add('hidden');
                 clearErrors();
             }
-
             function clearErrors() {
                 document.querySelectorAll('.field-error').forEach(el => el.classList.add('hidden'));
                 ['text_ar', 'text_en'].forEach(id => {
@@ -239,35 +199,27 @@
                     }
                 });
             }
-
-            // 4. التحقق الذكي عند الحفظ (بدون تبويبات)
             form.addEventListener('submit', (e) => {
                 let hasError = false;
                 let firstErrorField = null;
                 clearErrors();
-
                 const requiredFields = ['text_ar', 'text_en'];
-
                 requiredFields.forEach(id => {
                     const input = document.getElementById(id);
                     if (input && !input.value.trim()) {
                         hasError = true;
                         if (!firstErrorField) firstErrorField = input;
-
                         document.getElementById(`error-${id}`).classList.remove('hidden');
                         input.classList.remove('border-gray-300');
                         input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                     }
                 });
-
                 if (hasError) {
                     e.preventDefault();
-                    // التركيز على أول حقل فارغ والتمرير إليه
                     setTimeout(() => {
                         firstErrorField.focus();
                         firstErrorField.scrollIntoView({behavior: 'smooth', block: 'center'});
                     }, 150);
-
                     const isAr = document.documentElement.dir === 'rtl';
                     if (typeof toastr !== 'undefined') {
                         toastr.error(
@@ -278,8 +230,6 @@
                     }
                 }
             });
-
-            // 5. إزالة الخطأ عند الكتابة
             form.addEventListener('input', (e) => {
                 if (e.target.id === 'text_ar' || e.target.id === 'text_en') {
                     e.target.classList.remove('border-red-500', 'ring-2', 'ring-red-200');

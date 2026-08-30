@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="space-y-6">
-
         <a href="{{ route('admin.contact-messages.index') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium">
             <i class="fas fa-arrow-{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}"></i>
             {{ __('messages.back_to_messages') }}
@@ -30,7 +29,6 @@
                     @endif
                 </div>
             </div>
-
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-100">
                     <div class="flex items-center gap-3">
@@ -63,7 +61,6 @@
                         </div>
                     @endif
                 </div>
-
                 <div>
                     <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
                         <i class="fas fa-comment-dots text-blue-500"></i> {{ __('messages.message_content') }}
@@ -74,6 +71,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection

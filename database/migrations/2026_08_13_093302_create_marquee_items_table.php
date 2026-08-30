@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('marquee_items', function (Blueprint $table) {
             $table->id();
-            $table->json('text'); // النص المترجم
+            $table->json('text');
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

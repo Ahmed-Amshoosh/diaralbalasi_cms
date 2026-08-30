@@ -2519,38 +2519,29 @@ a{text-decoration: none}
 .bento-item{
     grid-column: span 2;
 }
-/* ==========================================
-   قائمة الجوال الجانبية (من اليمين)
-   ========================================== */
 @media (max-width: 991px) {
-    /* 1. الحالة الأساسية للقائمة (مخفية خارج الشاشة من اليمين) */
     .nav-menu {
         position: fixed;
         top: 0;
         right: 0;
-        width: 300px; /* عرض القائمة */
+        width: 300px;
         height: 100vh;
         background-color: var(--white);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15); /* ظل من الجهة اليسرى */
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
         z-index: 9999;
-
         display: flex;
         flex-direction: column;
-        padding: 90px 30px 40px; /* مسافة من الأعلى لتجنب تداخل النافبار */
+        padding: 90px 30px 40px;
         gap: 0;
-        overflow-y: auto; /* السماح بالتمرير إذا كانت القائمة طويلة */
-
-        /* حركة الانزلاق */
-        transform: translateX(100%); /* مخفية بالكامل لليمين */
+        overflow-y: auto;
+        transform: translateX(100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 2. الحالة النشطة (عند فتح القائمة) */
     .nav-menu.active {
-        transform: translateX(0); /* تعود لمكانها الطبيعي */
+        transform: translateX(0);
     }
 
-    /* 3. تنسيق عناصر القائمة من الداخل */
     .nav-menu li {
         width: 100%;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -2566,17 +2557,15 @@ a{text-decoration: none}
         padding: 18px 0;
         font-size: 0.8rem;
         font-weight: 700;
-        color: var(--brown) !important; /* لون النص واضح على الخلفية البيضاء */
+        color: var(--brown) !important;
         transition: all 0.3s ease;
     }
 
-    /* تأثير عند مرور الماوس على الرابط */
     .nav-menu a:hover {
         color: var(--gold) !important;
         padding-right: 10px; /* حركة بسيطة لليسار */
     }
 
-    /* تعديل خط التحديد السفلي ليناسب القائمة العمودية */
     .nav-menu a::before {
         bottom: 12px;
         height: 3px;
@@ -2586,7 +2575,6 @@ a{text-decoration: none}
         color: var(--gold) !important;
     }
 
-    /* 4. خلفية التعتيم (Overlay) لإغلاق القائمة عند الضغط خارجها */
     .nav-overlay {
         position: fixed;
         inset: 0;

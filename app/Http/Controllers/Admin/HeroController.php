@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class HeroController extends Controller
 {
-
     public function index()
     {
         if (!auth()->user()->can('view hero')) {

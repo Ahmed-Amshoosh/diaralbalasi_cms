@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cta_sections', function (Blueprint $table) {
             $table->id();
-            $table->json('heading'); // يسمح بـ HTML مثل <br> و <span>
+            $table->json('heading');
             $table->json('description');
             $table->json('button_text');
             $table->string('image')->nullable();

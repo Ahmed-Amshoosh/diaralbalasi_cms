@@ -25,7 +25,7 @@ class ProductController extends Controller
 
         $partners = Partner::where('is_active', true)->orderBy('order')->get();
 
-        return view('admin.products.index', compact('section','products', 'categories', 'partners'));
+        return view('admin.products.index', compact('section', 'products', 'categories', 'partners'));
     }
 
     public function updateSection(Request $request)
@@ -126,7 +126,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('images')) {
-            $lastOrder = (int) ($product->images()->max('order') ?? -1);
+            $lastOrder = (int)($product->images()->max('order') ?? -1);
             foreach ($request->file('images') as $index => $image) {
                 $path = $image->store('products', 'public');
                 $product->images()->create([
@@ -166,172 +166,105 @@ class ProductController extends Controller
         return back()->with('success', __('messages.product_image_deleted_successfully'));
     }
 
-public function ajax(): JsonResponse
-{
-    $category = request('category', 'all');
-    $partner = request('partner', 'all');
-    $search = trim(request('search', ''));
-    $page = request('page', 1);
-    $locale = app()->getLocale();
+    public function ajax(): JsonResponse
+    {
+        $category = request('category', 'all');
+        $partner = request('partner', 'all');
+        $search = trim(request('search', ''));
+        $page = request('page', 1);
+        $locale = app()->getLocale();
 
-    $query = Product::with([
-        'category',
-        'images',
-        'partner'
-    ])
-        ->where('is_active', true)
-        ->orderBy('order');
-    if ($search !== '') {
-
-        $query->where(function ($q) use ($search, $locale) {
-
-            $q->where(
-                "name->{$locale}",
-                'like',
-                '%' . $search . '%'
-            )
-                ->orWhere(
-                    "description->{$locale}",
+        $query = Product::with([
+            'category',
+            'images',
+            'partner'
+        ])
+            ->where('is_active', true)
+            ->orderBy('order');
+        if ($search !== '') {
+            $query->where(function ($q) use ($search, $locale) {
+                $q->where(
+                    "name->{$locale}",
                     'like',
                     '%' . $search . '%'
-                );
+                )
+                    ->orWhere(
+                        "description->{$locale}",
+                        'like',
+                        '%' . $search . '%'
+                    );
+            });
+        }
 
-        });
+        if ($category !== 'all') {
+            $query->whereHas('category', function ($q) use ($category) {
+                $q->where('category_id', (int)$category);
+            });
+        }
 
-    }
+        if ($partner !== 'all' && is_numeric($partner)) {
+            $query->where('partner_id', (int)$partner);
+        }
 
+        $products = $query->paginate(
+            20, ['*'],
+            'page', $page
+        );
 
-    /*
-    |--------------------------------------------------------------------------
-    | فلترة التصنيف
-    |--------------------------------------------------------------------------
-    */
-
-    if ($category !== 'all') {
-
-        $query->whereHas('category', function ($q) use ($category) {
-
-            $q->where('category_id', (int) $category);
-
-        });
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | فلترة الماركة
-    |--------------------------------------------------------------------------
-    */
-
-    if ($partner !== 'all' && is_numeric($partner)) {
-
-        $query->where('partner_id', (int) $partner);
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Pagination
-    |--------------------------------------------------------------------------
-    */
-
-    $products = $query->paginate(
-        20,
-        ['*'],
-        'page',
-        $page
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Response
-    |--------------------------------------------------------------------------
-    */
-
-    return response()->json([
-
-        'success' => true,
-
-        'data' => $products->map(function ($product) use ($locale) {
-
-            $image = $product->images->first();
-
-            return [
-
-                'id' => $product->id,
-
-                'name' => $product->getTranslation(
-                    'name',
-                    $locale
-                ),
-
-                'price' => $product->price !== null
-                    ? number_format($product->price, 2)
+        return response()->json([
+            'success' => true,
+            'data' => $products->map(function ($product) use ($locale) {
+                $image = $product->images->first();
+                return [
+                    'id' => $product->id,
+                    'name' => $product->getTranslation(
+                        'name',
+                        $locale
+                    ),
+                    'price' => $product->price !== null
+                        ? number_format($product->price, 2)
                         . ' '
                         . __('messages.currency')
-                    : '',
-
-                'category' => $product->category
-                    ? [
-                        'name' => $product->category->getTranslation(
-                            'name',
-                            $locale
+                        : '',
+                    'category' => $product->category
+                        ? [
+                            'name' => $product->category->getTranslation(
+                                'name',
+                                $locale
+                            ),
+                            'id' => $product->category->id,
+                        ]
+                        : null,
+                    'partner' => $product->partner
+                        ? [
+                            'id' => $product->partner->id,
+                            'name' => $product->partner->getTranslation(
+                                'name',
+                                $locale
+                            ),
+                        ]
+                        : null,
+                    'image' => $image
+                        ? asset('storage/' . $image->image)
+                        : asset(
+                            'frontend/img/product-placeholder.png'
                         ),
-
-                        'id' => $product->category->id,
-                    ]
-                    : null,
-
-                'partner' => $product->partner
-                    ? [
-                        'id' => $product->partner->id,
-
-                        'name' => $product->partner->getTranslation(
-                            'name',
-                            $locale
-                        ),
-                    ]
-                    : null,
-
-                'image' => $image
-                    ? asset('storage/' . $image->image)
-                    : asset(
-                        'frontend/img/product-placeholder.png'
+                    'url' => route(
+                        'frontend.products.show',
+                        $product->id
                     ),
+                ];
+            })->values(),
+            'next_page_url' => $products->nextPageUrl(),
+            'current_page' => $products->currentPage(),
+            'last_page' => $products->lastPage(),
+            'total' => $products->total(),
+        ]);
+    }
 
-                'url' => route(
-                    'frontend.products.show',
-                    $product->id
-                ),
-
-            ];
-
-        })->values(),
-
-        'next_page_url' => $products->nextPageUrl(),
-
-        'current_page' => $products->currentPage(),
-
-        'last_page' => $products->lastPage(),
-
-        'total' => $products->total(),
-
-    ]);
-}
-
-
-    /**
-     * عرض صفحة تفاصيل المنتج
-     */
     public function show(Product $product)
     {
-        $locale = app()->getLocale();
         $product->load(['category', 'partner', 'images']);
-
-        // جلب منتجات مشابهة (من نفس التصنيف أو نفس الماركة)
         $similarProducts = Product::where('is_active', true)
             ->where('id', '!=', $product->id)
             ->where(function ($q) use ($product) {

@@ -47,12 +47,10 @@ class Setting extends Model
         $setting = self::firstOrNew(['key' => $key, 'group' => $group]);
 
         if (self::isTranslatable($key)) {
-            // حفظ قيم مختلفة لكل لغة
             foreach ($value as $locale => $translation) {
                 $setting->setTranslation('value', $locale, $translation);
             }
         } else {
-            // ✅ الحل: حفظ نفس القيمة في كل اللغات
             $locales = config('translatable.locales', ['ar', 'en']);
             foreach ($locales as $locale) {
                 $setting->setTranslation('value', $locale, $value);

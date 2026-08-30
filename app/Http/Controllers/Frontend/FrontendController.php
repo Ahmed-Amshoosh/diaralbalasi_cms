@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutSection;
 use App\Models\Category;
 use App\Models\CategorySection;
-use App\Models\ContactMessage;
 use App\Models\ContactSection;
 use App\Models\CtaSection;
 use App\Models\Hero;
@@ -14,13 +13,11 @@ use App\Models\HeroStat;
 use App\Models\MarqueeItem;
 use App\Models\Partner;
 use App\Models\PartnersSection;
-use App\Models\Product;
 use App\Models\ProductSection;
 use App\Models\Testimonial;
 use App\Models\TestimonialsSection;
 use App\Models\WhyUsItem;
 use App\Models\WhyUsSection;
-use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
@@ -46,12 +43,10 @@ class FrontendController extends Controller
         return view('frontend.index', compact('productSection','contact','about','categories','categorySection','hero','heroStats','whyUsItems','marqueeItems','testimonials','testimonialsSection','whyUsSectionSection','cta','partnersSection','partners'));
     }
 
-    // في ProductController.php
-
     public function products()
     {
         $categories = \App\Models\Category::where('is_active', true)->orderBy('order')->get();
-        $partners = \App\Models\Partner::where('is_active', true)->orderBy('order')->get(); // <-- إضافة الماركات
+        $partners = \App\Models\Partner::where('is_active', true)->orderBy('order')->get();
 
         return view('frontend.products.index', compact('categories', 'partners'));
     }
@@ -59,20 +54,17 @@ class FrontendController extends Controller
     public function ajax(): \Illuminate\Http\JsonResponse
     {
         $category = request()->get('category', 'all');
-        $partner = request()->get('partner', 'all'); // <-- معامل جديد للماركة
+        $partner = request()->get('partner', 'all');
         $page = (int) request()->get('page', 1);
         $locale = app()->getLocale();
-        dd('Category Received:', $category, 'Partner Received:', $partner);
         $query = \App\Models\Product::with(['category', 'images', 'partner'])
             ->where('is_active', true)
             ->orderBy('order', 'asc');
 
-        // فلترة حسب التصنيف
         if ($category !== 'all' && is_numeric($category)) {
             $query->where('category_id', (int) $category);
         }
 
-        // فلترة حسب الماركة (الشريك)
         if ($partner !== 'all' && is_numeric($partner)) {
 
             $query->where('partner_id', (int) $partner);

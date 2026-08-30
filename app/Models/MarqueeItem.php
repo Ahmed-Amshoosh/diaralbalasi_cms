@@ -9,7 +9,6 @@ class MarqueeItem extends Model {
 
     protected $fillable = ['text', 'order', 'is_active'];
 
-    // الحقل القابل للترجمة
     public $translatable = ['text'];
 
     protected $casts = [

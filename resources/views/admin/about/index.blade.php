@@ -6,7 +6,6 @@
     <div class="mx-auto">
         <form id="aboutForm" action="{{ route('admin.about.update') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf @method('PUT')
-
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -23,7 +22,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="p-6">
                     <div id="tab-content-ar" class="tab-content space-y-5">
                         <div>
@@ -54,7 +52,6 @@
                         </div>
                     </div>
 
-                    {{-- تبويب الإنجليزية --}}
                     <div id="tab-content-en" class="tab-content space-y-5 hidden">
                         <div class="relative">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">{{ __('messages.section_label') }} <span class="text-red-500">*</span></label>
@@ -80,52 +77,34 @@
                 </div>
             </div>
 
-            {{-- 2. الصور --}}
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-image text-purple-500"></i> {{ __('messages.images') }}</h3>
                 </div>
                 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    {{-- Main Image --}}
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                             {{ __('messages.main_image') }}
                         </label>
-
                         @if($about?->main_image)
                             <img
                                 src="{{ $about->main_image_url }}"
                                 alt="{{ __('messages.main_image') }}"
-                                class="object-cover rounded-lg border mb-3"
-                            >
+                                class="object-cover rounded-lg border mb-3">
                         @endif
-
                         <div>
-                            <label
-                                for="main_image"
-                                class="flex items-center justify-center gap-3 w-full px-4 py-3
-                       border-2 border-dashed border-gray-300
-                       rounded-lg cursor-pointer
-                       bg-gray-50 hover:bg-purple-50
-                       hover:border-purple-400 transition-all"
-                            >
+                            <label for="main_image" class="flex items-center justify-center gap-3 w-full px-4 py-3
+                                   border-2 border-dashed border-gray-300
+                                   rounded-lg cursor-pointer
+                                   bg-gray-50 hover:bg-purple-50
+                                   hover:border-purple-400 transition-all">
                                 <i class="fas fa-cloud-upload-alt text-purple-500 text-xl"></i>
-
                                 <span id="main_image_name" class="text-sm text-gray-600">
-                    {{ __('messages.choose_file') }}
-                </span>
+                                    {{ __('messages.choose_file') }}
+                                </span>
                             </label>
-
-                            <input
-                                type="file"
-                                name="main_image"
-                                id="main_image"
-                                accept="image/*"
-                                class="hidden"
-                            >
+                            <input type="file" name="main_image" id="main_image" accept="image/*" class="hidden">
                         </div>
-
                         @error('main_image')
                         <p class="text-red-500 text-xs mt-1">
                             <i class="fas fa-exclamation-circle"></i>
@@ -134,13 +113,10 @@
                         @enderror
                     </div>
 
-
-                    {{-- Secondary Image --}}
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                             {{ __('messages.secondary_image') }}
                         </label>
-
                         @if($about?->secondary_image)
                             <img
                                 src="{{ $about->secondary_image_url }}"
@@ -148,32 +124,19 @@
                                 class="object-cover rounded-lg border mb-3"
                             >
                         @endif
-
                         <div>
-                            <label
-                                for="secondary_image"
-                                class="flex items-center justify-center gap-3 w-full px-4 py-3
-                       border-2 border-dashed border-gray-300
-                       rounded-lg cursor-pointer
-                       bg-gray-50 hover:bg-purple-50
-                       hover:border-purple-400 transition-all"
-                            >
+                            <label for="secondary_image" class="flex items-center justify-center gap-3 w-full px-4 py-3
+                                   border-2 border-dashed border-gray-300
+                                   rounded-lg cursor-pointer
+                                   bg-gray-50 hover:bg-purple-50
+                                   hover:border-purple-400 transition-all">
                                 <i class="fas fa-cloud-upload-alt text-purple-500 text-xl"></i>
-
                                 <span id="secondary_image_name" class="text-sm text-gray-600">
-                    {{ __('messages.choose_file') }}
-                </span>
+                                    {{ __('messages.choose_file') }}
+                                </span>
                             </label>
-
-                            <input
-                                type="file"
-                                name="secondary_image"
-                                id="secondary_image"
-                                accept="image/*"
-                                class="hidden"
-                            >
+                            <input type="file" name="secondary_image" id="secondary_image" accept="image/*" class="hidden">
                         </div>
-
                         @error('secondary_image')
                         <p class="text-red-500 text-xs mt-1">
                             <i class="fas fa-exclamation-circle"></i>
@@ -181,7 +144,6 @@
                         </p>
                         @enderror
                     </div>
-
                 </div>
             </div>
 
@@ -192,7 +154,6 @@
                         <i class="fas fa-plus-circle"></i> {{ __('messages.add_new_feature') }}
                     </button>
                 </div>
-
                 <div class="p-6">
                     <div id="features-container" class="space-y-6">
                         @if(isset($about) && is_array($about->features))
@@ -201,7 +162,6 @@
                             @endforeach
                         @endif
                     </div>
-
                     <div id="no-features-msg" class="text-center py-8 text-gray-500 {{ (isset($about) && is_array($about->features) && count($about->features) > 0) ? 'hidden' : '' }}">
                         <i class="fas fa-layer-group text-3xl mb-2 text-gray-300"></i>
                         <p>{{ __('messages.no_features_added') }}</p>
@@ -215,102 +175,70 @@
     </div>
 
     <template id="feature-template">
-
         <div class="feature-item p-5 border border-gray-200 rounded-lg bg-gray-50/50 relative group transition-all hover:shadow-md">
-
             <div class="flex justify-between">
-
                 <h4 class="text-sm font-bold text-gray-700 mb-4 border-b pb-2 flex items-center gap-2">
                     {{ __('messages.new_feature') }}
                 </h4>
-
                 <button
                     type="button"
                     class="remove-feature-btn text-gray-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
                     title="{{ __('messages.delete_feature') }}">
                     <i class="fas fa-trash-alt"></i>
                 </button>
-
             </div>
-
-            {{-- بيانات الـ Feature الجديدة --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-
-                {{-- Icon --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.icon_class') }}
                     </label>
-
                     <input
                         type="text"
                         name="features[__INDEX__][icon]"
                         placeholder="fa-certificate"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg"
-                        dir="ltr">
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg" dir="ltr">
                 </div>
-
-                {{-- العنوان العربي --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.title_arabic') }}
                     </label>
-
                     <input
                         type="text"
                         name="features[__INDEX__][title_ar]"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg"
-                        dir="rtl">
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg" dir="rtl">
                 </div>
-
-                {{-- العنوان الإنجليزي --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.title_english') }}
                     </label>
-
                     <input
                         type="text"
                         name="features[__INDEX__][title_en]"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg"
-                        dir="ltr">
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg" dir="ltr">
                 </div>
-
             </div>
-
-            {{-- الوصف --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                {{-- الوصف العربي --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.description_arabic') }}
                     </label>
-
                     <textarea
                         name="features[__INDEX__][desc_ar]"
                         rows="2"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg resize-none"
-                        dir="rtl"></textarea>
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg resize-none" dir="rtl"></textarea>
                 </div>
-
-                {{-- الوصف الإنجليزي --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                         {{ __('messages.description_english') }}
                     </label>
-
                     <textarea
                         name="features[__INDEX__][desc_en]"
                         rows="2"
                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg resize-none"
                         dir="ltr"></textarea>
                 </div>
-
             </div>
-
         </div>
-
     </template>
     @push('scripts')
         <script>
@@ -318,7 +246,6 @@
                 const form = document.getElementById('aboutForm');
                 if (!form) return;
 
-                // 1. منطق التبويبات
                 window.switchTab = (lang) => {
                     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
                     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -332,7 +259,6 @@
                 };
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 
-                // 2. التحقق الذكي عند الحفظ
                 form.addEventListener('submit', (e) => {
                     let hasError = false, firstErrorTab = null, firstErrorField = null;
 
@@ -427,43 +353,32 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-
                 const mainImage = document.getElementById('main_image');
                 const mainImageName = document.getElementById('main_image_name');
-
                 const secondaryImage = document.getElementById('secondary_image');
                 const secondaryImageName = document.getElementById('secondary_image_name');
 
-
-                // Main Image
                 if (mainImage) {
                     mainImage.addEventListener('change', function () {
 
                         if (this.files && this.files.length > 0) {
                             mainImageName.textContent = this.files[0].name;
                         } else {
-                            mainImageName.textContent =
-                                "{{ __('messages.no_file_chosen') }}";
+                            mainImageName.textContent = "{{ __('messages.no_file_chosen') }}";
                         }
-
                     });
                 }
 
-
-                // Secondary Image
                 if (secondaryImage) {
                     secondaryImage.addEventListener('change', function () {
-
                         if (this.files && this.files.length > 0) {
                             secondaryImageName.textContent = this.files[0].name;
                         } else {
                             secondaryImageName.textContent =
                                 "{{ __('messages.no_file_chosen') }}";
                         }
-
                     });
                 }
-
             });
         </script>
     @endpush

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CtaSectionController extends Controller
 {
-
     public function index()
     {
         if (!auth()->user()->can('view cta-section')) {

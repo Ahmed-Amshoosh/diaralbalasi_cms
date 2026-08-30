@@ -2,7 +2,6 @@
 
 return [
     'site_name' => 'Site Name',
-    'home' => 'Home',
     'about' => 'About',
     'products' => 'Products',
     'contact' => 'Contact',
@@ -189,7 +188,6 @@ return [
     'add_why_us_item' => 'Add New Card',
 
 
-    'partners' => 'Partners',
     'partners_section_settings' => 'Section Header Settings',
     'partners_section_updated' => 'Section settings updated successfully',
     'partners_items_management' => 'Brands List',
@@ -374,7 +372,6 @@ return [
     'communication' => 'Communication',
     'administration' => 'Administration',
 
-    'categories' => 'Categories',
     'brands' => 'Brands',
 
 
@@ -424,10 +421,6 @@ return [
     'contact_success' => 'Your message has been sent successfully. We will contact you as soon as possible.',
     'send_request' => 'Send Request',
     'contact_via_whatsapp' => 'Contact Us via WhatsApp',
-    'all_products' => 'All Products',
-    'explore_our_products_desc' => 'Explore our complete collection of high-quality products designed to meet all your needs.',
-    'loading_more' => 'Loading more products...',
-    'no_more_products' => 'No more products to display',
     'currency' => 'YER',
     'available_in_stock' => 'Available in Stock',
     'inquire_via_whatsapp' => 'Inquire via WhatsApp',
@@ -436,12 +429,8 @@ return [
     'technical_support' => 'Technical Support',
     'business_partnership' => 'Business Partnership',
     'general_inquiry' => 'General Inquiry',
-    'all' => 'All',
     'loading_products' => 'Loading products...',
     'products_load_error' => 'Unable to load products',
-    'check_internet_connection' => 'Please check your internet connection',
-    'no_products' => 'No products are currently available in this category',
     'view_all_products' => 'View All Products',
-    'inquire_now' => 'Inquire Now',
     'whatsapp_product_message' => 'Hello, I would like to inquire about the product',
 ];

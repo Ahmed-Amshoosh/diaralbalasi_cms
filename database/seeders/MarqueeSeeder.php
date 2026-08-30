@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\MarqueeItem;
 use Illuminate\Database\Seeder;
-use App\Models\Marquee;
 
 class MarqueeSeeder extends Seeder
 {

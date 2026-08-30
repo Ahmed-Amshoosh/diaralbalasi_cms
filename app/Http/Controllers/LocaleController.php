@@ -14,7 +14,6 @@ class LocaleController extends Controller
             session(['locale' => $locale]);
             app()->setLocale($locale);
 
-            // تحديث لغة المستخدم في قاعدة البيانات
             if (auth()->check()) {
                 auth()->user()->update(['locale' => $locale]);
             }

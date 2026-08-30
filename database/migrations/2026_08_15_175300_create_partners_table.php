@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->json('name'); // لوصف الشعار (Alt text)
+            $table->json('name');
             $table->string('logo');
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);

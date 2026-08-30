@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -20,10 +19,8 @@ class SettingController extends Controller
 
         foreach ($records as $record) {
             if (Setting::isTranslatable($record->key)) {
-                // الحقول المترجمة: إرجاع مصفوفة كاملة ['ar' => '...', 'en' => '...']
                 $settings[$record->key] = $record->getTranslations('value');
             } else {
-                // ✅ الحقول غير المترجمة: إرجاع نص اللغة الحالية فقط
                 $settings[$record->key] = Setting::get($record->key);
             }
         }
@@ -91,7 +88,6 @@ class SettingController extends Controller
             'address_en' => 'nullable|string',
         ]);
 
-        // ✅ حقول مترجمة (مصفوفة)
         Setting::set('company_name', [
             'ar' => $request->company_name_ar,
             'en' => $request->company_name_en
@@ -102,7 +98,6 @@ class SettingController extends Controller
             'en' => $request->address_en
         ], 'company');
 
-        // ✅ حقول غير مترجمة (نص عادي) - الآن ستُحفظ بشكل صحيح
         Setting::set('phone', $request->phone, 'company');
         Setting::set('mobile', $request->mobile, 'company');
         Setting::set('email', $request->email, 'company');

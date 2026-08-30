@@ -31,10 +31,16 @@
         $seoGTM = $getSimpleString('seo_google_tag_manager', '');
         $ogImagePath = $getSimpleString('seo_og_image', 'img/logo.png');
         $logoPath = $getSimpleString('logo', 'img/logo.png');
+        $faviconPath = $getSimpleString('favicon', 'img/logo.png');
         $mobile = $getSimpleString('mobile', '');
         $email = $getSimpleString('email', '');
         $address = $getSimpleString('address', '');
         $phone = $getSimpleString('phone', '');
+        $instagram = $getSimpleString('instagram', '');
+        $facebook  = $getSimpleString('facebook', '');
+        $twitter   = $getSimpleString('twitter', '');
+        $linkedin  = $getSimpleString('linkedin', '');
+        $youtube   = $getSimpleString('youtube', '');
         $fullOgImageUrl = filter_var($ogImagePath, FILTER_VALIDATE_URL) ? $ogImagePath : asset('storage/' . $ogImagePath);
         $currentUrl = url()->current();
         $locale = app()->getLocale();
@@ -47,6 +53,7 @@
     <meta name="author" content="{{ $seoAuthor }}">
     <meta name="robots" content="{{ $seoRobots }}">
     <link rel="canonical" href="{{ $seoCanonical }}">
+    <link rel="icon" href="{{ Storage::url($faviconPath) }}">
     <!-- ═══════════════════════════════════════════ -->
     <!-- Open Graph / Facebook -->
     <!-- ═══════════════════════════════════════════ -->
@@ -106,8 +113,11 @@
     @endif
     <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;900&family=Playfair+Display:wght@400;700;900&display=swap"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;900&family=Playfair+Display:wght@400;700;900&display=swap"
+            rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <!-- CSS -->
     <link rel="preload" href="{{asset('frontend/css/bootstrap.rtl.min.css')}}" as="style"
           onload="this.onload=null;this.rel='stylesheet'">
@@ -125,12 +135,13 @@
         body {
             font-family: 'Tajawal', sans-serif !important;
         }
+
         @if(app()->getLocale() === 'en')
             @media (max-width: 991px) {
-                .nav-menu {
-                    transform: translateX(-100%);
-                }
+            .nav-menu {
+                transform: translateX(-100%);
             }
+        }
         @endif
     </style>
 </head>
@@ -207,6 +218,75 @@
                     <img src="{{ Storage::url($logoPath) }}" alt="{{  $seoTitle  }}">
                 </a>
                 <p class="footer-brand-desc">{{$seoDesc}}</p>
+                <div class="footer-social-icons">
+
+                    {{-- WhatsApp --}}
+                    @if($mobile)
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $mobile) }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="WhatsApp"
+                           class="social-icon whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    @endif
+
+                    {{-- Instagram --}}
+                    @if(!empty($instagram))
+                        <a href="{{ $instagram }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Instagram"
+                           class="social-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    @endif
+
+                    {{-- Facebook --}}
+                    @if(!empty($facebook))
+                        <a href="{{ $facebook }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Facebook"
+                           class="social-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    @endif
+
+                    {{-- X --}}
+                    @if(!empty($twitter))
+                        <a href="{{ $twitter }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="X"
+                           class="social-icon twitter">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                    @endif
+
+                    {{-- LinkedIn --}}
+                    @if(!empty($linkedin))
+                        <a href="{{ $linkedin }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="LinkedIn"
+                           class="social-icon linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    @endif
+
+                    {{-- YouTube --}}
+                    @if(!empty($youtube))
+                        <a href="{{ $youtube }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="YouTube"
+                           class="social-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    @endif
+
+                </div>
             </div>
             <div>
                 <h3 class="footer-heading">{{ __('messages.quick_links') }}</h3>

@@ -126,12 +126,10 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('images')) {
-            $lastOrder = (int)($product->images()->max('order') ?? -1);
             foreach ($request->file('images') as $index => $image) {
                 $path = $image->store('products', 'public');
                 $product->images()->create([
                     'image' => $path,
-                    'order' => $lastOrder + $index + 1,
                 ]);
             }
         }

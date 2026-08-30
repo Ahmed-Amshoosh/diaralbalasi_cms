@@ -988,6 +988,7 @@ body {
 
 .product-showcase-card {
     border-radius: 25px;
+    padding-bottom: 20px;
     overflow: hidden;
     transition: all 0.4s ease;
     position: relative;
@@ -2733,4 +2734,91 @@ a{text-decoration: none}
     }
     .nav-container {
         padding: 0px 15px;}
+}
+.breadcrumb-new {
+    direction: inherit;
+}
+
+.breadcrumb-arrow {
+    margin-inline: .5rem;
+}
+
+[dir="rtl"] .breadcrumb-arrow {
+    transform: rotate(0deg);
+}
+
+[dir="ltr"] .breadcrumb-arrow {
+    transform: rotate(180deg);
+}
+.footer-social-icons {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.footer-social-icons .social-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .1);
+
+    color: rgba(255, 255, 255, .8);
+
+    font-size: 1.05rem;
+
+    text-decoration: none;
+
+    transition: all .3s ease;
+}
+
+.footer-social-icons .social-icon:hover {
+    transform: translateY(-4px);
+
+    background: var(--gold);
+    border-color: var(--gold);
+
+    color: #fff;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+}
+
+/* ألوان الأيقونات عند Hover */
+
+.footer-social-icons .whatsapp:hover {
+    background: #25D366;
+    border-color: #25D366;
+}
+
+.footer-social-icons .instagram:hover {
+    background: #E4405F;
+    border-color: #E4405F;
+}
+
+.footer-social-icons .facebook:hover {
+    background: #1877F2;
+    border-color: #1877F2;
+}
+
+.footer-social-icons .twitter:hover {
+    background: #000;
+    border-color: #000;
+}
+
+.footer-social-icons .linkedin:hover {
+    background: #0A66C2;
+    border-color: #0A66C2;
+}
+
+.footer-social-icons .youtube:hover {
+    background: #FF0000;
+    border-color: #FF0000;
 }

@@ -7,15 +7,21 @@
         .section-heading {
             font-size: 2rem;
         }
+
         .product-name {
             color: var(--brown);
             font-size: 1rem;
             font-weight: bold;
         }
+
         .navbar-premium {
             background: var(--brown);
         }
-        .product-details-page{padding: 9rem 0 4rem !important;}
+
+        .product-details-page {
+            padding: 9rem 0 4rem !important;
+        }
+
         .breadcrumb-new {
             display: flex;
             align-items: center;
@@ -23,37 +29,67 @@
             font-size: 0.9rem;
             color: var(--gray-500);
         }
-        .product-price{color: black}
-        .product-showcase-info {padding:10px 10px 0 0px !important;}
-        .breadcrumb-new a {font-weight: bold; color: var(--brown); text-decoration: none; transition: color 0.3s; }
-        .breadcrumb-new a:hover { color: var(--gold); }
-        .breadcrumb-new .current { color: var(--dark); font-weight: 600; }
-        .breadcrumb-new i { font-size: 0.7rem; }
+
+        .product-price {
+            color: black
+        }
+
+        .product-showcase-info {
+            padding: 10px 10px 0 2px !important;
+        }
+
+        .breadcrumb-new a {
+            font-weight: bold;
+            color: var(--brown);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-new a:hover {
+            color: var(--gold);
+        }
+
+        .breadcrumb-new .current {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .breadcrumb-new i {
+            font-size: 0.7rem;
+        }
+
         .product-details-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 3rem;
         }
+
         @media (min-width: 992px) {
-            .product-details-grid { grid-template-columns: 1fr 1fr; }
+            .product-details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
+
         .main-image-container {
             background: none;
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 1rem;
         }
+
         .main-image-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
             transition: transform 0.3s ease;
         }
+
         .thumbnail-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             gap: 1rem;
         }
+
         .thumbnail-item {
             border: 2px solid transparent;
             border-radius: 8px;
@@ -62,14 +98,17 @@
             transition: all 0.3s;
             aspect-ratio: 1 / 1;
         }
+
         .thumbnail-item.active, .thumbnail-item:hover {
             border-color: var(--gold);
         }
+
         .thumbnail-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .brand-badge {
             display: inline-flex;
             align-items: center;
@@ -82,6 +121,7 @@
             font-weight: 600;
             margin-bottom: 1rem;
         }
+
         .product-main-title {
             font-size: 2rem;
             font-weight: 800;
@@ -89,17 +129,20 @@
             line-height: 1.3;
             margin-bottom: 1rem;
         }
+
         .product-price-tag {
             font-size: 1.8rem;
             font-weight: 800;
             color: var(--gold-dark);
             margin-bottom: 1.5rem;
         }
+
         .product-price-tag span {
             font-size: 1rem;
             color: var(--gray-500);
             font-weight: 500;
         }
+
         .product-meta-info {
             display: flex;
             flex-wrap: wrap;
@@ -108,6 +151,7 @@
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--cream-dark);
         }
+
         .meta-item {
             display: flex;
             align-items: center;
@@ -115,34 +159,45 @@
             color: var(--gray-500);
             font-weight: 500;
         }
-        .meta-item i { color: var(--gold); }
+
+        .meta-item i {
+            color: var(--gold);
+        }
 
         .product-description-box {
             margin-bottom: 2.5rem;
         }
+
         .product-description-box h4 {
             font-size: 1.1rem;
             color: var(--dark);
             margin-bottom: 0.75rem;
         }
+
         .product-description-box p {
             color: var(--gray-500);
             line-height: 1.8;
         }
+
         .product-actions {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
+
         @media (min-width: 576px) {
-            .product-actions { flex-direction: row; }
+            .product-actions {
+                flex-direction: row;
+            }
         }
+
         .btn-whatsapp-action {
             flex: 1;
             justify-content: center;
             background: #25D366;
             color: white;
         }
+
         .btn-secondary-action {
             flex: 1;
             display: flex;
@@ -157,24 +212,43 @@
             text-decoration: none;
             transition: all 0.3s;
         }
+
         .btn-secondary-action:hover {
             background: var(--brown);
             color: var(--white);
         }
-        .scroll-sentinel { height: 1px; width: 100%; }
+
+        .scroll-sentinel {
+            height: 1px;
+            width: 100%;
+        }
     </style>
     <div class="product-details-page" style="padding: 4rem 0; background: var(--cream);">
         <div class="section-container">
-            <nav class="breadcrumb-new" data-aos="fade-up" style="margin-bottom: 2rem;">
-                <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
-                <i class="fas fa-chevron-left"></i>
+            <nav class="breadcrumb-new"
+                 data-aos="fade-up"
+                 style="margin-bottom: 2rem;">
+
+                <a href="{{ route('home') }}">
+                    {{ __('messages.home') }}
+                </a>
+
+                <i class="fas fa-chevron-left breadcrumb-arrow"></i>
+
                 @if($product->category)
+
                     <a href="{{ route('frontend.products.index', ['category' => $product->category->id]) }}">
                         {{ $product->category->getTranslation('name', app()->getLocale()) }}
                     </a>
-                    <i class="fas fa-chevron-left"></i>
+
+                    <i class="fas fa-chevron-left breadcrumb-arrow"></i>
+
                 @endif
-                <span class="current">{{ $product->getTranslation('name', app()->getLocale()) }}</span>
+
+                <span class="current">
+        {{ $product->getTranslation('name', app()->getLocale()) }}
+    </span>
+
             </nav>
             <div class="product-details-grid" data-aos="fade-up">
                 <div class="product-gallery">
@@ -244,17 +318,20 @@
                     <div class="section-header-new" style="text-align: center; margin-bottom: 3rem;">
                         <h5 class="section-heading">{{ __('messages.similar_products') }}</h5>
                     </div>
-                    <div class="products-showcase" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
+                    <div class="products-showcase"
+                         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
                         @foreach($similarProducts as $similar)
                             <a href="{{ route('frontend.products.show', $similar->id) }}" class="product-showcase-card">
                                 <div class="product-showcase-image">
-                                    <img src="{{ $similar->main_image ?: asset('frontend/img/product-placeholder.png') }}"
-                                         alt="{{ $similar->getTranslation('name', app()->getLocale()) }}" loading="lazy">
+                                    <img
+                                        src="{{ $similar->main_image ?: asset('frontend/img/product-placeholder.png') }}"
+                                        alt="{{ $similar->getTranslation('name', app()->getLocale()) }}" loading="lazy">
                                 </div>
                                 <div class="product-showcase-info">
                                     <h3 class="product-name">{{ $similar->getTranslation('name', app()->getLocale()) }}</h3>
                                     @if($similar->price)
-                                        <span class="product-price">{{ number_format($similar->price, 2) }} {{ __('messages.currency') }}</span>
+                                        <span
+                                            class="product-price">{{ number_format($similar->price, 2) }} {{ __('messages.currency') }}</span>
                                     @endif
                                 </div>
                             </a>

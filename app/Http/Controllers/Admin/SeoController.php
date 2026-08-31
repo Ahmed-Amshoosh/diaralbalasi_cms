@@ -13,10 +13,23 @@ class SeoController extends Controller
         if (!auth()->user()->can('view seo')) {
             return back()->with('error', __('messages.unauthorized_action'));
         }
+        $getLangValue = function ($value, $locale, $default = '') {
+            if (is_array($value)) {
+                return $value[$locale] ?? $default;
+            }
+
+            return $value ?? $default;
+        };
         $seo = [
-            'title' => Setting::get('seo_title'),
-            'description' => Setting::get('seo_description'),
-            'keywords' => Setting::get('seo_keywords'),
+            'title_ar' => $getLangValue(Setting::get('seo_title'), 'ar'),
+            'title_en' => $getLangValue(Setting::get('seo_title'), 'en'),
+
+            'description_ar' => $getLangValue(Setting::get('seo_description'), 'ar'),
+            'description_en' => $getLangValue(Setting::get('seo_description'), 'en'),
+
+            'keywords_ar' => $getLangValue(Setting::get('seo_keywords'), 'ar'),
+            'keywords_en' => $getLangValue(Setting::get('seo_keywords'), 'en'),
+
             'author' => Setting::get('seo_author'),
             'robots' => Setting::get('seo_robots'),
             'og_image' => Setting::get('seo_og_image'),
@@ -28,8 +41,10 @@ class SeoController extends Controller
             'schema_type' => Setting::get('seo_schema_type'),
         ];
 
+
         return view('admin.seo.index', compact('seo'));
     }
+
 
     public function update(Request $request)
     {

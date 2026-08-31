@@ -1,7 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
@@ -557,9 +556,9 @@
                                 </p>
                                 <div class="testimonial-author">
                                     <div class="author-info">
-                                        <h4 class="author-name">
+                                        <h3 class="author-name">
                                             {{ $testimonial->getTranslation('name', app()->getLocale()) }}
-                                        </h4>
+                                        </h3>
                                         <span class="author-role">
                                             {{ $testimonial->getTranslation('role', app()->getLocale()) }}
                                         </span>
@@ -694,59 +693,112 @@
                     <div class="premium-form-wrapper" data-aos="fade-left" data-aos-delay="100">
                         <form id="contactForm" action="{{ route('frontend.contact.submit') }}" method="POST">
                             @csrf
+
                             <div class="form-title-bar">
-                                <h4>{{ __('messages.contact_form_title') }}</h4>
+                                <h3>{{ __('messages.contact_form_title') }}</h3>
                                 <div class="title-bar-accent"></div>
                             </div>
+
                             <div class="form-row-new">
                                 <div class="form-group-new">
-                                    <input type="text" name="name" value="{{ old('name') }}" required placeholder=" ">
-                                    <label>{{ __('messages.full_name') }} <span class="req">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="contact-name"
+                                        name="name"
+                                        value="{{ old('name') }}"
+                                        required
+                                        placeholder=" "
+                                    >
+                                    <label for="contact-name">
+                                        {{ __('messages.full_name') }} <span class="req">*</span>
+                                    </label>
                                     <span class="error-msg"></span>
                                 </div>
+
                                 <div class="form-group-new">
-                                    <input type="tel" name="phone" value="{{ old('phone') }}" required dir="ltr" placeholder=" ">
-                                    <label>{{ __('messages.phone_number') }} <span class="req">*</span></label>
+                                    <input
+                                        type="tel"
+                                        id="contact-phone"
+                                        name="phone"
+                                        value="{{ old('phone') }}"
+                                        required
+                                        dir="ltr"
+                                        placeholder=" "
+                                    >
+                                    <label for="contact-phone">
+                                        {{ __('messages.phone_number') }} <span class="req">*</span>
+                                    </label>
                                     <span class="error-msg"></span>
                                 </div>
                             </div>
+
                             <div class="form-row-new">
                                 <div class="form-group-new">
-                                    <input type="email" name="email" value="{{ old('email') }}" dir="ltr" placeholder=" ">
-                                    <label>{{ __('messages.email') }}</label>
+                                    <input
+                                        type="email"
+                                        id="contact-email"
+                                        name="email"
+                                        value="{{ old('email') }}"
+                                        dir="ltr"
+                                        placeholder=" "
+                                    >
+                                    <label for="contact-email">
+                                        {{ __('messages.email') }}
+                                    </label>
                                     <span class="error-msg"></span>
                                 </div>
+
                                 <div class="form-group-new">
                                     <div class="select-wrapper-new">
-                                        <select name="subject" required>
+                                        <select id="contact-subject" name="subject" required>
                                             <option value="" disabled selected></option>
+
                                             <option value="quote_request"
                                                 {{ old('subject') === 'quote_request' ? 'selected' : '' }}>
                                                 {{ __('messages.quote_request') }}
                                             </option>
+
                                             <option value="technical_support"
                                                 {{ old('subject') === 'technical_support' ? 'selected' : '' }}>
                                                 {{ __('messages.technical_support') }}
                                             </option>
+
                                             <option value="business_partnership"
                                                 {{ old('subject') === 'business_partnership' ? 'selected' : '' }}>
                                                 {{ __('messages.business_partnership') }}
                                             </option>
+
                                             <option value="general_inquiry"
                                                 {{ old('subject') === 'general_inquiry' ? 'selected' : '' }}>
                                                 {{ __('messages.general_inquiry') }}
                                             </option>
                                         </select>
-                                        <label>{{ __('messages.subject') }} <span class="req">*</span></label>
+
+                                        <label for="contact-subject">
+                                            {{ __('messages.subject') }} <span class="req">*</span>
+                                        </label>
                                     </div>
+
                                     <span class="error-msg"></span>
                                 </div>
                             </div>
+
                             <div class="form-group-new full-width-new">
-                                <textarea name="message" rows="4" required placeholder=" "></textarea>
-                                <label>{{ __('messages.message_details') }} <span class="req">*</span></label>
+            <textarea
+                id="contact-message"
+                name="message"
+                rows="4"
+                required
+                placeholder=" "
+            ></textarea>
+
+                                <label for="contact-message">
+                                    {{ __('messages.message_details') }} <span class="req">*</span>
+                                </label>
+
                                 <span class="error-msg"></span>
                             </div>
+
                             <button type="submit" id="submitBtn" class="btn-premium-submit">
                                 <span class="btn-text">{{ __('messages.send_request') }}</span>
                                 <i class="fas fa-paper-plane btn-icon"></i>

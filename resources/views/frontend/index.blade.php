@@ -383,25 +383,39 @@
             </div>
             <div class="bento-grid">
                 @foreach($categories as $index => $category)
-                    <div
+
+                    <a
+                        href="{{ route('frontend.products.index', ['category' => $category->sulg]) }}"
                         class="bento-item {{ count($categories) === 3 && $index === 0 ? 'large' : '' }}"
-                        data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                        <img src="{{ $category->image_url }}"
-                            alt="{{ $category->getTranslation('name', app()->getLocale()) }}">
+                        data-aos="fade-up"
+                        data-aos-delay="{{ $index * 100 }}"
+                    >
+
+                        <img
+                            src="{{ $category->image_url }}"
+                            alt="{{ $category->getTranslation('name', app()->getLocale()) }}"
+                        >
+
                         <div class="bento-arrow">
                             <i class="fas fa-arrow-left"></i>
                         </div>
+
                         <div class="bento-content">
+
                             @if($category->icon)
                                 <div class="bento-icon">
                                     <i class="{{ $category->icon }}"></i>
                                 </div>
                             @endif
+
                             <h3 class="bento-title">
                                 {{ $category->getTranslation('name', app()->getLocale()) }}
                             </h3>
+
                         </div>
-                    </div>
+
+                    </a>
+
                 @endforeach
             </div>
         </div>
@@ -481,7 +495,7 @@
                     @foreach($categories as $category)
                         <button
                             class="filter-tab-new"
-                            data-filter="{{ $category->id }}">
+                            data-filter="{{ $category->slug }}">
                             {{ $category->name }}
                         </button>
                     @endforeach

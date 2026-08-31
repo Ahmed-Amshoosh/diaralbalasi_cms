@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# منع أرشفة لوحة التحكم ومسارات تسجيل الدخول
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /password-reset
+
+# تحديد موقع خريطة الموقع
+Sitemap: https://diaralbalasi.com/sitemap.xml

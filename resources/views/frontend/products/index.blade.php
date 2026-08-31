@@ -575,7 +575,7 @@
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                             @foreach($categories as $category)
-                                <button type="button" class="sidebar-filter" data-type="category" data-filter="{{ $category->id }}">
+                                <button type="button" class="sidebar-filter" data-type="category" data-filter="{{ $category->slug }}">
                                     <span>
                                         {{ $category->getTranslation('name', app()->getLocale()) }}
                                     </span>

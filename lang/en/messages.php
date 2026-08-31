@@ -380,6 +380,8 @@ return [
     'forgot_password' => 'Forgot Password?',
     'dont_have_account' => "Don't have an account?",
     'register_now' => 'Register Now',
+    'page_not_found' => 'Sorry, the page you are looking for does not exist.',
+    'back_to_home' => 'Back to Home',
 
     'dashboard_welcome' => 'Welcome',
     'manage_site_easily' => 'Here you can manage all sections of your site easily and professionally',

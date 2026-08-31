@@ -237,7 +237,7 @@
 
                 @if($product->category)
 
-                    <a href="{{ route('frontend.products.index', ['category' => $product->category->id]) }}">
+                    <a href="{{ route('frontend.products.index', ['category' => $product->category->slug]) }}">
                         {{ $product->category->getTranslation('name', app()->getLocale()) }}
                     </a>
 
@@ -321,7 +321,7 @@
                     <div class="products-showcase"
                          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
                         @foreach($similarProducts as $similar)
-                            <a href="{{ route('frontend.products.show', $similar->id) }}" class="product-showcase-card">
+                            <a href="{{ route('frontend.products.show', $similar->slug) }}" class="product-showcase-card">
                                 <div class="product-showcase-image">
                                     <img
                                         src="{{ $similar->main_image ?: asset('frontend/img/product-placeholder.png') }}"

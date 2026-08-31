@@ -179,92 +179,114 @@ class ProductController extends Controller
         ])
             ->where('is_active', true)
             ->orderBy('order');
+
         if ($search !== '') {
             $query->where(function ($q) use ($search, $locale) {
                 $q->where(
                     "name->{$locale}",
                     'like',
                     '%' . $search . '%'
-                )
-                    ->orWhere(
-                        "description->{$locale}",
-                        'like',
-                        '%' . $search . '%'
-                    );
+                )->orWhere(
+                    "description->{$locale}",
+                    'like',
+                    '%' . $search . '%'
+                );
             });
         }
 
+        // فلترة حسب Category Slug
         if ($category !== 'all') {
             $query->whereHas('category', function ($q) use ($category) {
-                $q->where('category_id', (int)$category);
+                $q->where('slug', $category);
             });
         }
 
+        // Partner ما زال يستخدم ID
         if ($partner !== 'all' && is_numeric($partner)) {
-            $query->where('partner_id', (int)$partner);
+            $query->where('partner_id', (int) $partner);
         }
 
         $products = $query->paginate(
-            20, ['*'],
-            'page', $page
+            20,
+            ['*'],
+            'page',
+            $page
         );
 
         return response()->json([
             'success' => true,
+
             'data' => $products->map(function ($product) use ($locale) {
+
                 $image = $product->images->first();
+
                 return [
                     'id' => $product->id,
+
                     'name' => $product->getTranslation(
                         'name',
                         $locale
                     ),
+
                     'price' => $product->price !== null
                         ? number_format($product->price, 2)
                         . ' '
                         . __('messages.currency')
                         : '',
+
                     'category' => $product->category
                         ? [
                             'name' => $product->category->getTranslation(
                                 'name',
                                 $locale
                             ),
+
                             'id' => $product->category->id,
+
+                            // إضافة slug إذا احتجته في JavaScript
+                            'slug' => $product->category->slug,
                         ]
                         : null,
+
                     'partner' => $product->partner
                         ? [
                             'id' => $product->partner->id,
+
                             'name' => $product->partner->getTranslation(
                                 'name',
                                 $locale
                             ),
                         ]
                         : null,
+
                     'image' => $image
                         ? asset('storage/' . $image->image)
                         : asset(
                             'frontend/img/product-placeholder.png'
                         ),
+
                     'url' => route(
                         'frontend.products.show',
-                        $product->id
+                        $product->slug
                     ),
                 ];
+
             })->values(),
+
             'next_page_url' => $products->nextPageUrl(),
+
             'current_page' => $products->currentPage(),
+
             'last_page' => $products->lastPage(),
+
             'total' => $products->total(),
         ]);
     }
-
     public function show(Product $product)
     {
         $product->load(['category', 'partner', 'images']);
         $similarProducts = Product::where('is_active', true)
-            ->where('id', '!=', $product->id)
+            ->where('id', '!=', $product->slug)
             ->where(function ($q) use ($product) {
                 $q->where('category_id', $product->category_id)
                     ->orWhere('partner_id', $product->partner_id);
